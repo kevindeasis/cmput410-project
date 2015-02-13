@@ -1,7 +1,9 @@
 # cmput410-project
 
-Running the app:
+Running the app type:
+
 $ python manage.py runserver
+source ./virtualenv_/bin/activate
 then on your browser:
 http://127.0.0.1:8000/
 
