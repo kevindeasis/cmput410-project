@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+#http://stackoverflow.com/questions/10165638/django-isnt-serving-static-files-getting-404-errors
+#by slow_mondays
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -49,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Distributed_Social_Networking.urls'
+ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'Distributed_Social_Networking.wsgi.application'
 
@@ -82,3 +88,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
