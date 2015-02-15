@@ -14,8 +14,12 @@ class Author(models.Model):
     author_password = models.CharField(max_length=200)
     registration_date = models.DateTimeField('date registered')
     
-    def __str__(self):
+    #def __str__(self):
+    #    return self.author_username
+    
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.author_username
+    
 
 
 class Posts(models.Model):
@@ -23,6 +27,11 @@ class Posts(models.Model):
     post_text = models.CharField(max_length=200)
     number_of_Likes = models.IntegerField(default=0)
     
-    def __str__(self):
-        return self.post_text
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        return self.post_author
+    
+    
+    #def __str__(self):
+     #   return self.post_text
+    
     
