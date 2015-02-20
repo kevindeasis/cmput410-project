@@ -13,6 +13,10 @@ Password: admin
 Email: admin@admin.com
 http://127.0.0.1:8000/admin
 
+working on:
+http://127.0.0.1:8000/add_author
+
+
 
 Trello Board:
 https://trello.com/b/dGomTL7A/project-iteration-trello-board
@@ -23,6 +27,8 @@ Check Google Drive
 Requirements:
 https://github.com/abramhindle/CMPUT404-project-socialdistribution/blob/master/project.org
 
+Gitter Chat
+https://gitter.im/diego04/cmput410-project.
 
 Members:
 deasis		(Kevin De Asis)
