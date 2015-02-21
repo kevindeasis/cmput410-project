@@ -12,7 +12,7 @@ class Author(models.Model):
     author_username = models.CharField(max_length=200)
     author_email = models.CharField(max_length=200)
     author_password = models.CharField(max_length=200)
-    registration_date = models.DateTimeField('date registered')
+    #registration_date = models.DateTimeField('date registered')
     
     #def __str__(self):
     #    return self.author_username

@@ -14,11 +14,13 @@ class AuthorAdmin(admin.ModelAdmin):
     
     fieldsets = [
         (None,                 {'fields':['author_username']}),
-        ('Registration Date',  {'fields':['registration_date']}),
+        #('Registration Date',  {'fields':['registration_date']}),
         ('Email',              {'fields':['author_email']}),
     ]
     
-    list_display = ('author_username','registration_date','author_email')
+   # list_display = ('author_username','registration_date','author_email')
+    list_display = ('author_username','author_email')
+    
     
     inlines = [PostInline]
     

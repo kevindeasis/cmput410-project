@@ -13,8 +13,8 @@ class AuthorForm(forms.ModelForm):
     
     class Meta:
         model = Author
-        #fields = ('author_username','author_email','author_password',)
-        exclude = ('registration_date',)
+        fields = ('author_username','author_email','author_password',)
+        #exclude = ('registration_date',)
         
 class PostsForm(forms.ModelForm):
     post_text = forms.CharField(max_length=200, help_text = "Please enter title of post")
