@@ -1,9 +1,11 @@
 from django.contrib import admin
-from SocialNetworkModels.models import Author, Posts
+#from SocialNetworkModels.models import Author, Posts
+from SocialNetworkModels.models import AuthorProfile
+
 
 # Register your models here.
 
-
+"""
 class PostInline(admin.StackedInline):
     model = Posts
     extra = 5
@@ -24,4 +26,7 @@ class AuthorAdmin(admin.ModelAdmin):
     
     inlines = [PostInline]
     
-admin.site.register(Author, AuthorAdmin)
+admin.site.register(Author, AuthorAdmin)"""
+
+admin.site.register(AuthorProfile)
+

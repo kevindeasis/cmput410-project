@@ -1,13 +1,15 @@
-from django.db import models
+#from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.contrib.auth.models import User
+
 
 #   We can refactor these classes into their own files later
 #   These are models that can be accessible for the administrators
 #   Check: https://docs.djangoproject.com/en/1.7/intro/tutorial01/
 
-
+"""
 class Author(models.Model):
     author_username = models.CharField(max_length=200)
     author_email = models.CharField(max_length=200)
@@ -32,6 +34,17 @@ class Posts(models.Model):
     
     
     #def __str__(self):
-     #   return self.post_text
+     #   return self.post_text"""
+
+
+class AuthorProfile(models.Model):
+    user = models.OneToOneField(User)
+
+    website = models.URLField(blank=True)
+    picture = models.ImageField(upload_to='profile_images', blank = True)
+
+    def __unicode__(self):
+        return self.user.username
+
     
     

@@ -1,0 +1,27 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Landing Page</title>
+
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
+		<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/styles.css" %}">
+
+	</head>
+
+	<body>
+
+        {% if user.is_authenticated %}
+            <h1>hello {{ user.username }}!</h1>
+            <a href="/logout/">Logout</a><br />
+        {% else %}
+            <h1>not authenticated!</h1>
+        {% endif %}
+
+    </body>
+
+</html>

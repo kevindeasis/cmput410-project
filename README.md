@@ -2,6 +2,8 @@
 
 You cannot use the virtual environment in this repository. I was notified that you have to use your own virtual environment that you created
 
+DONT USE FIREFOX I STILL HAVE TO FIX THAT
+
 Running the app type:
 
 $ python manage.py runserver

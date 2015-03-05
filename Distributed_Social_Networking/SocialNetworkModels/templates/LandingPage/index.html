@@ -28,14 +28,17 @@
           <a class="navbar-brand" href="#">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" role="form">
+          <form class="navbar-form navbar-right" role="form" method="post" action="/home/">
+              {% csrf_token %}
             <div class="form-group">
-              <input placeholder="Email" class="form-control" type="text">
+              <input placeholder="Username" class="form-control" type="text" name="username">
             </div>
             <div class="form-group">
-              <input placeholder="Password" class="form-control" type="password">
+              <input placeholder="Password" class="form-control" type="password" name="password">
             </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
+            <!--button type="submit" class="btn btn-success">Sign in</button-->
+              <input type="submit" value="submit" />
+
           </form>
         </div><!--/.navbar-collapse -->
       </div>
@@ -56,7 +59,34 @@
   
   
   <div class="bs-example">
-    <form class="form-horizontal">
+
+
+        <h1>Register with Distributed Social</h1>
+
+        {% if registered %}
+        <strong>thank you for registering!</strong>
+        <a href="/rango/">Return to the homepage.</a><br />
+        {% else %}
+        <strong>register here!</strong><br />
+
+        <form id="user_form" method="post" action="../"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <!-- Display each form. The as_p method wraps each element in a paragraph
+                 (<p>) element. This ensures each element appears on a new line,
+                 making everything look neater. -->
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+    <!--form class="form-horizontal">
+
+
         <div class="form-group">
             <label for="inputEmail" class="control-label col-xs-2">Username</label>
             <div class="col-xs-10">
@@ -118,7 +148,7 @@
                 <button type="submit" class="btn btn-primary">Register</button>
             </div>
         </div>
-    </form>
+    </form-->
 </div>
 
 <!--registration form-->

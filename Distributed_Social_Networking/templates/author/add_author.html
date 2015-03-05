@@ -22,6 +22,21 @@
 
             <input type="submit" name="submit" value="Create Category" />
         </form>
+
+
+        <form id="addForm" method="POST" action="/login/">
+            {% csrf_token %}
+
+            <div class="">
+                <p><label for="title">Username</label>
+                <input type="text" class="text" id="title" name="username"/></p>
+                <p><label for="url">Password</label>
+                <input type="text" class="text" id="url" name="password"/></p>
+                <input type="submit" name="submit" value="Login" />
+            </div>
+        </form>
+
+
     </body>
 
 </html>
