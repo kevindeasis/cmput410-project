@@ -1,0 +1,37 @@
+February 18
+Meeting Minutes
+-Discussed which platform to use for communication
+-Initiated Trello Board
+-Initiated Gitter Chat Room
+-Initiated google drive
+-Planned the iteration plan
+-Discussed user story
+-Decided which user stories to finish by March 11
+-Discussed the architecture
+-Created schedule for weekly meeting
+
+February 25
+Meeting Minutes
+-Planned the models for the project
+-Task allocation for all the members
+-Set up the trello board
+-Planned the architecture of the project
+-Figure out which team we will work with for group server to server communication
+-Discussed weekly time contribution
+-Discussed barrier to completion for the first project deadline
+-Discussed issues with shared models and user stories between members
+-Discussed github etiquette
+-Discussed the requirements needed for the first project deadline
+-Discussed the documentations needed for the first project deadline
+
+March 4
+Meeting Minutes
+17:40-17:50
+Meeting with Ali
+-Discussed the current status of the project
+-Discussed the documentation needed for the project
+-Discussed Ali's previous experience with other team
+-Discussed the test cases needed to be implemented for the deadline
+-Discussed the presentation for the deadline
+-Mutually agreed that weekly meeting would be on Wednesday somewhere between 17:20 to 17:50
+-Discussed that each member should have their own virtual environment and not rely on the one in the repository
