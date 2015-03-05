@@ -1,7 +1,8 @@
 from django import forms
 #from SocialNetworkModels.models import Author,Posts, UserProfile
 from django.contrib.auth.models import User
-from SocialNetworkModels.models import AuthorProfile
+from SocialNetworkModels.models import AuthorProfile, Posts
+import datetime
 
 
 
@@ -31,12 +32,19 @@ class AuthorForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'password', 'email', )
 
 class AuthorProfileForm(forms.ModelForm):
     class Meta:
         model = AuthorProfile
-        fields = ('website', 'picture')
+        fields = ('website', 'picture', )
 
 
-        
+class PostsForm(forms.ModelForm):
+    post_text = forms.CharField(max_length=200, help_text = "Please enter title of post")
+    number_of_Likes =  forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+
+    class Meta:
+        model = Posts
+        exclude = ('post_author','post_reciever',)
+

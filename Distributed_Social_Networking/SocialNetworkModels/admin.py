@@ -1,6 +1,6 @@
 from django.contrib import admin
 #from SocialNetworkModels.models import Author, Posts
-from SocialNetworkModels.models import AuthorProfile
+from SocialNetworkModels.models import AuthorProfile, Posts
 
 
 # Register your models here.
@@ -28,5 +28,15 @@ class AuthorAdmin(admin.ModelAdmin):
     
 admin.site.register(Author, AuthorAdmin)"""
 
-admin.site.register(AuthorProfile)
+class PostInline(admin.StackedInline):
+    model = Posts
+    fk_name = 'post_author'
+    extra = 3
+
+class AuthorAdmin(admin.ModelAdmin):
+    inlines = [PostInline]
+
+admin.site.register(AuthorProfile, AuthorAdmin)
+
+#admin.site.register(AuthorProfile)
 

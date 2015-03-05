@@ -1,8 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect
-#from SocialNetworkModels.forms import AuthorForm, UserForm, UserProfileForm
-from SocialNetworkModels.forms import AuthorProfileForm, AuthorForm
+from SocialNetworkModels.models import Posts
+from SocialNetworkModels.forms import AuthorProfileForm, AuthorForm, PostsForm
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -20,6 +20,12 @@ def user_login(request):
             if user.is_active:
 
                 login(request, user)
+
+                #posts_form = AuthorProfileForm()
+                #all_posts = Posts.objects.all()
+                #return render(request, 'LandingPage/home.html', {'posts_form': posts_form, 'all_posts': all_posts})
+
+
                 return render(request, 'LandingPage/home.html')
             else:
                 return HttpResponse("Your account is disabled.")

@@ -21,20 +21,7 @@ class Author(models.Model):
     
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.author_username
-    
-
-
-class Posts(models.Model):
-    post_author = models.ForeignKey(Author)
-    post_text = models.CharField(max_length=200)
-    number_of_Likes = models.IntegerField(default=0)
-    
-    def __unicode__(self):  #For Python 2, use __str__ on Python 3
-        return self.post_author
-    
-    
-    #def __str__(self):
-     #   return self.post_text"""
+    """
 
 
 class AuthorProfile(models.Model):
@@ -45,6 +32,17 @@ class AuthorProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+
+class Posts(models.Model):
+    post_author = models.ForeignKey(AuthorProfile, related_name='post_author')
+    post_reciever = models.ForeignKey(AuthorProfile, related_name='post_reciever')
+    post_text = models.CharField(max_length=200)
+    number_of_Likes = models.IntegerField(default=0)
+
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        return self.post_author
+
 
     
     
