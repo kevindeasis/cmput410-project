@@ -1,19 +1,15 @@
-{% load staticfiles %}
+{% extends "index.html" %}
 
-<!DOCTYPE html>
+{%block head%}
+        {% if user.is_authenticated %}
+            <p style="text-align:right;padding-right:18px"><a class="navbar-brand" href="#">hello {{ user.username }}!</a><p>
+            
+        {% endif %}
+{%endblock%}
 
-<html>
-
-	<head>
-		<title>Landing Page</title>
-
-    	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css" %}">
-		<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/styles.css" %}">
-
-	</head>
-
-	<body>
+{%block body%}
+        </br>
+        </br>
 
         {% if user.is_authenticated %}
             <h1>hello {{ user.username }}!</h1>
@@ -22,14 +18,4 @@
             <h1>not authenticated!</h1>
         {% endif %}
 
-        <!--
-
-        {% for post in all_posts %}
-            <div>
-            {{ post.post_text }}
-            </div>
-        {% endfor %} -->
-
-    </body>
-
-</html>
+{%endblock%}
