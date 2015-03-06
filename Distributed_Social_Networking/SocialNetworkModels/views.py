@@ -78,9 +78,27 @@ def index(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect('../../')
+    return redirect('LandingPage/index.html')
 
-
+@login_required
+def author_post(request):
+    if request.method =='POST':
+        post_form = PostsForm(data=request.POST)
+        
+        author = post_form.POST.get('post_author')
+        title = post_form.POST.get('post_title')
+        text = post_form.POST.get('post_text')
+        visibility = post.POST.get('visibility')
+        
+        if post_form.is_valid():
+            post = post_form.save()
+        else:
+            print post_form.errors
+    else:
+        post_form = PostsForm()
+        
+    return render(request, 'LandingPage/home.html')
+        
 
 """
     form = AuthorForm()
