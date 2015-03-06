@@ -35,9 +35,15 @@ class AuthorProfile(models.Model):
 
 
 class Posts(models.Model):
+    #create visibility let author choose when they make post
+    VISIBILITY=(("PRIVATE","Private"),("PUBLIC","Public"),("FRIENDS","Friends"),("FRIENDSFRIENDS","Friend of a Friend"))
+    
     post_author = models.ForeignKey(AuthorProfile, related_name='post_author')
     post_reciever = models.ForeignKey(AuthorProfile, related_name='post_reciever')
+    post_title = models.CharField(max_length = 20)
     post_text = models.CharField(max_length=200)
+    photo = models.ImageField(upload_to='post_images',blank = True)
+    visibility = models.CharField(max_length = 10, choices = VISIBILITY)
     number_of_Likes = models.IntegerField(default=0)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3

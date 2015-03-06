@@ -46,5 +46,5 @@ class PostsForm(forms.ModelForm):
 
     class Meta:
         model = Posts
-        exclude = ('post_author','post_reciever',)
+        fields = ('post_author','post_reciever','post_title','post_text','photo','visibility','number_of_Likes',)
 

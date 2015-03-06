@@ -25,7 +25,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'SocialNetworkModels/templates/LandingPage')
+TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'SocialNetworkModels/templates')
 
 
 

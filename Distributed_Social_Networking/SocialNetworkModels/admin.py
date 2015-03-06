@@ -37,6 +37,7 @@ class AuthorAdmin(admin.ModelAdmin):
     inlines = [PostInline]
 
 admin.site.register(AuthorProfile, AuthorAdmin)
+admin.site.register(Posts)
 
 #admin.site.register(AuthorProfile)
 
