@@ -34,6 +34,9 @@ https://github.com/abramhindle/CMPUT404-project-socialdistribution/blob/master/p
 Gitter Chat
 https://gitter.im/diego04/cmput410-project.
 
+VM
+http://cs410.cs.ualberta.ca:41071
+
 Members:
 deasis		(Kevin De Asis)
 
