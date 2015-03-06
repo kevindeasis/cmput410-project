@@ -35,6 +35,9 @@ class AuthorProfile(models.Model):
 
 
 class Posts(models.Model):
+    #create visibility let author choose when they make post
+    VISIBILITY=(("PRIVATE","Private"),("PUBLIC","Public"),("FRIENDS","Friends"),("FRIENDSFRIENDS","Friend of a Friend"))
+    
     post_author = models.ForeignKey(AuthorProfile, related_name='post_author')
     post_reciever = models.ForeignKey(AuthorProfile, related_name='post_reciever')
     post_text = models.CharField(max_length=200)
