@@ -3,7 +3,6 @@
 {%block head%}
         {% if user.is_authenticated %}
             <a class="navbar-brand" href="#">hello {{ user.username }}!</a>
-            <a class="navbar-brand" href="/profile/">Profile</a>
             <a class="navbar-brand" href="/post/">CreateNewPost</a>
             <a class="navbar-brand" href="/logout/">Logout</a>
             
@@ -13,12 +12,9 @@
 {%block body%}
         </br>
         </br>
-
-        {% if user.is_authenticated %}
-            <h1>hello {{ user.username }}!</h1>
-            <a href="/logout/">Logout</a><br />
-        {% else %}
-            <h1>not authenticated!</h1>
-        {% endif %}
+        <h1>Profile</h1>
+        <h1>{{username}}</h1>
+        <h1>{{email}}</h1>
+        <h1>{{github_username}}</h1>
 
 {%endblock%}

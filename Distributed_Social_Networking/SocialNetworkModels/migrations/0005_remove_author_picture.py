@@ -7,13 +7,12 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('SocialNetworkModels', '0003_userprofile'),
+        ('SocialNetworkModels', '0004_auto_20150307_1857'),
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='userprofile',
-            old_name='webiste',
-            new_name='website',
+        migrations.RemoveField(
+            model_name='author',
+            name='picture',
         ),
     ]
