@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{%block head%}
+        {% if user.is_authenticated %}
+            <a class="navbar-brand" href="#">hello {{ user.username }}!</a>
+            <a class="navbar-brand" href="/post/">CreateNewPost</a>
+            <a class="navbar-brand" href="/logout/">Logout</a>
+        {% endif %}
+{%endblock%}
+
+{%block body%}
+
+        </br>
+        </br>
+        <div class="register" id="user-register">
+            <h1 class="form-signin-heading">Register</h1>
+            <h1 class="form-signin-heading">{{username}}</h1>
+            
+            <form id="user_form" method="post" action="/register/"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+            <p><label for="id_username">Username:</label> 
+            <input id="id_username" maxlength="30" name="username" type="text" /></p>
+            <p><label for="id_password">Password:</label>
+            <input id="id_password" name="password" type="password" /></p>
+            <p><label for="id_password2">Confirm Password:</label>
+            <input id="id_password2" name="password2" type="password" /></p>
+            <p><label for="id_email">Email address:</label> 
+            <input id="id_email" maxlength="75" name="email" type="email" /></p>
+            <p><label for="github">github username:</label> 
+            <input id="id_website" maxlength="200" name="github" type="text" /></p>
+            <p><label for="id_picture">Picture:</label> 
+            <input id="id_picture" name="picture" type="file" /></p>
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Register" onclick = "return checkEmpty();"/>
+        </form>
+
+                
+
+       
+        </div>
+<script language = "javascript">
+<!--
+
+function checkEmpty(){
+	if(user_form.username.value ==""){
+		window.alert("User name can not be empty");
+		return false;
+	}	
+	else if(user_form.password.value ==""){
+		window.alert("password can not be empty");
+		return false;
+	}else if(user_form.password.value !=user_form.password2.value){
+		window.alert("password different");
+		return false;
+	}	
+	
+	
+}
+
+-->
+</script>
+     
+
+{%endblock%}

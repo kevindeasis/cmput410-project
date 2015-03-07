@@ -25,7 +25,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
-TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'SocialNetworkModels/templates')
+TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'SocialNetworkModels/templates/LandingPage')
 
 
 
@@ -52,7 +52,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'SocialNetworkModels'
+    'SocialNetworkModels',
 )
 
 MIDDLEWARE_CLASSES = (

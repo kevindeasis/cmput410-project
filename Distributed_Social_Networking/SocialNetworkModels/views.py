@@ -1,89 +1,84 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
-from django.shortcuts import render, redirect
-from SocialNetworkModels.models import Posts
-from SocialNetworkModels.forms import AuthorProfileForm, AuthorForm, PostsForm
-
+from django.shortcuts import render, redirect,render_to_response
+from SocialNetworkModels.models import Posts, Author
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 
 
+#user login page
 def user_login(request):
+    #test if user can successfully login
+    error =False
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-
-                login(request, user)
-
-                #posts_form = AuthorProfileForm()
-                #all_posts = Posts.objects.all()
-                #return render(request, 'LandingPage/home.html', {'posts_form': posts_form, 'all_posts': all_posts})
-
-
-                return render(request, 'LandingPage/home.html')
-            else:
-                return HttpResponse("Your account is disabled.")
+        if user!=None:
+            login(request, user)                
+            return redirect('/home')
         else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            error = True
+        return render(request, 'LandingPage/login.html',{'error': error})
     elif request.method == 'GET':
         if request.user.is_authenticated():
-            return render(request, 'LandingPage/home.html')
+            return render(request, 'LandingPage/login.html',{'error': error})
         else:
-            return redirect('../')
+            return render(request, 'LandingPage/login.html',{'error': error})
 
 
 
     else:
-        return redirect('../')
+        return render(request, 'LandingPage/login.html',{'error': error})
+    
+#home page, display after user login successfully
+@login_required   
+def home(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            try:
+                return render(request, 'LandingPage/home.html')
+            except Author.DoesNotExist:
+                return render(request, 'LandingPage/login.html',{'error': False})    
+    
 
 
-def index(request):
-    registered = False
+def register(request):
+    context= RequestContext(request)
 
     if request.method == 'POST':
-        user_form = AuthorForm(data=request.POST)
-        profile_form = AuthorProfileForm(data=request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-
-            user.set_password(user.password)
-            user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
-            profile.save()
-
-            registered = True
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        github_username= request.POST.get('github')
+        
+        
+        if 'picture' in request.FILES:
+            picture = request.FILES['picture']
+        
+        if len(User.objects.filter(username =username))>0:
+            return render(request, 'LandingPage/register.html',{'username':'username already exist'})
         else:
-            print user_form.errors, profile_form.errors
+            if username != None and password != None:
+                user=User.objects.create_user(username ,email,password)
+                user.save()
+                author= Author.objects.create(user=user,github_username=github_username )
+                author.save()
+                return redirect('/login')
 
-    else:
-        user_form = AuthorForm()
-        profile_form = AuthorProfileForm()
-
-    return render(request, 'LandingPage/index.html', {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+    return render(request, 'LandingPage/register.html')
 
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect('LandingPage/index.html')
+    return redirect('/')
 
 @login_required
 def author_post(request):
     if request.method =='POST':
-        post_form = PostsForm(data=request.POST)
         
         if post_form.is_valid():
             post = post_form.save()
@@ -95,7 +90,17 @@ def author_post(request):
         
     return render(request, 'LandingPage/post.html', {'post_form': post_form})
         
-
+@login_required
+def profile(request):
+    if request.user.is_authenticated():
+        if request.method =='GET':
+            author = Author()
+            author.user = request.user
+            username = author.user.username
+            email = author.user.email
+            github_username=author.github_username
+            return HttpResponse(github_username)
+    return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username})
 """
     form = AuthorForm()
 

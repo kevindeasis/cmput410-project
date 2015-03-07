@@ -52,7 +52,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'SocialNetworkModels'
+    'django_extensions',
+    'SocialNetworkModels',
 )
 
 MIDDLEWARE_CLASSES = (

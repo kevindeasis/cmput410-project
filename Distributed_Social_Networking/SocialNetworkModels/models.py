@@ -24,11 +24,10 @@ class Author(models.Model):
     """
 
 
-class AuthorProfile(models.Model):
-    user = models.OneToOneField(User)
-
-    website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank = True)
+class Author(models.Model):
+    user = models.OneToOneField(User, primary_key=True)
+    github_username = models.CharField(max_length=128, blank=True)
+    #picture = models.ImageField(upload_to='profile_images', blank = True)
 
     def __unicode__(self):
         return self.user.username
@@ -37,14 +36,13 @@ class AuthorProfile(models.Model):
 class Posts(models.Model):
     #create visibility let author choose when they make post
     VISIBILITY=(("PRIVATE","Private"),("PUBLIC","Public"),("FRIENDS","Friends"),("FRIENDSFRIENDS","Friend of a Friend"))
-    
-    post_author = models.ForeignKey(AuthorProfile, related_name='post_author')
-    post_reciever = models.ForeignKey(AuthorProfile, related_name='post_reciever')
+    post_id = models.IntegerField(unique=True, blank = True,null = True);
+    post_author = models.ForeignKey(Author)
     post_title = models.CharField(max_length = 20)
     post_text = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='post_images',blank = True)
-    visibility = models.CharField(max_length = 10, choices = VISIBILITY)
-    number_of_Likes = models.IntegerField(default=0)
+    visibility = models.CharField(max_length = 10, choices = VISIBILITY,default="PUBLIC")
+    image = models.ImageField(upload_to='post_images',blank = True)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_author

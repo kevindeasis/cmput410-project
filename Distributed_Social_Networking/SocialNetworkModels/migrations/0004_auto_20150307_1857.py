@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('SocialNetworkModels', '0007_auto_20150305_2104'),
+        ('SocialNetworkModels', '0003_auto_20150307_1850'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='posts',
-            name='date_posted',
-            field=models.DateTimeField(auto_now_add=True),
+            name='post_id',
+            field=models.IntegerField(unique=True, null=True, blank=True),
             preserve_default=True,
         ),
     ]
