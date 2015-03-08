@@ -1,5 +1,5 @@
 {% extends "index.html" %}
-
+{% load staticfiles %}
 {%block head%}
         {% if user.is_authenticated %}
             <a class="navbar-brand" href="#">hello {{ user.username }}!</a>
@@ -16,5 +16,7 @@
         <h1>{{username}}</h1>
         <h1>{{email}}</h1>
         <h1>{{github_username}}</h1>
+	    <h1>{{picture}}</h1>
+	<img src="{{STATIC_URL}}/../{{picture}}" /> 
 
 {%endblock%}

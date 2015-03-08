@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_extensions',
     'SocialNetworkModels',
 )
 
@@ -118,3 +119,5 @@ LOGIN_URL = '../'
 
 STATIC_URL = '/static/'
 
+
+STATIC_PATH = os.path.abspath(os.path.join(BASE_DIR,'static'))

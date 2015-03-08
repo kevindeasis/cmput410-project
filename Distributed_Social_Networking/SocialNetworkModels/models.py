@@ -39,7 +39,7 @@ class SiteBlockedAccount(models.Model):
 class Author(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     github_username = models.CharField(max_length=128, blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank = True)
+    picture = models.ImageField(upload_to='static/profile_images/', blank = True)
 
     def __unicode__(self):
         return self.user.username
@@ -81,7 +81,7 @@ class Posts(models.Model):
     post_title = models.CharField(max_length = 20)
     post_text = models.CharField(max_length=200)
     visibility = models.CharField(max_length = 10, choices = VISIBILITY,default="PUBLIC")
-    image = models.ImageField(upload_to='post_images',blank = True)
+    image = models.ImageField(upload_to='static/post_images/',blank = True)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_author

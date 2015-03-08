@@ -25,7 +25,7 @@ def user_login(request):
         return render(request, 'LandingPage/login.html',{'error': error})
     elif request.method == 'GET':
         if request.user.is_authenticated():
-            return render(request, 'LandingPage/login.html',{'error': error})
+            return redirect('/home')
         else:
             return render(request, 'LandingPage/login.html',{'error': error})
 
@@ -64,7 +64,7 @@ def register(request):
             if username != None and password != None:
                 user=User.objects.create_user(username ,email,password)
                 user.save()
-                author= Author.objects.create(user=user,github_username=github_username )
+                author= Author.objects.create(user=user,github_username=github_username,picture = picture )
                 author.save()
                 return redirect('/login')
 
@@ -141,17 +141,14 @@ def author_post(request):
         #post =Posts.objects.create(post_author = request.user.username, 
                                   #psot_title = title, post_text= text,visibility= visibility)
         post = Posts()
-        author = Author()
-        author.username = request.user.username
-        post.post_author = author
+        post.post_author = Author.objects.get(user = request.user)
         post.post_title = title
         post.post_text = text
         post.visibility = visibility
         if picture is not None:
             post.image=picture
         post.save()
-        return HttpResponse("success")
-        #return redirect('/home')
+        return redirect('/home')
     else:
         return render(request, 'LandingPage/post.html')
         
@@ -161,12 +158,12 @@ def author_post(request):
 def profile(request):
     if request.user.is_authenticated():
         if request.method =='GET':
-            author = Author()
-            author.user = request.user
+            author = Author.objects.get(user =request.user)
             username = author.user.username
             email = author.user.email
             github_username=author.github_username
-            return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username})
+            picture = author.picture
+            return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture})
     return render(request, 'LandingPage/profile.html')
 """
     form = AuthorForm()
