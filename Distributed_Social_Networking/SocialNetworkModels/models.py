@@ -3,6 +3,8 @@
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.cache import cache
+
 
 
 #   We can refactor these classes into their own files later
@@ -21,8 +23,18 @@ class Author(models.Model):
     
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.author_username
-    """
 
+#to be implemented
+class SiteBlockedAccount(models.Model):
+class UserBlockedUser(models.Model):
+class Follow(models.Model):
+class FriendRequest(models.Model):
+class FriendFactory(models.Model):
+class InviteEmail(models.Model):
+
+#Required to be default as stated in the user stories
+class SiteBlockedAccount(models.Model):
+"""
 
 class Author(models.Model):
     user = models.OneToOneField(User, primary_key=True)
@@ -32,6 +44,34 @@ class Author(models.Model):
     def __unicode__(self):
         return self.user.username
 
+
+#if you wanna know what this is doing:
+#https://godjango.com/51-better-models-through-custom-managers-and-querysets/
+#https://docs.djangoproject.com/en/1.6/topics/db/managers/
+class FriendManager(models.Manager):
+
+    #call this by Friends.friendmanager.getFriends(authorname)
+    def getFriends(self, authorname):
+        return self.get_queryset().filter(initiator=authorname)
+
+    #ADD FRIEND POST HERE!!!
+
+class Friends(models.Model):
+    initiator = models.ForeignKey(User, related_name='initiator')
+    reciever = models.ForeignKey(User, related_name='reciever')
+
+    friendmanager = FriendManager()
+
+    class Meta:
+        verbose_name = "Friends"
+        verbose_name_plural = "Friends"
+        unique_together = (('initiator', 'reciever'),)
+
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        try:
+            return "{sender} initiated friendship with {reciever}".format(sender=self.initiator, reciever=self.reciever)
+        except:
+            return "{solo} prob has no friends)".format(solo=self.initiator)
 
 class Posts(models.Model):
     #create visibility let author choose when they make post
@@ -46,7 +86,3 @@ class Posts(models.Model):
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_author
-
-
-    
-    

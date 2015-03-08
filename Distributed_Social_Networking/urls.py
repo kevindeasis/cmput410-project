@@ -35,5 +35,11 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^rest/', include(router.urls)),
 
+    url(r'^searchusers/', views.search_users, name ='search_users'),
+    url(r'^searchposts/', views.search_posts, name ='search_posts'),
+    url(r'^addfriend/(?P<reciever_pk>\w+)/$', views.add_friend, name="add_friend"),
+
+
+
 )
 

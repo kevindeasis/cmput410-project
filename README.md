@@ -1,5 +1,11 @@
 # cmput410-project
 
+Modules Used:
+
+Bootstrap
+PIL
+djangorestframework
+
 Admin Settings:
 Username: admin
 Password: admin
@@ -31,3 +37,9 @@ gmeyer1 	(Glenn Meyer)
 cye2 		(Chongyang Ye)
 
 bqi			(Bowen Qi)
+
+Tutorials Used:
+
+http://www.django-rest-framework.org/
+
+http://www.tangowithdjango.com/

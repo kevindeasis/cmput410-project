@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect,render_to_response
-from SocialNetworkModels.models import Posts, Author
+from SocialNetworkModels.models import Posts, Author, Friends, FriendManager
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -74,7 +74,63 @@ def register(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect('/')
+    return redirect('/home')
+
+@login_required
+def search_users(request):
+    #search for users
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            try:
+                #this needs to be paginated later
+                authors = Author.objects.all()
+                return render(request, 'LandingPage/search_users.html',{'authors': authors})
+            except Author.DoesNotExist:
+                return redirect('/login')
+    else:
+        return redirect('/login')
+
+
+@login_required
+def search_posts(request):
+    #search for users
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            try:
+                #this needs to be paginated later
+                posts = Posts.objects.all()
+                return render(request, 'LandingPage/search_users.html',{'posts': posts})
+            except Author.DoesNotExist:
+                return redirect('/login')
+    else:
+        return redirect('/login')
+
+
+@login_required
+def add_friend(request, reciever_pk):
+    #search for users
+    if request.user.is_authenticated():
+        try:
+                #this needs to be paginated later
+                #friend = Friends.friendmanager.getFriends(user.username)
+            friend = Friends()
+            friend.initiator = User.objects.get(username = request.user)
+            friend.reciever = User.objects.get(pk = reciever_pk)
+            friend.save()
+            return redirect('/searchusers')
+
+
+
+        except Author.DoesNotExist:
+            return redirect('/searchusers')
+    else:
+        return redirect('/home')
+
+
+
+
+
+
 
 @login_required
 def author_post(request):
@@ -89,7 +145,7 @@ def author_post(request):
         post_form = PostsForm()
         
     return render(request, 'LandingPage/post.html', {'post_form': post_form})
-        
+
 @login_required
 def profile(request):
     if request.user.is_authenticated():

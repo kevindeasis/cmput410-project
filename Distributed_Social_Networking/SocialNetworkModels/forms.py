@@ -50,5 +50,5 @@ class PostsForm(forms.ModelForm):
         model = Posts
         exclude = ('post_author','post_reciever',)
 
-        """
+"""
 

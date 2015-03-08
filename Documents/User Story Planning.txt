@@ -1,0 +1,35 @@
+IProject Part 1 (Iteration Target User Stories):
+
+xuefeng1 (Audrey Li: {github: audrey})
+
+dylan3 (Dylan Cassidy: {github: DylanCassidy})
+
+gmeyer1 (Glenn Meyer: {github: gmeyer1})
+
+cye2 (Chongyang Ye: {github: chongyangye})
+
+bqi (Bowen Qi: {github: jasonqi77})
+
+deasis (Kevin de Asis: {github: diego04 })
+
+
+As an author I want to make posts: (bqi, cye2).
+As an author, posts I create can link to images: (dylan3, xuefeng1).
+As a server admin, images can be hosted on my server: (dylan3, xuefeng1).
+As an author, posts I create be private to me: (diego04, cye2).
+As an author, posts I create be private to another author: (dylan3, xuefeng1).
+As an author, posts I create be private to my friends: (bqi).
+As an author, posts I create can be public: (bqi).
+As an author, posts I make can be in simple plain text: (cye2, diego04).
+As a server admin, I want to host multiple authors on my server: (gmeyer1).
+As an author, I want to post posts to my “stream”: ({github: audrey}).
+As an author, I want to delete my own posts: (bqi).
+As an author, I want to befriend local authors: (bqi, xuefeng1).
+As an author, I want to feel safe about sharing images and posts with my friends – images should not publicly accessible without authentication: (diego04, cye2).
+As an author, I want un-befriend local and remote authors: (xuefeng1).
+As an author, I want to be able to use my web-browser to manage my profile: (diego04, cye2).
+As an author, I want to be able to use my web-browser to manage/author my posts: (cye2, diego04).
+As a server admin, I want to be able add, modify, and remove authors: (diego04, cye2).
+As a server admin, I want to be able allow users to sign up but require my OK to finally be on my server: (gmeyer1).
+As an author, other authors cannot modify my data: (cye2, diego04).
+As an author, my server will know about my friends: (xuefeng1, dylan3).
