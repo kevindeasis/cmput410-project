@@ -134,28 +134,16 @@ def add_friend(request, reciever_pk):
 @login_required
 def author_post(request):
     if request.method =='POST':
-        title = request.POST.get('post_title')
-        text = request.POST.get('post_text')
-        visibility = request.POST.get('visibility')
-        picture = request.FILES.get('picture')        
-        #post =Posts.objects.create(post_author = request.user.username, 
-                                  #psot_title = title, post_text= text,visibility= visibility)
-        post = Posts()
-        author = Author()
-        author.username = request.user.username
-        post.post_author = author
-        post.post_title = title
-        post.post_text = text
-        post.visibility = visibility
-        if picture is not None:
-            post.image=picture
-        post.save()
-        return HttpResponse("success")
-        #return redirect('/home')
-    else:
-        return render(request, 'LandingPage/post.html')
         
-    return render(request, 'LandingPage/post.html')
+        if post_form.is_valid():
+            post = post_form.save()
+            return render(request, 'LandingPage/home.html')
+        else:
+            print post_form.errors
+    else:
+        post_form = PostsForm()
+        
+    return render(request, 'LandingPage/post.html', {'post_form': post_form})
 
 @login_required
 def profile(request):
@@ -166,8 +154,8 @@ def profile(request):
             username = author.user.username
             email = author.user.email
             github_username=author.github_username
-            return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username})
-    return render(request, 'LandingPage/profile.html')
+            return HttpResponse(github_username)
+    return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username})
 """
     form = AuthorForm()
 
