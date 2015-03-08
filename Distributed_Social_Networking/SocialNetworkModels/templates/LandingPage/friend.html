@@ -19,11 +19,9 @@
                     <img src="http://lorempixel.com/100/100" />
                 </div>
                 <div class="panel-info">
-                    <p><strong>Friend Name xxx</strong></p>
+                    <p><strong>{{ friend.user }}</strong></p>
                     <p>Github Name:  {{ friend.github_username }}</p>
-                    <p>Email: xxx </p>
-                    <p>Need to modify model.py "Author" to add xxx fields!</p>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <a href="/friend/unfriend/{{ friend.user }}/">unfriend</a>
                 </div>
             </div>
         </div>
@@ -32,4 +30,5 @@
     {% endfor %}
 </div>
 {%endblock%}
+
 

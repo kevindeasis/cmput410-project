@@ -1,6 +1,9 @@
 import os
 import django
 
+# to reset database:
+#     $ python manage.py flush
+
 def populate():
 
     # populate User
