@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{%block head%}
+        {% if user.is_authenticated %}
+            <a class="navbar-brand" href="#">{{ user.username }}!</a>
+            <a class="navbar-brand" href="/friend/">Add Friend</a>
+            <a class="navbar-brand" href="/logout/">Logout</a>
+        {% endif %}
+{%endblock%}
+
+{%block body%}
+<div class="container" style="margin-top:50px;margin-right:100px;" >
+    {% for friend in friends %}
+    <ul class="list-group">
+    <li>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="panel-more1">
+                    <img src="http://lorempixel.com/100/100" />
+                </div>
+                <div class="panel-info">
+                    <p><strong>Friend Name xxx</strong></p>
+                    <p>Github Name:  {{ friend.github_username }}</p>
+                    <p>Email: xxx </p>
+                    <p>Need to modify model.py "Author" to add xxx fields!</p>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </li>
+    </ul>
+    {% endfor %}
+</div>
+{%endblock%}
+
