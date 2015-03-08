@@ -101,6 +101,17 @@ def profile(request):
             github_username=author.github_username
             return HttpResponse(github_username)
     return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username})
+
+@login_required   
+def friend(request):
+#    if request.method == 'GET':
+    if request.user.is_authenticated():
+        author = Author.objects.filter(user=request.user)[0]
+        friends = author.friends.all()
+        return render(request, 'LandingPage/friend.html', {'friends':friends})
+    return render(request, 'LandingPage/login.html',{'error': False})
+
+
 """
     form = AuthorForm()
 

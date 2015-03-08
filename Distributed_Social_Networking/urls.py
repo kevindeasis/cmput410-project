@@ -11,5 +11,5 @@ urlpatterns = patterns('',
     url(r'^register/', views.register, name ='register'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout/', views.user_logout, name = 'user_logout'), # NEW MAPPING!
-    
+    url(r'^friend/', views.friend, name='friend'), # NEW MAPPING!    
 )
