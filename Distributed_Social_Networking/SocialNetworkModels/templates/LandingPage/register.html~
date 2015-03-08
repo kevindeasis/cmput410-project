@@ -31,6 +31,7 @@
             <input id="id_website" maxlength="200" name="github" type="text" /></p>
             <p><label for="id_picture">Picture:</label> 
             <input id="id_picture" name="picture" type="file" /></p>
+	    <input id="id_approved" name="approved" type="hidden" value="false" /></p>
 
             <!-- Provide a button to click to submit the form. -->
             <input type="submit" name="submit" value="Register" onclick = "return checkEmpty();"/>
@@ -52,7 +53,7 @@ function checkEmpty(){
 		window.alert("password can not be empty");
 		return false;
 	}else if(user_form.password.value !=user_form.password2.value){
-		window.alert("password different");
+		window.alert("password not match");
 		return false;
 	}	
 	

@@ -17,9 +17,13 @@ def user_login(request):
         password = request.POST.get('password')
 
         user = authenticate(username=username, password=password)
+	u = User.objects.get(username=username)
         if user!=None:
-            login(request, user)                
-            return redirect('/home')
+	    if u.author.approved:
+                login(request, user)                
+                return redirect('/home')
+	    else:
+		return render(request, 'LandingPage/login.html',{'error': 'not approved'})
         else:
             error = True
         return render(request, 'LandingPage/login.html',{'error': error})
@@ -55,7 +59,6 @@ def register(request):
         email = request.POST.get('email')
         github_username= request.POST.get('github')
         
-        
         if 'picture' in request.FILES:
             picture = request.FILES['picture']
         
@@ -65,7 +68,7 @@ def register(request):
             if username != None and password != None:
                 user=User.objects.create_user(username ,email,password)
                 user.save()
-                author= Author.objects.create(user=user,github_username=github_username )
+                author= Author.objects.create(user=user,github_username=github_username)
                 author.save()
                 return redirect('/login')
 

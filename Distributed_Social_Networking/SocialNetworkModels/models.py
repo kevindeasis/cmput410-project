@@ -39,6 +39,7 @@ class SiteBlockedAccount(models.Model):
 class Author(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     github_username = models.CharField(max_length=128, blank=True)
+    approved = models.BooleanField(default=False)
     #picture = models.ImageField(upload_to='profile_images', blank = True)
 
     def __unicode__(self):
