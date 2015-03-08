@@ -28,6 +28,7 @@ class Author(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     github_username = models.CharField(max_length=128, blank=True)
     #picture = models.ImageField(upload_to='profile_images', blank = True)
+    friends = models.ManyToManyField('Author') # NEW: for friends relationship
 
     def __unicode__(self):
         return self.user.username
@@ -47,6 +48,4 @@ class Posts(models.Model):
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_author
 
-
-    
     
