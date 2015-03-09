@@ -15,21 +15,25 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        try:
+            user = authenticate(username=username, password=password)
+            u = User.objects.get(username=username)
+            if user!=None:
+                if u.username == 'admin':
+                    login(request, user)
+                    return redirect('/home')
 
-        user = authenticate(username=username, password=password)
-	u = User.objects.get(username=username)
-        if user!=None:
-	    if u.username == 'admin':
-		login(request, user)                
-                return redirect('/home')
-	    elif u.author.approved:
-                login(request, user)                
-                return redirect('/home')
-	    else:
-		return render(request, 'LandingPage/login.html',{'error': 'not approved'})
-        else:
+                elif u.author.approved:
+                    login(request, user)
+                    return redirect('/home')
+                else:
+                    return render(request, 'LandingPage/login.html',{'error': 'not approved'})
+            else:
+                error = True
+                return render(request, 'LandingPage/login.html',{'error': error})
+        except:
             error = True
-        return render(request, 'LandingPage/login.html',{'error': error})
+            return render(request, 'LandingPage/login.html',{'error': error})
     elif request.method == 'GET':
         if request.user.is_authenticated():
             return redirect('/home')

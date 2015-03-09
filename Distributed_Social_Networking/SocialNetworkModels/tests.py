@@ -6,11 +6,31 @@ from django.test.client import Client
 from SocialNetworkModels.models import Posts, Author, Friends, FriendManager
 from django.contrib.auth.models import User
 
+from . import models
 import factory
 #http://factoryboy.readthedocs.org/en/latest/
 
 import nose.tools as noto
 
+#testing doesnt use the database for models it creates a new pseudo database!
+class UserFactory(factory.Factory):
+    class Meta:
+        model = models.User
+
+    first_name = 'testuser'
+    last_name = 'testlastname'
+    is_superuser = False
+
+class SuperFactory(factory.Factory):
+    class Meta:
+        model = models.User
+
+    first_name = 'superuser'
+    last_name = 'superpassword'
+    username = 'superpassword'
+    password = 'superpassword'
+
+    is_superuser = True
 
 class Test_URL(TestCase):
     client = Client()
@@ -63,7 +83,104 @@ class Test_Login(TestCase):
         response = self.client.post('/home/', {'username': 'admin', 'password': 'admin'}, follow=True)
         self.assertEqual(response.status_code, 200)
 
+class Test_Author_Auth(TestCase):
+    client = Client()
 
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    #user = UserFactory.create()
+
+    #this guy isnt approved by the server administrator so he shouldnt get a 200
+    #this guy isnt registered as an author so he cant get a 200
+    def test_noaccess(self):
+        response = self.client.post('/home/', {'username': self.user.username, 'password': self.user.password})
+        self.assertFalse((self.client.login()))
+
+    def test_noaccess2(self):
+        response = self.client.login(username= self.user.username, password = self.user.password)
+        self.assertFalse((self.client.login()))
+
+    def test_access(self):
+        newclient = Client()
+
+        user = User.objects.create_user('superpassword3', 'email@ems3ail.com', 'superpassword3')
+        #user.is_superuser = True
+        user.save
+        #print user.is_superuser
+        response = newclient.login(username = 'superpassword3', password = 'superpassword3')
+        self.assertTrue((response.redirect_chain[0][0]))
+
+    def test_access(self):
+        newclient = Client()
+
+        user = User.objects.create_user('superpassword2', 'email2@emsail.com', 'superpassword1')
+        user.save
+        author = Author()
+        author.user = user
+
+        author.save()
+
+        response = self.client.post('/home/', {'username': 'superpassword2', 'password': 'superpassword1'}, follow = True)
+        #response = newclient.login(username = 'superpassword2', password = 'superpassword1')
+        #self.assertEqual(response.status_code, 200)
+
+        self.assertRedirects(response, 'http://testserver/?next=/home/')
+
+    def test_has_access(self):
+        newclient = Client()
+
+        user = User.objects.create_user('2superpassword2', '2email2@emsail.com', '2superpassword1')
+        author = Author()
+        author.user = user
+        author.approved = True
+        author.save()
+        user.save
+
+
+        response = self.client.post('/login/', {'username': '2superpassword2', 'password': '2superpassword1'},follow = True)
+
+        self.assertRedirects(response, 'http://testserver/home/')
+
+
+class Test_User_Auth(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    #user = UserFactory.create()
+
+    #this guy isnt approved by the server administrator so he shouldnt get a 200
+    #this guy isnt registered as an author so he cant get a 200
+    def test_noaccess(self):
+        response = self.client.post('/home/', {'username': self.user.username, 'password': self.user.password})
+        self.assertFalse((self.client.login()))
+
+    def test_noaccess2(self):
+        response = self.client.login(username= self.user.username, password = self.user.password)
+        self.assertFalse((self.client.login()))
+
+    #this is the admin so he should be good
+    def test_access(self):
+        newclient = Client()
+
+        user = User.objects.create_user('superpassword1', 'email@emsail.com', 'superpassword1')
+        #user.is_superuser = True
+        user.save
+        #print user.is_superuser
+        response = newclient.login(username = 'superpassword1', password = 'superpassword1')
+        self.assertTrue((response))
+
+'''
+    def test_access(self):
+        #newclient = Client()
+        response = self.client.post('/home/', {'username': 'admin', 'password': 'admin'}, follow= True)
+        self.assertTrue((self.client.login()))'''
 
 '''
 #tutorials
