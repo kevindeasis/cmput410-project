@@ -59,10 +59,13 @@ class FollowManager(models.Manager):
 
     #call this by Follows.followmanager.getFollowers(authorname)
     def getFollowers(self, followed):
+        #returns the followers of the arguement
         return self.get_queryset().filter(followed=followed)
 
     def getFollowing(self, follower):
+        #returns the argument is following
         return self.get_queryset().filter(follower=follower)
+
 
 class Follows(models.Model):
     followed = models.ForeignKey(User, related_name='followed')
@@ -85,6 +88,8 @@ class Follows(models.Model):
 
     def getafollowing(self):
         return self.followed
+    def getafollower(self):
+        return self.follower
 
 
 

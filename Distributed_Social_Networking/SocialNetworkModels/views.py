@@ -136,30 +136,51 @@ def add_friend(request, reciever_pk):
     #search for users
     if request.user.is_authenticated():
         try:
-                #this needs to be paginated later
-                #friend = Friends.friendmanager.getFriends(user.username)
+
+
             follows = Follows()
             follows.follower = User.objects.get(username = request.user)
             follows.followed = User.objects.get(pk = reciever_pk)
             follows.save()
 
-            #friend = Friends()
-            #friend.initiator = User.objects.get(username = request.user)
-            #friend.reciever = User.objects.get(pk = reciever_pk)
-            #friend.save()
+            try:
+                previousfollowed = Follows.followManager.getFollowers(request.user)
+                previousfollower = User.objects.get(pk = reciever_pk).username
+                #following = Follows.followManager.getFollowing(previousfollower)
+
+
+                ausername = ''
+                test = False
+                for afollow in previousfollowed:
+                    ausername = afollow.getafollower
+                    busername = User.objects.get(username = ausername).username
+                    #return HttpResponse(previousfollower == busername)
+                    if(previousfollower == busername):
+                        test = True
+                        break
+
+                if (test == True):
+                    friend = Friends()
+                    friend.initiator = User.objects.get(username = request.user)
+                    friend.reciever = User.objects.get(pk = reciever_pk)
+                    friend.save()
+
+                #return HttpResponse("%s(%s)"%(ausername,previousfollower))
+                #return HttpResponse(test)
+                return redirect('/searchusers')
+
+
+
+            except:
+                 return HttpResponse('breaked at add_friend')
 
             return redirect('/searchusers')
-
 
 
         except Author.DoesNotExist:
             return redirect('/searchusers')
     else:
         return redirect('/home')
-
-
-
-
 
 
 
