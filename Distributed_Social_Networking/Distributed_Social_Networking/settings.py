@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
+    'django_nose',
     'SocialNetworkModels',
 )
 
@@ -78,6 +79,11 @@ ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'Distributed_Social_Networking.wsgi.application'
 
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-html',
+    '--cover-package=Distributed_Social_Networking',
+]
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -97,6 +103,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
