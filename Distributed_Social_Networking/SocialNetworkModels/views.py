@@ -17,9 +17,13 @@ def user_login(request):
         password = request.POST.get('password')
 
         user = authenticate(username=username, password=password)
+	u = User.objects.get(username=username)
         if user!=None:
-            login(request, user)                
-            return redirect('/home')
+	    if u.author.approved:
+                login(request, user)                
+                return redirect('/home')
+	    else:
+		return render(request, 'LandingPage/login.html',{'error': 'not approved'})
         else:
             error = True
         return render(request, 'LandingPage/login.html',{'error': error})

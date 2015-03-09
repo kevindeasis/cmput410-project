@@ -40,6 +40,7 @@ class Author(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     github_username = models.CharField(max_length=128, blank=True)
     picture = models.ImageField(upload_to='static/profile_images/', blank = True)
+    approved = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user.username
