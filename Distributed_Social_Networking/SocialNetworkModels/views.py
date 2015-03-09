@@ -1,11 +1,16 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect,render_to_response
-from SocialNetworkModels.models import Posts, Author, Friends, FriendManager
+from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+
+#from django.core import serializers
+import json
+#from django.core.serializers.json import DjangoJSONEncoder
+
 
 
 #user login page
@@ -39,8 +44,6 @@ def user_login(request):
             return redirect('/home')
         else:
             return render(request, 'LandingPage/login.html',{'error': error})
-
-
 
     else:
         return render(request, 'LandingPage/login.html',{'error': error})
@@ -94,7 +97,18 @@ def search_users(request):
             try:
                 #this needs to be paginated later
                 authors = Author.objects.all()
-                return render(request, 'LandingPage/search_users.html',{'authors': authors})
+                #follows = Follows()
+                followed = Follows.followManager.getFollowing(request.user)
+
+                #if this got turned into a json, can do client side
+
+                ourfollows = []
+                for afollow in followed:
+                    ausername = afollow.followed.get_username()
+                    ourfollows.append('{s}'.format(s=ausername))
+
+
+                return render(request, 'LandingPage/search_users.html',{'authors': authors, 'followed': ourfollows})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:
@@ -118,15 +132,22 @@ def search_posts(request):
 
 @login_required
 def add_friend(request, reciever_pk):
+    #actually right now your adding following
     #search for users
     if request.user.is_authenticated():
         try:
                 #this needs to be paginated later
                 #friend = Friends.friendmanager.getFriends(user.username)
-            friend = Friends()
-            friend.initiator = User.objects.get(username = request.user)
-            friend.reciever = User.objects.get(pk = reciever_pk)
-            friend.save()
+            follows = Follows()
+            follows.follower = User.objects.get(username = request.user)
+            follows.followed = User.objects.get(pk = reciever_pk)
+            follows.save()
+
+            #friend = Friends()
+            #friend.initiator = User.objects.get(username = request.user)
+            #friend.reciever = User.objects.get(pk = reciever_pk)
+            #friend.save()
+
             return redirect('/searchusers')
 
 

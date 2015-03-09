@@ -55,12 +55,48 @@ class FriendManager(models.Manager):
     def getFriends(self, authorname):
         return self.get_queryset().filter(initiator=authorname)
 
-    #ADD FRIEND POST HERE!!!
+class FollowManager(models.Manager):
+
+    #call this by Follows.followmanager.getFollowers(authorname)
+    def getFollowers(self, followed):
+        return self.get_queryset().filter(followed=followed)
+
+    def getFollowing(self, follower):
+        return self.get_queryset().filter(follower=follower)
+
+class Follows(models.Model):
+    followed = models.ForeignKey(User, related_name='followed')
+    follower = models.ForeignKey(User, related_name='follower')
+
+    hide = models.BooleanField(default=False)
+
+    followManager = FollowManager()
+
+    class Meta:
+        verbose_name = "Following"
+        verbose_name_plural = "Followers"
+        unique_together = (('followed', 'follower'),)
+
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        try:
+            return "{sender} is followed by {reciever}".format(sender=self.followed, reciever=self.follower)
+        except:
+            return "{solo} prob has no followers)".format(solo=self.followed)
+
+    def getafollowing(self):
+        return self.followed
+
+
 
 class Friends(models.Model):
     initiator = models.ForeignKey(User, related_name='initiator')
     reciever = models.ForeignKey(User, related_name='reciever')
 
+    #this can be removed due to the following use case
+    sentrequest =  models.BooleanField(default=True)
+    approvedrequest = models.BooleanField(default=False)
+
+    fof_private = models.BooleanField(default=False)
     friendmanager = FriendManager()
 
     class Meta:
@@ -73,6 +109,13 @@ class Friends(models.Model):
             return "{sender} initiated friendship with {reciever}".format(sender=self.initiator, reciever=self.reciever)
         except:
             return "{solo} prob has no friends)".format(solo=self.initiator)
+
+
+class PostManager(models.Manager):
+
+    def getFriends(self, authorname):
+        return self.get_queryset().filter(post_author=authorname)
+
 
 class Posts(models.Model):
     #create visibility let author choose when they make post

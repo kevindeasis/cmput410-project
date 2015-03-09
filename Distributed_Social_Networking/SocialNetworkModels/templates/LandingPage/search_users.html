@@ -9,10 +9,21 @@
                     <div class="link">
                         <h4>{{ author.user.username }}</h4>
                     </div>
+
+                    {% if author.user.username not in followed %}
                     <div>
-                        <a href="../addfriend/{{ author.user.pk}}">
-                        Add friend
+                        <a href="/{{ author.user.pk}}">
+                            Follow
                         </a>
                     </div>
+                    {% else %}
+
+                    <div>
+                        <a href="#">
+                            UnFollow
+                        </a>
+                    </div>
+
+                    {% endif %}
     {% endfor %}
 {%endblock%}

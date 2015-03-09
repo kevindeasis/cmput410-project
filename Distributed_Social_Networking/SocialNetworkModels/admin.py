@@ -1,6 +1,6 @@
 from django.contrib import admin
 #from SocialNetworkModels.models import Author, Posts
-from SocialNetworkModels.models import Author, Posts, Friends
+from SocialNetworkModels.models import Author, Posts, Friends, FriendManager, Follows, FollowManager, FriendManager
 
 
 # Register your models here.
@@ -41,6 +41,10 @@ admin.site.register(Posts)
 
 #admin.site.register(AuthorProfile)
 '''
+
+#admin.site.register(FriendManager)
+admin.site.register(Follows)
+#admin.site.register(FollowManager)
 admin.site.register(Author)
 admin.site.register(Posts)
 admin.site.register(Friends)

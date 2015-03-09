@@ -52,20 +52,58 @@ http://cs410.cs.ualberta.ca:41071
 #Members:
 
 
-deasis		(Kevin De Asis)
+##deasis		(Kevin De Asis)
+------
+Contributions: Testing, Documentation, Models, User Interface, Modules, Planning
 
-xuefeng1	(Audrey Li)
+Files Modified: admin.py, forms.py, tests.py, urls.py, bootstrap, views.py, html files
 
-dylan3		(Dylan Cassidy)
+Weekly Contribution (Hours): 12 + 12 + 12 = 36
 
-gmeyer1 	(Glenn Meyer)
+##xuefeng1	(Audrey Li)
+------
+Contributions
 
-cye2 		(Chongyang Ye)
+Files Modified:
 
-bqi			(Bowen Qi)
+Weekly Contribution (Hours):
+
+##dylan3		(Dylan Cassidy)
+------
+Contributions
+
+Files Modified:
+
+Weekly Contribution (Hours):
+
+
+##gmeyer1 	(Glenn Meyer)
+------
+Contributions
+
+Files Modified:
+
+Weekly Contribution (Hours):
+
+
+##cye2 		(Chongyang Ye)
+------
+Contributions
+
+Files Modified:
+
+Weekly Contribution (Hours):
+
+
+##bqi			(Bowen Qi)
+------
+Contributions
+
+Files Modified:
+
+Weekly Contribution (Hours):
 
 =======
-
 
 ##Admin Settings:
 
