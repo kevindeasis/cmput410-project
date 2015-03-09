@@ -19,7 +19,10 @@ def user_login(request):
         user = authenticate(username=username, password=password)
 	u = User.objects.get(username=username)
         if user!=None:
-	    if u.author.approved:
+	    if u.username == 'admin':
+		login(request, user)                
+                return redirect('/home')
+	    elif u.author.approved:
                 login(request, user)                
                 return redirect('/home')
 	    else:
