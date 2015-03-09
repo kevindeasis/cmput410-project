@@ -114,10 +114,11 @@ def friend(request):
 def unfriend(request, target_user):
     if request.user.is_authenticated():
         author = Author.objects.filter(user=request.user)[0]
-        t = User.objects.filter(username=target_user)[0]
-        target = Author.objects.filter(user=t)[0]
-        author.friends.remove(target)
-        return redirect(friend)
+        r = User.objects.filter(username=target_user)
+        if len(r)>0:
+            target = Author.objects.filter(user=r[0])[0]
+            author.friends.remove(target)
+            return redirect(friend)
     return redirect(user_login)
     
 
@@ -125,8 +126,13 @@ def unfriend(request, target_user):
 def befriend(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            username = request.POST.get("username", "")
-        return redirect(friend)
+            author = Author.objects.filter(user=request.user)[0]
+            target_user = request.POST.get("target_user", "")
+            r = User.objects.filter(username=target_user)
+            if len(r)>0:
+                target = Author.objects.filter(user=r[0])[0]
+                author.friends.add(target)
+            return redirect(friend)
     return redirect(user_login)
 
 
