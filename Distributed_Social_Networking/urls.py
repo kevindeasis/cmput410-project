@@ -11,37 +11,38 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ('url', 'username', 'email', 'is_staff')
 
-
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
 
-
-
 urlpatterns = patterns('',
     url(r'^$', views.user_login, name = 'user_login'),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', views.user_login, name = 'user_login'),
+    url(r'^logout/', views.user_logout, name = 'user_logout'), # NEW MAPPING!
+
     url(r'^home/', views.home,name='home'), # NEW MAPPING!
+
     url(r'^post/', views.author_post, name ='author_post'),
     url(r'^profile/', views.profile, {'edit': '0'}, name ='profile'),
     url(r'^profile1/', views.profile, {'edit': '1'}, name ='profile'),
     url(r'^profile_edit/', views.profile_edit, name ='profile_edit'),
     url(r'^register/', views.register, name ='register'),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^logout/', views.user_logout, name = 'user_logout'), # NEW MAPPING!
+
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^rest/', include(router.urls)),
 
     url(r'^searchusers/', views.search_users, name ='search_users'),
     url(r'^searchposts/', views.search_posts, name ='search_posts'),
+
     url(r'^follow/(?P<reciever_pk>\w+)/$', views.add_friend, name="add_friend"),
+
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}),
 

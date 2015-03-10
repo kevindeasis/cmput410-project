@@ -1,4 +1,6 @@
+------
 # cmput410-project
+------
 
 ##Testing:
 
@@ -40,6 +42,7 @@ https://gitter.im/diego04/cmput410-project.
 ##Rest Interface
 http://cs410.cs.ualberta.ca:41071/rest
 
+------
 #Members:
 ------
 
@@ -88,10 +91,9 @@ Files Modified: urls.py, views.py, profile.html
 
 Weekly Contribution (Hours): 12
 
-=======
-
+------
 ##Admin Settings:
-
+------
 
 Username: admin
 
@@ -104,10 +106,9 @@ Email: admin@admin.com
 
 http://127.0.0.1:8000/admin
 
-=======
-
-
+------
 ##Tutorials Used:
+------
 
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 

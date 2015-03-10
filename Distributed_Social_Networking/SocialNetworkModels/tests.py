@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 
 from . import models
 import factory
-#http://factoryboy.readthedocs.org/en/latest/
 
 import nose.tools as noto
 
@@ -107,10 +106,9 @@ class Test_Author_Auth(TestCase):
         newclient = Client()
 
         user = User.objects.create_user('superpassword3', 'email@ems3ail.com', 'superpassword3')
-        #user.is_superuser = True
         user.save
-        #print user.is_superuser
         response = newclient.login(username = 'superpassword3', password = 'superpassword3')
+
         self.assertTrue((response.redirect_chain[0][0]))
 
     def test_access(self):
@@ -120,13 +118,9 @@ class Test_Author_Auth(TestCase):
         user.save
         author = Author()
         author.user = user
-
         author.save()
 
         response = self.client.post('/home/', {'username': 'superpassword2', 'password': 'superpassword1'}, follow = True)
-        #response = newclient.login(username = 'superpassword2', password = 'superpassword1')
-        #self.assertEqual(response.status_code, 200)
-
         self.assertRedirects(response, 'http://testserver/?next=/home/')
 
     def test_has_access(self):
@@ -139,9 +133,7 @@ class Test_Author_Auth(TestCase):
         author.save()
         user.save
 
-
         response = self.client.post('/login/', {'username': '2superpassword2', 'password': '2superpassword1'},follow = True)
-
         self.assertRedirects(response, 'http://testserver/home/')
 
 
@@ -151,9 +143,6 @@ class Test_User_Auth(TestCase):
     #not saved
     user = UserFactory.build()
     superuser = SuperFactory.build()
-
-    #saved
-    #user = UserFactory.create()
 
     #this guy isnt approved by the server administrator so he shouldnt get a 200
     #this guy isnt registered as an author so he cant get a 200
@@ -176,29 +165,12 @@ class Test_User_Auth(TestCase):
         response = newclient.login(username = 'superpassword1', password = 'superpassword1')
         self.assertTrue((response))
 
-'''
-    def test_access(self):
-        #newclient = Client()
-        response = self.client.post('/home/', {'username': 'admin', 'password': 'admin'}, follow= True)
-        self.assertTrue((self.client.login()))'''
 
 '''
 #tutorials
 #https://docs.djangoproject.com/en/1.7/topics/testing/tools/
 #http://www.marinamele.com/2014/03/tools-for-testing-in-django-nose.html
 #http://factoryboy.readthedocs.org/en/latest/
-
-FUTURE IMPLEMENTATION
+#http://factoryboy.readthedocs.org/en/latest/
 #https://docs.djangoproject.com/fr/1.5/topics/testing/advanced/
-#for our rest interface
-class AuthorFactory(factory.DjangoModelFactory):
-    FATORY_FOR = Author
-    user = user...
-
-class UserFactory(factory.Factory):
-    class Meta:
-        model = models.first
-
-    first_name = 'testuser'
-    last_name = 'testlastname'
-    admin = False'''
+'''

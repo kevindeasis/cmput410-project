@@ -1,41 +1,10 @@
-#from django.db import models
 
-# Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.cache import cache
 from django_extensions.db.fields import UUIDField
 
-
 #   We can refactor these classes into their own files later
-#   These are models that can be accessible for the administrators
-#   Check: https://docs.djangoproject.com/en/1.7/intro/tutorial01/
-
-"""
-class Author(models.Model):
-    author_username = models.CharField(max_length=200)
-    author_email = models.CharField(max_length=200)
-    author_password = models.CharField(max_length=200)
-    #registration_date = models.DateTimeField('date registered')
-    
-    #def __str__(self):
-    #    return self.author_username
-    
-    def __unicode__(self):  #For Python 2, use __str__ on Python 3
-        return self.author_username
-
-#to be implemented
-class SiteBlockedAccount(models.Model):
-class UserBlockedUser(models.Model):
-class Follow(models.Model):
-class FriendRequest(models.Model):
-class FriendFactory(models.Model):
-class InviteEmail(models.Model):
-
-#Required to be default as stated in the user stories
-class SiteBlockedAccount(models.Model):
-"""
-
 class Author(models.Model):
     user = models.OneToOneField(User, primary_key=True)
     github_username = models.CharField(max_length=128, blank=True)
@@ -45,10 +14,6 @@ class Author(models.Model):
     def __unicode__(self):
         return self.user.username
 
-
-#if you wanna know what this is doing:
-#https://godjango.com/51-better-models-through-custom-managers-and-querysets/
-#https://docs.djangoproject.com/en/1.6/topics/db/managers/
 class FriendManager(models.Manager):
 
     #call this by Friends.friendmanager.getFriends(authorname)
@@ -92,7 +57,6 @@ class Follows(models.Model):
         return self.follower
 
 
-
 class Friends(models.Model):
     initiator = models.ForeignKey(User, related_name='initiator')
     reciever = models.ForeignKey(User, related_name='reciever')
@@ -134,3 +98,9 @@ class Posts(models.Model):
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_title
+
+
+#Tutorials
+#if you wanna know what this is doing:
+#https://godjango.com/51-better-models-through-custom-managers-and-querysets/
+#https://docs.djangoproject.com/en/1.6/topics/db/managers/

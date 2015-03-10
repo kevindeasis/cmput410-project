@@ -10,11 +10,10 @@ from urlparse import urlparse
 from django.db import IntegrityError
 from django.contrib import messages
 
-#from django.core import serializers
-import json
 #from django.core.serializers.json import DjangoJSONEncoder
+#from django.core import serializers
 
-
+import json
 
 #user login page
 def user_login(request):
@@ -67,7 +66,6 @@ def home(request):
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
         return render(request, 'LandingPage/home.html')
-    
 
 
 def register(request):
@@ -109,7 +107,6 @@ def search_users(request):
                 followed = Follows.followManager.getFollowing(request.user)
 
                 #if this got turned into a json, can do client side
-
                 ourfollows = []
                 for afollow in followed:
                     ausername = afollow.followed.get_username()
@@ -145,7 +142,6 @@ def add_friend(request, reciever_pk):
     if request.user.is_authenticated():
         try:
 
-
             follows = Follows()
             follows.follower = User.objects.get(username = request.user)
             follows.followed = User.objects.get(pk = reciever_pk)
@@ -155,7 +151,6 @@ def add_friend(request, reciever_pk):
                 previousfollowed = Follows.followManager.getFollowers(request.user)
                 previousfollower = User.objects.get(pk = reciever_pk).username
                 #following = Follows.followManager.getFollowing(previousfollower)
-
 
                 ausername = ''
                 test = False
@@ -173,24 +168,16 @@ def add_friend(request, reciever_pk):
                     friend.reciever = User.objects.get(pk = reciever_pk)
                     friend.save()
 
-                #return HttpResponse("%s(%s)"%(ausername,previousfollower))
-                #return HttpResponse(test)
                 return redirect('/searchusers')
-
-
-
             except:
                  return HttpResponse('breaked at add_friend')
 
             return redirect('/searchusers')
 
-
         except Author.DoesNotExist:
             return redirect('/searchusers')
     else:
         return redirect('/home')
-
-
 
 @login_required
 def author_post(request):
@@ -216,6 +203,7 @@ def author_post(request):
         
     return render(request, 'LandingPage/post.html')
 
+
 @login_required
 def profile(request,edit):
     if request.user.is_authenticated():
@@ -227,6 +215,7 @@ def profile(request,edit):
             picture = author.picture
             return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'edit':edit})
     return render(request, 'LandingPage/profile.html')
+
 
 @login_required
 def profile_edit(request):
@@ -240,7 +229,7 @@ def profile_edit(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         github_username = request.POST.get('github_username')	
-	picture = request.FILES.get('picture')
+        picture = request.FILES.get('picture')
 
         if username is not None and username != '':
             request.user.username = username
@@ -252,7 +241,7 @@ def profile_edit(request):
         if github_username is not None:
             author.github_username = github_username
 
-	if picture is not None:
+        if picture is not None:
             author.picture = picture
 
         try:
@@ -281,59 +270,4 @@ def profile_edit(request):
             messages.error(request, e.message)
 
     return render_to_response('main/profile.html', {}, context)
-"""
-    form = AuthorForm()
 
-        #context = RequestContext(request)
-    try:
-        if request.method == 'POST':
-            username = request.POST.get("username","")
-            password = request.POST.get("password","")
-
-
-
-            #l = Link.objects.get_or_create(title=title, url=url)[0]
-
-            #for atag in tags.split():
-             #   t = Tag.objects.get_or_create(name=atag)[0]
-             #   l.tags.add(t)
-    except:
-            return render(request, 'author/add_author.html', {'form': form})
-
-            #return redirect(index)
-
-
-    return render(request, 'author/add_author.html', {'form': form})
-
-    #return redirect(index)
-
-#    return render(request, 'LandingPage/index.html', None)
-#    return HttpResponse("Hello, world. You're at the  index.")"""
-
-
-
-"""
-
-def add_author(request):
-    # A HTTP POST?
-    if request.method == 'POST':
-        form = AuthorForm(request.POST)
-
-        # Have we been provided with a valid form?
-        if form.is_valid():
-            # Save the new category to the database.
-            form.save(commit=True)
-
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return index(request)
-        else:
-            # The supplied form contained errors - just print them to the terminal.
-            print form.errors
-    else:
-        # If the request was not a POST, display the form to enter details.
-        form = AuthorForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
-    return render(request, 'author/add_author.html', {'form': form})"""
