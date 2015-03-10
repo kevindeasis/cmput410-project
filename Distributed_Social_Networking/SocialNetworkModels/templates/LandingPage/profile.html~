@@ -12,11 +12,62 @@
 {%block body%}
         </br>
         </br>
-        <h1>Profile</h1>
+        <h1>Profile</h1> <a class="navbar-brand" href="/profile1/">Edit</a></br></br></br>
+  {% if edit == '0' %}
+	<p><label for="id_username">Username:</label>
         <h1>{{username}}</h1>
+	<p><label for="id_email">Email address:</label> 
         <h1>{{email}}</h1>
+	<p><label for="github">github username:</label> 
         <h1>{{github_username}}</h1>
-	    <h1>{{picture}}</h1>
-	<img src="{{STATIC_URL}}/../{{picture}}" /> 
+	<img src="{{STATIC_URL}}../{{picture}}" /> 
+  {% endif %}
+
+  {% if edit == '1' %}
+ 	<form id="user_form" method="post" action="/profile_edit/"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+            <p><label for="id_username">Username:</label> 
+            <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /></p>
+            <p><label for="id_email">Email address:</label> 
+            <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /></p>
+            <p><label for="github">github username:</label> 
+            <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /></p>
+            <p><label for="id_picture">Picture:</label> 
+            <input id="id_picture" name="picture" type="file" onchange="readURL(this);"/></p>
+	    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" /> </p>
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();"/>
+        </form>
+  {% endif %}
+
+<script language = "javascript">
+<!--
+
+
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+function checkEmpty(){
+	if(user_form.username.value ==""){
+		window.alert("User name can not be empty");
+		return false;
+	}	
+		
+}
+
+-->
+</script>
 
 {%endblock%}

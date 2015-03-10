@@ -246,7 +246,7 @@ def profile_edit(request):
         if github_username is not None:
             author.github_username = github_username
 
-	if picture is not None:
+	if image is not None:
             author.picture = picture
 
         try:
