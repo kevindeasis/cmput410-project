@@ -97,11 +97,11 @@ Weekly Contribution (Hours):
 
 ##bqi			(Bowen Qi)
 ------
-Contributions
+Contributions: User cases
 
-Files Modified:
+Files Modified: urls.py, views.py, profile.html
 
-Weekly Contribution (Hours):
+Weekly Contribution (Hours): 12
 
 =======
 
