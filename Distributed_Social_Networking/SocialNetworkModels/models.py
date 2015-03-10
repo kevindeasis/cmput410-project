@@ -124,7 +124,7 @@ class PostManager(models.Manager):
 
 class Posts(models.Model):
     #create visibility let author choose when they make post
-    VISIBILITY=(("PRIVATE","Private"),("PUBLIC","Public"),("FRIENDS","Friends"),("FRIENDSFRIENDS","Friend of a Friend"))
+    VISIBILITY=(("PRIVATE","Private"),("PUBLIC","Public"),("FRIENDS","Friends"),("FOAF","Friend of a Friend"))
     post_id = UUIDField(primary_key=True, auto=True)
     post_author = models.ForeignKey(Author)
     post_title = models.CharField(max_length = 20)
@@ -133,4 +133,4 @@ class Posts(models.Model):
     image = models.ImageField(upload_to='static/post_images/',blank = True)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
-        return self.post_author
+        return self.post_title

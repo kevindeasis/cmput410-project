@@ -30,9 +30,8 @@
             <p><label for="github">github username:</label> 
             <input id="id_website" maxlength="200" name="github" type="text" /></p>
             <p><label for="id_picture">Picture:</label> 
-            <input id="id_picture" name="picture" type="file" /></p>
-	    <input id="id_approved" name="approved" type="hidden" value="false" /></p>
-
+            <input id="id_picture" name="picture" type="file" onchange="readURL(this);"/></p>
+	    <img id="blah" src="#" alt="your image" />
             <!-- Provide a button to click to submit the form. -->
             <input type="submit" name="submit" value="Register" onclick = "return checkEmpty();"/>
         </form>
@@ -43,6 +42,21 @@
         </div>
 <script language = "javascript">
 <!--
+
+
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 
 function checkEmpty(){
 	if(user_form.username.value ==""){

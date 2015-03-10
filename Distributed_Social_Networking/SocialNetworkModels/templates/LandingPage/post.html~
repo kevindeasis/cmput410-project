@@ -9,10 +9,11 @@
 {%endblock%}
 
 {%block body%}
-        </br>
-        </br>
 
-       <form id="post_form" method="post" action="../home/"
+        </br>
+        </br>
+<div>
+       <form id="post_form" method="post" action="/post/"
                 enctype="multipart/form-data">
 
             {% csrf_token %}
@@ -21,10 +22,58 @@
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
 
-            {{ post_form.as_p }}
+            <p><label for="id_title">Title:</label> 
+            <input id="id_title" maxlength="30" name="post_title" type="text" /></p>
+            
+            <p><label for="id_text">Body:</label> 
+            <textarea id="id_text" maxlength="200" name="post_text" type="text" /></textarea></p>
+            <p><label for="visibility">Visibility:</label> 
+            <select name="visibility"> 
+            <option value="PRIVATE" >Private </option>
+            <option value="PUBLIC" >Public</option>
+            <option value="FRIENDS" >Friends</option>
+            <option value="FRIENDSFRIENDS" >Friend of a Friend</option>
+            </select>
 
+            <p><label for="id_picture">Picture:</label> 
+            <input id="id_picture" name="picture" type="file" onchange="readURL(this);" /></p>
+            <img id="blah" src="#" alt="your image" />
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Submit" />
+            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();"/>
         </form>
+</div>
+<script language = "javascript">
+<!--
+
+
+function readURL(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+function checkEmpty(){
+	if(post_form.post_title.value ==""){
+		window.alert("User name can not be empty");
+		return false;
+	}	
+	else if(post_form.post_text.value ==""){
+		window.alert("password can not be empty");
+		return false;	
+	
+	
+}
+}
+
+-->
+</script>
 
 {%endblock%}

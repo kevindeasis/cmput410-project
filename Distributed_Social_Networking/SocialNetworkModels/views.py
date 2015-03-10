@@ -53,8 +53,13 @@ def user_login(request):
 def home(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
+            user = request.user
+            post = Posts.objects.all()
+            count = len(post)
+            #return HttpResponse(len(post))
+        
             try:
-                return render(request, 'LandingPage/home.html')
+                return render(request, 'LandingPage/home.html',{'posts':post, 'lenn':count})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
@@ -198,6 +203,7 @@ def author_post(request):
         post.post_title = title
         post.post_text = text
         post.visibility = visibility
+        post.image = None
         if picture is not None:
             post.image=picture
         post.save()
