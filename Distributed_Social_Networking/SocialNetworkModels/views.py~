@@ -56,13 +56,8 @@ def user_login(request):
 def home(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
-            user = request.user
-            post = Posts.objects.all()
-            count = len(post)
-            #return HttpResponse(len(post))
-        
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'lenn':count})
+                return render(request, 'LandingPage/home.html')
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
@@ -206,7 +201,6 @@ def author_post(request):
         post.post_title = title
         post.post_text = text
         post.visibility = visibility
-        post.image = None
         if picture is not None:
             post.image=picture
         post.save()
@@ -252,7 +246,7 @@ def profile_edit(request):
         if github_username is not None:
             author.github_username = github_username
 
-	if picture is not None:
+	if image is not None:
             author.picture = picture
 
         try:

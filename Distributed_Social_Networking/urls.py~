@@ -32,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^post/', views.author_post, name ='author_post'),
     url(r'^profile/', views.profile, {'edit': '0'}, name ='profile'),
     url(r'^profile1/', views.profile, {'edit': '1'}, name ='profile'),
-    url(r'^profile_edit/', views.profile_edit, name ='profile_edit'),
+    url(r'^profile_edit/', views.profile_edit, name ='profile'),
     url(r'^register/', views.register, name ='register'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout/', views.user_logout, name = 'user_logout'), # NEW MAPPING!
