@@ -62,11 +62,11 @@ Weekly Contribution (Hours): 12 + 12 + 12 = 36
 
 ##xuefeng1	(Audrey Li)
 ------
-Contributions
+Contributions: Post, Friend, populate database
 
-Files Modified:
+Files Modified: files about post, friend and database as well as urls
 
-Weekly Contribution (Hours):
+Weekly Contribution (Hours): 24
 
 ##dylan3		(Dylan Cassidy)
 ------
