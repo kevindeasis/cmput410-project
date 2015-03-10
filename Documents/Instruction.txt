@@ -6,7 +6,7 @@ http://cs410.cs.ualberta.ca:41071/rest
 
 
 User administration:
-	When a new user registers for the service, they are unable to log in until
+	 When a new user registers for the service, they are unable to log in until
 	 they have been approved by an administrator. New users can be approved by
 	 going to the administration screen, selecting authors, selecting the user
 	 in question, and checking the approved box
@@ -17,3 +17,7 @@ Adding Friends:
 Follow:
     To follow someone, search for authors in the navigation bar and click follow.
 
+Administrative Privelages:
+    http://cs410.cs.ualberta.ca:41071/admin
+    username: admin
+    password: admin

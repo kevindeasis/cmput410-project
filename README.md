@@ -1,11 +1,9 @@
 # cmput410-project
 
-======
 ##Testing:
 
 python manage.py test
 
-======
 ## Modules Used:
 
 Bootstrap
@@ -24,36 +22,28 @@ factory_boy
 
 djangorestframework
 
-=======
 ##VM
 http://cs410.cs.ualberta.ca:41071
 
-=======
 ##Trello Board:
 https://trello.com/b/dGomTL7A/project-iteration-trello-board
 
-=======
 ##Meeting Minutes, Documentation, Planning, Instructions
 https://github.com/diego04/cmput410-project/tree/master/Documents
 
-=======
 ##Requirements:
 https://github.com/abramhindle/CMPUT404-project-socialdistribution/blob/master/project.org
 
-=======
 ##Chat Room
 https://gitter.im/diego04/cmput410-project.
 
-=======
 ##Rest Interface
 http://cs410.cs.ualberta.ca:41071/rest
 
-=======
 #Members:
-
+------
 
 ##deasis		(Kevin De Asis)
-------
 Contributions: Testing, Documentation, Models, User Interface, Modules, Planning
 
 Files Modified: admin.py, forms.py, tests.py, urls.py, bootstrap, views.py, html files
@@ -61,7 +51,6 @@ Files Modified: admin.py, forms.py, tests.py, urls.py, bootstrap, views.py, html
 Weekly Contribution (Hours): 3+ 5 + 12 + 16 + 16 = 52
 
 ##xuefeng1	(Audrey Li)
-------
 Contributions: Post, Friend, populate database
 
 Files Modified: files about post, friend and database as well as urls
@@ -69,7 +58,6 @@ Files Modified: files about post, friend and database as well as urls
 Weekly Contribution (Hours): 24
 
 ##dylan3		(Dylan Cassidy)
-------
 Contributions
 
 Files Modified:
@@ -78,7 +66,6 @@ Weekly Contribution (Hours):
 
 
 ##gmeyer1 	(Glenn Meyer)
-------
 Contributions
 
 Files Modified:
@@ -87,7 +74,6 @@ Weekly Contribution (Hours):
 
 
 ##cye2 		(Chongyang Ye)
-------
 Contributions
 
 Files Modified:
@@ -96,7 +82,6 @@ Weekly Contribution (Hours):
 
 
 ##bqi			(Bowen Qi)
-------
 Contributions: User cases
 
 Files Modified: urls.py, views.py, profile.html
