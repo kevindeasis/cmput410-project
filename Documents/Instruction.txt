@@ -1,0 +1,19 @@
+Access:
+http://cs410.cs.ualberta.ca:41071
+
+Rest Interface:
+http://cs410.cs.ualberta.ca:41071/rest
+
+
+User administration:
+	When a new user registers for the service, they are unable to log in until
+	 they have been approved by an administrator. New users can be approved by
+	 going to the administration screen, selecting authors, selecting the user
+	 in question, and checking the approved box
+
+Adding Friends:
+    To be friends with someone, there needs to be a mutual follow.
+
+Follow:
+    To follow someone, search for authors in the navigation bar and click follow.
+

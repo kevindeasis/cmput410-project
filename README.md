@@ -24,15 +24,17 @@ factory_boy
 
 djangorestframework
 
+=======
+##VM
+http://cs410.cs.ualberta.ca:41071
 
 =======
-##Trello Board (Iteration Plan):
-
-
+##Trello Board:
 https://trello.com/b/dGomTL7A/project-iteration-trello-board
 
-
-Also, check Google Drive
+=======
+##Meeting Minutes, Documentation, Planning, Instructions
+https://github.com/diego04/cmput410-project/tree/master/Documents
 
 =======
 ##Requirements:
@@ -40,13 +42,11 @@ https://github.com/abramhindle/CMPUT404-project-socialdistribution/blob/master/p
 
 =======
 ##Chat Room
-
-
 https://gitter.im/diego04/cmput410-project.
 
 =======
-##VM
-http://cs410.cs.ualberta.ca:41071
+##Rest Interface
+http://cs410.cs.ualberta.ca:41071/rest
 
 =======
 #Members:
@@ -58,7 +58,7 @@ Contributions: Testing, Documentation, Models, User Interface, Modules, Planning
 
 Files Modified: admin.py, forms.py, tests.py, urls.py, bootstrap, views.py, html files
 
-Weekly Contribution (Hours): 12 + 12 + 12 = 36
+Weekly Contribution (Hours): 3+ 5 + 12 + 16 + 16 = 52
 
 ##xuefeng1	(Audrey Li)
 ------
