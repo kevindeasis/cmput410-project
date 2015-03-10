@@ -30,6 +30,9 @@ urlpatterns = patterns('',
     url(r'^home/', views.home,name='home'), # NEW MAPPING!
 
     url(r'^post/', views.author_post, name ='author_post'),
+    url(r'^display/(?P<post_id>[a-zA-Z0-9\-]+)/$',views.display_post,name ='display_post'),
+    url(r'^postdelete/(?P<post_id>[a-zA-Z0-9\-]+)/$',views.author_post_delete,name ='author_post_delete'),
+    url(r'^postedit/(?P<post_id>[a-zA-Z0-9\-]+)/$',views.author_post_edit,name ='author_post_edit'),
     url(r'^profile/', views.profile, {'edit': '0'}, name ='profile'),
     url(r'^profile1/', views.profile, {'edit': '1'}, name ='profile'),
     url(r'^profile_edit/', views.profile_edit, name ='profile_edit'),

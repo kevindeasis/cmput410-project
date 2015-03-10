@@ -5,13 +5,7 @@
 
             <a class="navbar-brand" href="#">hello {{ user.username }}!</a>
             <a class="navbar-brand" href="/profile/">Profile</a>
-<<<<<<< HEAD
             <a class="navbar-brand" href="/post/">CreateNewPost</a>
-
-=======
-<a class="navbar-brand" href="/profile1/">aaaaaaaa</a>
-            <a class="navbar-brand" href="/post/">CreateNewPost</a>
->>>>>>> 1b80f5cd91c3b97ce45b301c0535a74fa60abb8b
             <a class="navbar-brand" href="/searchposts/">Search Posts</a>
             <a class="navbar-brand" href="/searchusers/">Search Users</a>
             <a class="navbar-brand" href="/searchusers/">Add Friends</a>
@@ -27,12 +21,15 @@
         </br>
         </br>
            <div id="post_form">
-           {% if not lenn %}
+           {% if lenn %}
 					 {% for post in posts %}
                         <div class="post">
-                            <p>{{ post.post_title }}
+                            <p><a href="/bookmarks/tags/{{post.post_id}}/">{{post.post_title}}</a>
                                 {{post.post_text}}
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> </p>                       
+                                {% if post.image %}
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> </p> 
+                                {%else%}  
+                                {% endif %}                    
                         </div>
                     {% endfor %}
                     {%else%}

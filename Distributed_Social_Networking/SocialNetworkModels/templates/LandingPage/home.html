@@ -24,9 +24,12 @@
            {% if lenn %}
 					 {% for post in posts %}
                         <div class="post">
-                            <p>{{ post.post_title }}
+                            <p><a href="/display/{{post.post_id}}/">{{post.post_title}}</a>
                                 {{post.post_text}}
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> </p>                       
+                                {% if post.image %}
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> </p> 
+                                {%else%}  
+                                {% endif %}                    
                         </div>
                     {% endfor %}
                     {%else%}

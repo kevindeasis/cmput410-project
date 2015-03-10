@@ -205,6 +205,48 @@ def author_post(request):
 
 
 @login_required
+def author_post_delete(request,post_id):
+    user = request.user
+    post = Posts.objects.get(post_id = post_id)
+    conText = ''
+   
+    if user.author !=post.post_author:
+        context = 'you have no permissions to delete this post'
+        return render(request, 'LandingPage/display.html',{'message':context,'post':post})
+    else:
+        post.delete()
+        return redirect('/home')
+
+@login_required
+def display_post(request,post_id):
+    post = Posts.objects.get(post_id = post_id)
+    return render(request,'LandingPage/display.html',{'post':post})
+    
+@login_required
+def author_post_edit(request,post_id):
+    if request.method =="GET":
+        user = request.user
+        post = Posts.objects.get(post_id = post_id)
+        conText = ''
+        if user.author !=post.post_author:
+            context = 'you have no permissions to edit this post'
+            return render(request, 'LandingPage/display.html',{'message':context,'post':post})
+        else:
+            return render(request, 'LandingPage/post.html',{'edit':'1','post':post})
+    elif request.method =="POST":
+        post = Posts.objects.get(post_id = post_id)
+        post.post_title = request.POST.get('post_title')
+        post.post_text = request.POST.get('post_text')
+        post.visibility = request.POST.get('visibility')
+        image = request.FILES.get('picture')
+        if image is not None:
+            post.image=image
+        post.save()
+    return render(request, 'LandingPage/display.html',{'post':post})
+        
+        
+
+@login_required
 def profile(request,edit):
     if request.user.is_authenticated():
         if request.method =='GET':
