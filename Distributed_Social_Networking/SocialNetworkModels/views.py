@@ -238,6 +238,34 @@ def addfriend(request, reciever_pk):
         return redirect('/searchusers')
     return redirect('/searchusers')
 
+@login_required
+def confirmfriend(request, reciever_pk):
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            try:
+                allfriends = Friends.friendmanager.getRequests(request.user)
+
+                #find the user/authors requests
+                ourfriends = []
+                for afriend in allfriends:
+                    afriendusername = afriend.reciever.get_username()
+                    ourfriends.append('{s}'.format(s=afriendusername))
+
+                return render(request, 'LandingPage/search_users.html', {'allfriends': ourfriends, 'username': request.user.username})
+            except Author.DoesNotExist:
+                return redirect('/login')
+    else:
+        return redirect('/login')
+
+
+@login_required
+def testaddfriend(request, reciever_pk):
+    try:
+        Follows.followManager.mutualFollow(User.objects.get(username = request.user), User.objects.get(pk = reciever_pk))
+        Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(pk = reciever_pk))
+    except:
+        return redirect('/searchusers')
+    return redirect('/searchusers')
 
 
 @login_required

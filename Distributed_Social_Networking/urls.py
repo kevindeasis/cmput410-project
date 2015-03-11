@@ -48,12 +48,13 @@ urlpatterns = patterns('',
     url(r'^addfriend/(?P<reciever_pk>\w+)/$', views.addfriend, name="addfriend"),
     url(r'^unfollow/(?P<reciever_pk>\w+)/$', views.unfollow, name="unfollow"),
     url(r'^unfriend/(?P<reciever_pk>\w+)/$', views.unfriend, name="unfriend"),
+    url(r'^confirmfriend/(?P<reciever_pk>\w+)/$', views.confirmfriend, name="confirmfriend"),
 
+    url(r'^addfriend/(?P<reciever_pk>\w+)/$', views.testaddfriend, name="testaddfriend"),
 
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}),
-
 
 )
 

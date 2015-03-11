@@ -21,6 +21,9 @@ class FriendManager(models.Manager):
     def getFriends(self, authorname):
         return self.get_queryset().filter(initiator=authorname)
 
+    def getRequests(self, authorname):
+        return self.get_queryset().filter(reciever=authorname)
+
     def mutualFriends(self, follower1, follower2):
 
         firstcase = self.isFriend(follower1, follower2)
