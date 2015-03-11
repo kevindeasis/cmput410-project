@@ -66,6 +66,10 @@ class Friends(models.Model):
     approvedrequest = models.BooleanField(default=False)
 
     fof_private = models.BooleanField(default=False)
+    friend_private = models.BooleanField(default=False)
+    own_private = models.BooleanField(default=False)
+    remote_private = models.BooleanField(default=False)
+
     friendmanager = FriendManager()
 
     class Meta:
