@@ -21,20 +21,31 @@
         </br>
         </br>
            <div id="post_form">
+	
            {% if lenn %}
+<<<<<<< HEAD
 					 {% for post in posts %}
 		 
 		                   {%if post.post_author = user.author%}
 		                   <div class="panel panel-default">
+=======
+		   {% for post in posts %}
+	{% if post.mark_down %}
+		<b>
+	{% endif %}
+		 <div class="panel panel-default">
+>>>>>>> 3af466007e2e2a19c7633819171f7bce984e43ac
 		 <div class="panel-body">
 		 <div class="panel-more1">
                         <div class="post">
 				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
+
                                 <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
                                 {%else%}  
                                 {% endif %}  
+<<<<<<< HEAD
 				           {{post.post_text}} 
                 </div></div></div>
                 
@@ -95,11 +106,20 @@
               
                 
                         </div>
+=======
+				{{post.post_text}}  </br></br>
+				 <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment..." type="text" value = "{{username}}" />   
+				 <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = ""/>           
+                        </div></div></div></div>
+        {% if post.mark_down  %}
+		</b>
+	{% endif %}       
+>>>>>>> 3af466007e2e2a19c7633819171f7bce984e43ac
                     {% endfor %}
                     {%else%}
                             <h1>No comments</h1>
 				{% endif %}
-                   
+    
                 </div>
   
 {%endblock%}
