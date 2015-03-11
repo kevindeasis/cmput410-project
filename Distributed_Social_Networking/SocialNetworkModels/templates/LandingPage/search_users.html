@@ -6,39 +6,57 @@
 {% endblock %}
 {% block body %}
     {% for author in authors %}
+
                     <div class="link">
                         <h4>{{ author.user.username }}</h4>
                     </div>
 
-                    {% if author.user.username not in followed %}
+                    {% if author.user.username not in followed and username != author.user.username %}
                     <div>
                         <a href="/follow/{{ author.user.pk}}">
                             Follow
                         </a>
                     </div>
 
+                        {% if author.user.username not in allfriends %}
+                                <div>
+                                  <a href="/addfriend/{{ author.user.pk}}">
+                                     Add Friend
+                                  </a>
+                                </div>
+                        {% elif author.user.username in allfriends %}
+                                <div>
+                                  <a href="/unfriend/{{ author.user.pk}}">
+                                     Unfriend
+                                  </a>
+                                </div>
+                        {% endif %}
+
                     {% else %}
+                        {% if  username != author.user.username %}
+                            <div>
+                                <a href="/unfollow/{{ author.user.pk}}">
+                                    UnFollow
+                                </a>
+                            </div>
 
-                    <div>
-                        <a href="#">
-                            UnFollow
-                        </a>
-                    </div>
+                            {% if author.user.username not in allfriends %}
+                                <div>
+                                  <a href="/addfriend/{{ author.user.pk}}">
+                                     Add Friend
+                                  </a>
+                                </div>
 
+                            {% elif author.user.username in allfriends %}
+                                    <div>
+                                      <a href="/unfriend/{{ author.user.pk}}">
+                                         Unfriend
+                                      </a>
+                                    </div>
+                            {% endif %}
+
+                        {% endif %}
                     {% endif %}
     {% endfor %}
-
-    <p> eo <br/>
-
-        (% for afriend in ourfriends %}
-
-
-        we need to compare our friends with each follow
-        {{afriend}}
-
-        {% endfor %}
-
-    </p>
-
 
 {%endblock%}
