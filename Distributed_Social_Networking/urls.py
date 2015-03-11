@@ -44,8 +44,11 @@ urlpatterns = patterns('',
     url(r'^searchusers/', views.search_users, name ='search_users'),
     url(r'^searchposts/', views.search_posts, name ='search_posts'),
 
-    url(r'^follow/(?P<reciever_pk>\w+)/$', views.add_friend, name="add_friend"),
-    url(r'^addfriend/(?P<reciever_pk>\w+)/$', views.add_friend, name="add_friend"),
+    url(r'^follow/(?P<reciever_pk>\w+)/$', views.follow, name="follow"),
+    url(r'^addfriend/(?P<reciever_pk>\w+)/$', views.addfriend, name="addfriend"),
+    url(r'^unfollow/(?P<reciever_pk>\w+)/$', views.unfollow, name="unfollow"),
+    url(r'^unfriend/(?P<reciever_pk>\w+)/$', views.unfriend, name="unfriend"),
+
 
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {

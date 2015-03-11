@@ -144,7 +144,7 @@ def search_posts(request):
 
 
 @login_required
-def add_friend(request, reciever_pk):
+def follow(request, reciever_pk):
     #actually right now your adding following
     #search for users
     if request.user.is_authenticated():
@@ -186,6 +186,22 @@ def add_friend(request, reciever_pk):
             return redirect('/searchusers')
     else:
         return redirect('/home')
+
+@login_required
+def unfriend(request, reciever_pk):
+    logout(request)
+    return redirect('/')
+
+@login_required
+def unfollow(request, reciever_pk):
+    logout(request)
+    return redirect('/')
+
+@login_required
+def addfriend(request, reciever_pk):
+    logout(request)
+    return redirect('/')
+
 
 @login_required
 def author_post(request):
