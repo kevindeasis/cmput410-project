@@ -52,7 +52,7 @@ urlpatterns = patterns('',
 
     url(r'^testaddfriend/(?P<reciever_pk>\w+)/$', views.testaddfriend, name="testaddfriend"),
 
-    url(r'^friendrequests/(?P<reciever_pk>\w+)/$', views.confirmfriend, name="confirmfriend"),
+    url(r'^friendrequests/', views.viewfriendrequests, name="viewfriendrequests"),
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}),

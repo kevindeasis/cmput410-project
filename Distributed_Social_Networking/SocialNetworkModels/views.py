@@ -259,6 +259,27 @@ def confirmfriend(request, reciever_pk):
     else:
         return redirect('/login')
 
+@login_required
+def viewfriendrequests(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated():
+            try:
+
+                #Youll need to move mutual follow here
+                allfriends = Friends.friendmanager.getRequests(request.user)
+
+                #find the user/authors requests
+                ourfriends = []
+                for afriend in allfriends:
+                    afriendusername = afriend.reciever.get_username()
+                    ourfriends.append('{s}'.format(s=afriendusername))
+
+                return render(request, 'LandingPage/confirmfriendrequest.html', {'allfriendrequest': ourfriends, 'username': request.user.username})
+            except Author.DoesNotExist:
+                return redirect('/login')
+    else:
+        return redirect('/login')
+
 
 @login_required
 def testaddfriend(request, reciever_pk):

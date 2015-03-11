@@ -22,7 +22,7 @@ class FriendManager(models.Manager):
         return self.get_queryset().filter(initiator=authorname)
 
     def getRequests(self, authorname):
-        return self.get_queryset().filter(reciever=authorname, approvedrequest=False)
+        return self.get_queryset().filter(initiator=authorname, approvedrequest=False)
 
     def mutualFriends(self, follower1, follower2):
 
