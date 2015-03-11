@@ -36,12 +36,35 @@ class FriendManager(models.Manager):
         else:
             print("dont add any")
 
+    def mutualUnFriend(self, follower1, follower2):
+
+        firstcase = self.isFriend(follower1, follower2)
+        reversecase = self.isFriend(follower2, follower1)
+
+        if not firstcase and not reversecase:
+            self.unfriend(follower1, follower2)
+            self.unfriend(follower2, follower1)
+        elif not firstcase and reversecase:
+            self.unfriend(follower1,follower2)
+        elif firstcase and not reversecase:
+            self.unfriend(follower2, follower1)
+        else:
+            print("dont add any")
+
     def follow(self, follower1, follower2):
         try:
             self.create(initiator = follower1, reciever = follower2)
             return True
         except:
             return False
+
+    def unfriend(self, follower1, follower2):
+        try:
+            self.get(initiator = follower1, reciever = follower2).delete()
+            return True
+        except:
+            return False
+
 
     def isFriend(self, follower1, follower2):
         self.get_queryset().filter(initiator=follower1, reciever=follower2).exists()
@@ -73,9 +96,30 @@ class FollowManager(models.Manager):
         else:
             print("dont add any")
 
+    def mutualUnFollow(self, follower1,follower2):
+        firstcase = self.isFollowing(follower1, follower2)
+        reversecase = self.isFollowing(follower2, follower1)
+
+        if not firstcase and not reversecase:
+            self.unfollow(follower1, follower2)
+            self.unfollow(follower2, follower1)
+        elif not firstcase and reversecase:
+            self.unfollow(follower1,follower2)
+        elif firstcase and not reversecase:
+            self.unfollow(follower2, follower1)
+        else:
+            print("dont add any")
+
     def follow(self, follower1, follower2):
         try:
             self.create(followed = follower1, follower = follower2)
+            return True
+        except:
+            return False
+
+    def unfollow(self, follower1, follower2):
+        try:
+            self.get(followed = follower1, follower = follower2).delete()
             return True
         except:
             return False

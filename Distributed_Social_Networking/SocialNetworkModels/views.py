@@ -201,13 +201,33 @@ def follow(request, reciever_pk):
 
 @login_required
 def unfriend(request, reciever_pk):
-    logout(request)
-    return redirect('/')
+    if request.user.is_authenticated():
+        try:
+
+            nofollows = Follows.followManager.mutualUnFollow(User.objects.get(username = request.user), User.objects.get(pk = reciever_pk))
+            nofriends = Friends.friendmanager.mutualUnFriend(User.objects.get(username = request.user), User.objects.get(pk = reciever_pk))
+
+            return redirect('/searchusers')
+
+
+        except Author.DoesNotExist:
+            return redirect('/searchusers')
+    else:
+        return redirect('/home')
 
 @login_required
 def unfollow(request, reciever_pk):
-    logout(request)
-    return redirect('/')
+    if request.user.is_authenticated():
+        try:
+
+            follows = Follows.followManager.get(follower=User.objects.get(username = request.user),followed = User.objects.get(pk = reciever_pk))
+            follows.delete()
+            return redirect('/searchusers')
+
+        except Author.DoesNotExist:
+            return redirect('/searchusers')
+    else:
+        return redirect('/home')
 
 @login_required
 def addfriend(request, reciever_pk):
