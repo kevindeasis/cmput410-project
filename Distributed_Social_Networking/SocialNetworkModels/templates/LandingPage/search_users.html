@@ -33,7 +33,7 @@
 
                         {% elif author.user.username in allfriends %}
                                 <div>
-                                  <a href="/unfriend/{{ author.user.pk}}">
+                                  <a href="/unfriend/{{ author.user.username}}">
                                      Unfriend
                                   </a>
                                 </div>
@@ -62,7 +62,7 @@
 
                             {% elif author.user.username in allfriends %}
                                     <div>
-                                      <a href="/unfriend/{{ author.user.pk}}">
+                                      <a href="/unfriend/{{ author.user.username}}">
                                          Unfriend
                                       </a>
                                     </div>
