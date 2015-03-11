@@ -36,7 +36,7 @@
 
 		 <div class="panel-body">
 		 <div class="panel-more1">
-                        <div class="post">
+
 				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
@@ -62,7 +62,7 @@
 
 		 <div class="panel-body">
 		 <div class="panel-more1">
-                        <div class="post">
+
 				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
@@ -88,7 +88,7 @@
 
 		 <div class="panel-body">
 		 <div class="panel-more1">
-                        <div class="post">
+
 				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
@@ -114,7 +114,7 @@
 
 		 <div class="panel-body">
 		 <div class="panel-more1">
-                        <div class="post">
+
 				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
@@ -135,15 +135,18 @@
                         
                         
                         </div>
-        {% if post.mark_down  %}
-		</b>
-	{% endif %}       
+             
 	{% endif %}
+	{% if post.mark_down  %}
+		</b>
+	{% endif %}  
                     {% endfor %}
                     {%else%}
                             <h1>No comments</h1>
 				{% endif %}
-    
+    {% if post.mark_down  %}
+		</b>
+    {% endif %}  
                 </div>
   
 {%endblock%}
