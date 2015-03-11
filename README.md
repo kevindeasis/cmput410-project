@@ -77,11 +77,11 @@ Weekly Contribution (Hours): <to be calculated>
 
 
 ##cye2 		(Chongyang Ye)
-Contributions
+Contributions Most of Post part, register, user may view post with different visibility
 
-Files Modified:
+Files Modified: register,home,login,post,display.html models/views/urls.py
 
-Weekly Contribution (Hours):
+Weekly Contribution (Hours): 30+
 
 
 ##bqi			(Bowen Qi)
