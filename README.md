@@ -51,7 +51,7 @@ Contributions: Testing, Documentation, Models, User Interface, Modules, Planning
 
 Files Modified: admin.py, forms.py, tests.py, urls.py, bootstrap, views.py, html files
 
-Weekly Contribution (Hours): 3+ 5 + 12 + 16 + 16 = 52
+Weekly Contribution (Hours): 3+ 5 + 12 + 16 + 24 = 60
 
 ##xuefeng1	(Audrey Li)
 Contributions: Post, Friend, populate database

@@ -35,3 +35,11 @@ Meeting with Ali
 -Discussed the presentation for the deadline
 -Mutually agreed that weekly meeting would be on Wednesday somewhere between 17:20 to 17:50
 -Discussed that each member should have their own virtual environment and not rely on the one in the repository
+
+March 5
+Meeting Minutes
+7-8
+-Discussed Requirements
+-Discussed Future Planning
+-Discussed Task Allocation
+-Discussed a change in the software process
