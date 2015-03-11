@@ -193,7 +193,8 @@ def author_post(request):
         title = request.POST.get('post_title')
         text = request.POST.get('post_text')
         visibility = request.POST.get('visibility')
-        picture = request.FILES.get('picture')        
+        picture = request.FILES.get('picture')     
+	mark_down = request.POST.get('markdown')   
         #post =Posts.objects.create(post_author = request.user.username, 
                                   #psot_title = title, post_text= text,visibility= visibility)
         post = Posts()
@@ -204,6 +205,9 @@ def author_post(request):
         post.image = None
         if picture is not None:
             post.image=picture
+
+        if mark_down is not None:
+            post.mark_down= True
         post.save()
         return redirect('/home')
     else:
@@ -247,8 +251,15 @@ def author_post_edit(request,post_id):
         post.post_text = request.POST.get('post_text')
         post.visibility = request.POST.get('visibility')
         image = request.FILES.get('picture')
+	mark_down = request.POST.get('markdown')
         if image is not None:
             post.image=image
+
+	if mark_down is not None:
+	    post.mark_down = True
+	else:
+	    post.mark_down = False
+	
         post.save()
     return render(request, 'LandingPage/display.html',{'post':post})
         

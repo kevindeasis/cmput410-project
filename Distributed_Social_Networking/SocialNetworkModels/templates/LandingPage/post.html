@@ -21,6 +21,7 @@
             <!-- Display each form. The as_p method wraps each element in a paragraph
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
+
 	 <div class="panel panel-default">
 	 <div class="panel-body">
 	 <div class="panel-more1">
@@ -47,6 +48,11 @@
             <label for="id_picture">Picture:</label> 
             <input id="id_picture" name="picture"  class="btn btn-default" type="file" onchange="readURL(this);" /> </br>
             <img id="blah" src="{{STATIC_URL}}../{{post.image}}" alt="your image"  style="width:100px;height:100px;" /></div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+	    <input type="checkbox" name="markdown" value="markdown">Mark down?<br>
+	 </div></div></div>
             <!-- Provide a button to click to submit the form. -->
             <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = "return checkEmpty();"/>
         </form>
@@ -90,6 +96,11 @@
             <input id="id_picture" name="picture" class="btn btn-default" type="file" onchange="readURL(this);" /> </br>
             <img id="blah" src="#" alt=""  style="width:100px;height:100px;" />
  	 </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+	    <input type="checkbox" name="markdown" value="markdown">Mark down?<br>
+	 </div></div></div>
             <!-- Provide a button to click to submit the form. -->
             <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = "return checkEmpty();"/>
         </form>
