@@ -215,17 +215,25 @@ class Test_Post(TestCase):
         #self.assertEqual(response.status_code, 200)
 
 
-'''
 class Test_Search_User(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
-    #saved
-    #user = UserFactory.create()
-'''   
+    # render searchusers page?
+    #def test_render_profile(self):
+        #response = self.client.get('/searchusers/')
+        #self.assertEqual(response.status_code, 200)
+
 
 ''' 
 class Test_Friend(TestCase):
