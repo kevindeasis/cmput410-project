@@ -69,11 +69,11 @@ Weekly Contribution (Hours):
 
 
 ##gmeyer1 	(Glenn Meyer)
-Contributions
+Contributions: User administration, authentication, database design, API documentation
 
-Files Modified:
+Files Modified: admin.py, models.py, views.py
 
-Weekly Contribution (Hours):
+Weekly Contribution (Hours): <to be calculated>
 
 
 ##cye2 		(Chongyang Ye)
