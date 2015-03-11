@@ -21,6 +21,32 @@ class FriendManager(models.Manager):
     def getFriends(self, authorname):
         return self.get_queryset().filter(initiator=authorname)
 
+    def mutualFriends(self, follower1, follower2):
+
+        firstcase = self.isFriend(follower1, follower2)
+        reversecase = self.isFriend(follower2, follower1)
+
+        if not firstcase and not reversecase:
+            self.follow(follower1, follower2)
+            self.follow(follower2, follower1)
+        elif not firstcase and reversecase:
+            self.follow(follower1,follower2)
+        elif firstcase and not reversecase:
+            self.follow(follower2, follower1)
+        else:
+            print("dont add any")
+
+    def follow(self, follower1, follower2):
+        try:
+            self.create(initiator = follower1, reciever = follower2)
+            return True
+        except:
+            return False
+
+    def isFriend(self, follower1, follower2):
+        self.get_queryset().filter(initiator=follower1, reciever=follower2).exists()
+
+
 class FollowManager(models.Manager):
 
     #call this by Follows.followmanager.getFollowers(authorname)
@@ -31,6 +57,32 @@ class FollowManager(models.Manager):
     def getFollowing(self, follower):
         #returns the argument is following
         return self.get_queryset().filter(follower=follower)
+
+    def mutualFollow(self, follower1, follower2):
+
+        firstcase = self.isFollowing(follower1, follower2)
+        reversecase = self.isFollowing(follower2, follower1)
+
+        if not firstcase and not reversecase:
+            self.follow(follower1, follower2)
+            self.follow(follower2, follower1)
+        elif not firstcase and reversecase:
+            self.follow(follower1,follower2)
+        elif firstcase and not reversecase:
+            self.follow(follower2, follower1)
+        else:
+            print("dont add any")
+
+    def follow(self, follower1, follower2):
+        try:
+            self.create(followed = follower1, follower = follower2)
+            return True
+        except:
+            return False
+
+    def isFollowing(self, follower1, follower2):
+        self.get_queryset().filter(followed=follower1, follower=follower2).exists()
+
 
 
 class Follows(models.Model):
