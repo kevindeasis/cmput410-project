@@ -14,7 +14,7 @@
         </br>
 <div>
     {% if edit == '1' %}
-        <form id="post_edit_form" method="post" action="/display/{{post.post_id}}/"
+        <form id="post_edit_form" method="post" action="/postedit/{{post.post_id}}/"
                 enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -26,7 +26,7 @@
             <input id="id_title" maxlength="30" name="post_title" type="text" value="{{post.post_title}}"/></p>
             
             <p><label for="id_text">Body:</label> 
-            <textarea id="id_text" maxlength="200" name="post_text" type="text" value="{{post.post_text}}"/></textarea></p>
+            <input id="id_text" maxlength="200" name="post_text" type="text" value="{{post.post_text}}"/></input></p>
             <p><label for="visibility">Visibility:</label> 
             <select name="visibility" value="{{post.visibility}}"> 
             <option value="PRIVATE" >Private </option>

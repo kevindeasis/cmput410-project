@@ -12,15 +12,25 @@
 {%block body%}
         </br>
         </br>
-        <h1>Profile</h1> <a class="navbar-brand" href="/profile1/">Edit</a></br></br></br>
+        <h1>Profile</h1> 
   {% if edit == '0' %}
-	<img src="{{STATIC_URL}}../{{picture}}"  style="width:100px;height:100px;"/> 
+	<a class="btn btn-default" href="/profile1/" >Edit</a></br></br>
+	<img src="{{STATIC_URL}}../{{picture}}"  style="width:150px;height:150px;position:absolute;right:100px;top:120px;"/> </br></br>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
 	<p><label for="id_username">Username:</label>
-        <h1>{{username}}</h1>
+        <h4>{{username}}</h4>  </div></div></div>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
 	<p><label for="id_email">Email address:</label> 
-        <h1>{{email}}</h1>
-	<p><label for="github">github username:</label> 
-        <h1>{{github_username}}</h1>
+        <h4>{{email}}</h4> </div></div></div>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+	<p><label for="github">github username:</label>	 
+        <h4>{{github_username}}</h4> </div></div></div>
 
   {% endif %}
 
@@ -28,17 +38,29 @@
  	<form id="user_form" method="post" action="/profile_edit/"
                 enctype="multipart/form-data">
                 {% csrf_token %}
-            <p><label for="id_username">Username:</label> 
-            <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /></p>
-            <p><label for="id_email">Email address:</label> 
-            <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /></p>
-            <p><label for="github">github username:</label> 
-            <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /></p>
-            <p><label for="id_picture">Picture:</label> 
-            <input id="id_picture" name="picture" type="file" onchange="readURL(this);"/></p>
-	    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" /> </p>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+		<label for="id_username">Username:</label> </br>
+            <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /> </div></div></div>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+            <label for="id_email">Email address:</label> </br>
+            <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /> </div></div></div>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+            <label for="github">github username:</label> </br>
+            <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /> </div></div></div>
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+            <label for="id_picture">Picture:</label> </br>
+            <input id="id_picture" name="picture" type="file" onchange="readURL(this);" class="btn btn-default"/> </br>
+	    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();"/>
+            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();" class="btn btn-default"/>
         </form>
   {% endif %}
 
