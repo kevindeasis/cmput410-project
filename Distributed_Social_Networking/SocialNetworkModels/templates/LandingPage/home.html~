@@ -70,7 +70,14 @@
 		                <div class="panel-body">
 		                <div class="panel-more1">
 
+<<<<<<< HEAD
 				        <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+=======
+		 <div class="panel-body">
+		 <div class="panel-more1">
+
+				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+>>>>>>> 116681c0e8fde3f56960349e0dca1af861f03198
                                 
                                 {% if post.image %}
 
@@ -142,15 +149,18 @@
                         
                         
                         </div>
-        {% if post.mark_down  %}
-		</b>
-	{% endif %}       
+             
 	{% endif %}
+	{% if post.mark_down  %}
+		</b>
+	{% endif %}  
                     {% endfor %}
                     {%else%}
                             <h1>No comments</h1>
 				{% endif %}
-    
+    {% if post.mark_down  %}
+		</b>
+    {% endif %}  
                 </div>
   
 {%endblock%}

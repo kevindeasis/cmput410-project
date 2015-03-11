@@ -142,15 +142,16 @@
                         
                         
                         </div>
-        {% if post.mark_down  %}
-		</b>
-	{% endif %}       
+             
 	{% endif %}
+	{% if post.mark_down  %}
+		</b>
+	{% endif %}  
                     {% endfor %}
                     {%else%}
                             <h1>No comments</h1>
 				{% endif %}
-    
+
                 </div>
   
 {%endblock%}
