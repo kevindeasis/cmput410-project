@@ -210,9 +210,9 @@ class Test_Post(TestCase):
 
 
     # render search searchposts page?
-    #def test_render_searchposts(self):
-        #response = self.client.get('/searchposts/')
-        #self.assertEqual(response.status_code, 200)
+    def test_render_searchposts(self):
+        response = self.client.get('/searchposts/')
+        self.assertEqual(response.status_code, 200)
 
 
 class Test_Search_User(TestCase):
