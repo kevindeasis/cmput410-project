@@ -67,7 +67,7 @@ def home(request):
                 for friend in friendOfFriend:
                     if friend.reciever.get_username() not in FOAF and friend.reciever.get_username() != request.user:
                         FOAF.append(friend.reciever.get_username())
-                
+            print ourfriend, FOAF    
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
             count = len(post)
