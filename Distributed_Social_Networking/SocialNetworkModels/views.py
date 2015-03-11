@@ -105,6 +105,8 @@ def search_users(request):
                 authors = Author.objects.all()
                 #follows = Follows()
                 followed = Follows.followManager.getFollowing(request.user)
+                allfriends = Friends.friendmanager.getFriends(request.user)
+
 
                 #if this got turned into a json, can do client side
                 ourfollows = []
@@ -112,8 +114,13 @@ def search_users(request):
                     ausername = afollow.followed.get_username()
                     ourfollows.append('{s}'.format(s=ausername))
 
+                #find the user/authors friends
+                ourfriends = []
+                for afriend in allfriends:
+                    afriendusername = ourfriends.reciever.get_username()
+                    ourfriends.append('{s}'.format(s=afriendusername))
 
-                return render(request, 'LandingPage/search_users.html',{'authors': authors, 'followed': ourfollows})
+                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:
