@@ -3,7 +3,7 @@
 {%block head%}
         {% if user.is_authenticated %}
 
-            <a class="navbar-brand" href="#">hello {{ user.username }}!</a>
+            <a class="navbar-brand" href="/home/">hello {{ user.username }}!</a>
             <a class="navbar-brand" href="/profile/">Profile</a>
             <a class="navbar-brand" href="/post/">CreateNewPost</a>
             <a class="navbar-brand" href="/searchposts/">Search Posts</a>
@@ -12,24 +12,29 @@
             <a class="navbar-brand" href="/rest/">Rest</a>
 
             <a class="navbar-brand" href="/logout/">Logout</a>
-
-            
+	
         {% endif %}
 {%endblock%}
 
 {%block body%}
-        <h1>{{message}}</h1>
-        <h1>{{post.post_title}}</h1>
-
-        <h1>{{post.post_text}}</h1>
-
-
-	<img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+        <h2 style="color:red;">{{message}}</h2>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+		<label for="id_title">Title:</label>
+        	<h3>{{post.post_title}}</h3>
+	 </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+		<img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  />
+        	<h4>{{post.post_text}}</h4>
+	 </div></div></div>
 	
 	<div>
 
-        <a class="navbar-brand" href="/postedit/{{post.post_id}}/">edit</a>
-        <a class="navbar-brand" href="/postdelete/{{post.post_id}}/">delete</a>
+        <a class="btn btn-default" href="/postedit/{{post.post_id}}/">edit</a>
+        <a class="btn btn-default" href="/postdelete/{{post.post_id}}/">delete</a>
   <div>
   </br>
   </br>

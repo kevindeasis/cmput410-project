@@ -26,12 +26,12 @@
 	 <div class="panel-body">
 	 <div class="panel-more1">
             <label for="id_title">Title:</label> </br>
-            <input id="id_title" maxlength="30" name="post_title" type="text" placeholder="{{post.post_title}}"/></div></div></div>
+            <input id="id_title" maxlength="30" name="post_title" type="text" value="{{post.post_title}}"/></div></div></div>
  	 <div class="panel panel-default">
 	 <div class="panel-body">
 	 <div class="panel-more1">           
             <label for="id_text">Body:</label> </br>
-            <textarea id="id_text" maxlength="200" name="post_text" type="text" placeholder="{{post.post_text}}"/></textarea></div></div></div>
+            <textarea id="id_text" maxlength="200" name="post_text" type="text"/>"{{post.post_text}}"</textarea></div></div></div>
 	 <div class="panel panel-default">
 	 <div class="panel-body">
 	 <div class="panel-more1">
