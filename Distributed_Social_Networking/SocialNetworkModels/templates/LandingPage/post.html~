@@ -14,6 +14,7 @@
         </br>
 <div>
     {% if edit == '1' %}
+	<h2>Edit Post</h2>
         <form id="post_edit_form" method="post" action="/postedit/{{post.post_id}}/"
                 enctype="multipart/form-data">
             {% csrf_token %}
@@ -21,25 +22,34 @@
             <!-- Display each form. The as_p method wraps each element in a paragraph
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
-
-            <p><label for="id_title">Title:</label> 
-            <input id="id_title" maxlength="30" name="post_title" type="text" value="{{post.post_title}}"/></p>
-            
-            <p><label for="id_text">Body:</label> 
-            <input id="id_text" maxlength="200" name="post_text" type="text" value="{{post.post_text}}"/></input></p>
-            <p><label for="visibility">Visibility:</label> 
-            <select name="visibility" value="{{post.visibility}}"> 
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+            <label for="id_title">Title:</label> </br>
+            <input id="id_title" maxlength="30" name="post_title" type="text" placeholder="{{post.post_title}}"/></div></div></div>
+ 	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">           
+            <label for="id_text">Body:</label> </br>
+            <textarea id="id_text" maxlength="200" name="post_text" type="text" placeholder="{{post.post_text}}"/></textarea></div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+            <label for="visibility">Visibility:</label> </br>
+            <select name="visibility"  class="btn btn-default"  value="{{post.visibility}}"> 
             <option value="PRIVATE" >Private </option>
             <option value="PUBLIC" >Public</option>
             <option value="FRIENDS" >Friends</option>
             <option value="FOAF" >Friend of a Friend</option>
-            </select>
-
-            <p><label for="id_picture">Picture:</label> 
-            <input id="id_picture" name="picture" type="file" onchange="readURL(this);" /></p>
-            <img id="blah" src="{{STATIC_URL}}../{{post.image}}" alt="your image"  style="width:100px;height:100px;" />
+            </select></div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+            <label for="id_picture">Picture:</label> 
+            <input id="id_picture" name="picture"  class="btn btn-default" type="file" onchange="readURL(this);" /> </br>
+            <img id="blah" src="{{STATIC_URL}}../{{post.image}}" alt="your image"  style="width:100px;height:100px;" /></div></div></div>
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();"/>
+            <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = "return checkEmpty();"/>
         </form>
     
     {%else%}
@@ -47,29 +57,42 @@
                 enctype="multipart/form-data">
 
             {% csrf_token %}
-
+	<h2>Create post</h2>
             <!-- Display each form. The as_p method wraps each element in a paragraph
                  (<p>) element. This ensures each element appears on a new line,
                  making everything look neater. -->
-
-            <p><label for="id_title">Title:</label> 
-            <input id="id_title" maxlength="30" name="post_title" type="text" /></p>
-            
-            <p><label for="id_text">Body:</label> 
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+            <label for="id_title">Title:</label> </br>
+            <input id="id_title" maxlength="30" name="post_title" type="text" />
+	 </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">            
+            <label for="id_text">Body:</label> </br>
             <textarea id="id_text" maxlength="200" name="post_text" type="text" ></textarea></p>
-            <p><label for="visibility">Visibility:</label> 
+ 	 </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+            <label for="visibility">Visibility:</label> </br>
             <select name="visibility"> 
             <option value="PRIVATE" >Private </option>
             <option value="PUBLIC" >Public</option>
             <option value="FRIENDS" >Friends</option>
             <option value="FRIENDSFRIENDS" >Friend of a Friend</option>
             </select>
-
-            <p><label for="id_picture">Picture:</label> 
-            <input id="id_picture" name="picture" type="file" onchange="readURL(this);" /></p>
-            <img id="blah" src="#" alt="your image"  style="width:100px;height:100px;" />
+ 	 </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+            <label for="id_picture">Picture:</label> </br>
+            <input id="id_picture" name="picture" class="btn btn-default" type="file" onchange="readURL(this);" /> </br>
+            <img id="blah" src="#" alt=""  style="width:100px;height:100px;" />
+ 	 </div></div></div>
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();"/>
+            <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = "return checkEmpty();"/>
         </form>
           {% endif %}
 </div>
