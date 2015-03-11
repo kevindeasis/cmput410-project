@@ -240,6 +240,38 @@ class Test_Friend(TestCase):
 '''   
 
     
+class Test_Follow(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+
+class Test_Author(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    def test_create_author(self):
+        author = Author()
+        author.user = self.superuser
+        author.save()
+
+        self.assertEqual((author.user == self.superuser), True)
+
+    # i dont think this works?
+    def test_duplicate_author(self):
+        author1 = Author(user=self.superuser)
+        author1.save()
+        author2 = Author(user=self.superuser)
+        author2.save()
+
+        self.assertEqual((author1.user == author2.user), True)
 
 '''
 #tutorials
