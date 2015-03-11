@@ -24,6 +24,13 @@
                                      Add Friend
                                   </a>
                                 </div>
+
+                                <div>
+                                  <a href="/testaddfriend/{{ author.user.pk}}">
+                                     Test Add Friend
+                                  </a>
+                                </div>
+
                         {% elif author.user.username in allfriends %}
                                 <div>
                                   <a href="/unfriend/{{ author.user.pk}}">
@@ -44,6 +51,12 @@
                                 <div>
                                   <a href="/addfriend/{{ author.user.pk}}">
                                      Add Friend
+                                  </a>
+                                </div>
+
+                                <div>
+                                  <a href="/testaddfriend/{{ author.user.pk}}">
+                                     Test Add Friend
                                   </a>
                                 </div>
 

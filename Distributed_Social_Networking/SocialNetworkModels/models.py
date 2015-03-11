@@ -22,7 +22,7 @@ class FriendManager(models.Manager):
         return self.get_queryset().filter(initiator=authorname)
 
     def getRequests(self, authorname):
-        return self.get_queryset().filter(reciever=authorname)
+        return self.get_queryset().filter(reciever=authorname, approvedrequest=False)
 
     def mutualFriends(self, follower1, follower2):
 
@@ -57,6 +57,7 @@ class FriendManager(models.Manager):
     def follow(self, follower1, follower2):
         try:
             self.create(initiator = follower1, reciever = follower2)
+            #self.create(initiator = follower1, reciever = follower2, approvedrequest=True)
             return True
         except:
             return False

@@ -5,57 +5,18 @@
 {% include 'navigationbar.html' %}
 {% endblock %}
 {% block body %}
-    {% for author in authors %}
+    {% for afriendrequest in allfriendrequest %}
 
                     <div class="link">
-                        <h4>{{ author.user.username }}</h4>
+                        <h4>{{ afriendrequest.user.username }} Added You!</h4>
                     </div>
 
-                    {% if author.user.username not in followed and username != author.user.username %}
+                    {% if username != afriendrequest.user.username %}
                     <div>
-                        <a href="/follow/{{ author.user.pk}}">
-                            Follow
+                        <a href="/#">
+                            Confirm
                         </a>
                     </div>
-
-                        {% if author.user.username not in allfriends %}
-                                <div>
-                                  <a href="/addfriend/{{ author.user.pk}}">
-                                     Add Friend
-                                  </a>
-                                </div>
-                        {% elif author.user.username in allfriends %}
-                                <div>
-                                  <a href="/unfriend/{{ author.user.pk}}">
-                                     Unfriend
-                                  </a>
-                                </div>
-                        {% endif %}
-
-                    {% else %}
-                        {% if  username != author.user.username %}
-                            <div>
-                                <a href="/unfollow/{{ author.user.pk}}">
-                                    UnFollow
-                                </a>
-                            </div>
-
-                            {% if author.user.username not in allfriends %}
-                                <div>
-                                  <a href="/addfriend/{{ author.user.pk}}">
-                                     Add Friend
-                                  </a>
-                                </div>
-
-                            {% elif author.user.username in allfriends %}
-                                    <div>
-                                      <a href="/unfriend/{{ author.user.pk}}">
-                                         Unfriend
-                                      </a>
-                                    </div>
-                            {% endif %}
-
-                        {% endif %}
                     {% endif %}
     {% endfor %}
 
