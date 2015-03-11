@@ -213,7 +213,7 @@ class Test_Post(TestCase):
     def test_render_searchposts(self):
         response = self.client.get('/searchposts/')
         self.assertEqual(response.status_code, 200)
-
+        
 
 class Test_Search_User(TestCase):
     client = Client()
@@ -253,6 +253,14 @@ class Test_Friend(TestCase):
     def test_render_friend(self):
         response = self.client.get('/searchposts/')
         self.assertEqual(response.status_code, 200)
+        
+    # able to add other user as friend?
+    #def test_add_friend(self):
+    
+    # able to delete a friend?
+    #def test_delete_friend(self):
+
+
 
     
 class Test_Follow(TestCase):
