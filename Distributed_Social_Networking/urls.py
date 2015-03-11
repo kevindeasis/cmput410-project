@@ -45,6 +45,8 @@ urlpatterns = patterns('',
     url(r'^searchposts/', views.search_posts, name ='search_posts'),
 
     url(r'^follow/(?P<reciever_pk>\w+)/$', views.add_friend, name="add_friend"),
+    url(r'^addfriend/(?P<reciever_pk>\w+)/$', views.add_friend, name="add_friend"),
+
 
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT}),

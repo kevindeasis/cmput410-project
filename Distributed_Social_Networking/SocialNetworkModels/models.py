@@ -17,6 +17,7 @@ class Author(models.Model):
 class FriendManager(models.Manager):
 
     #call this by Friends.friendmanager.getFriends(authorname)
+    #everything is mutual
     def getFriends(self, authorname):
         return self.get_queryset().filter(initiator=authorname)
 
@@ -56,13 +57,13 @@ class Follows(models.Model):
     def getafollower(self):
         return self.follower
 
-
+#should really be a friend requrest
 class Friends(models.Model):
     initiator = models.ForeignKey(User, related_name='initiator')
     reciever = models.ForeignKey(User, related_name='reciever')
 
     #this can be removed due to the following use case
-    sentrequest =  models.BooleanField(default=True)
+    sentrequest =  models.BooleanField(default=False)
     approvedrequest = models.BooleanField(default=False)
 
     fof_private = models.BooleanField(default=False)
