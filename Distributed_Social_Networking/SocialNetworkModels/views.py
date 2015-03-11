@@ -117,14 +117,15 @@ def search_users(request):
                 #find the user/authors friends
                 ourfriends = []
                 for afriend in allfriends:
-                    afriendusername = ourfriends.reciever.get_username()
+                    afriendusername = afriend.reciever.get_username()
                     ourfriends.append('{s}'.format(s=afriendusername))
 
-                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends})
+                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends, 'username': request.user.username})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:
         return redirect('/login')
+
 
 
 @login_required
