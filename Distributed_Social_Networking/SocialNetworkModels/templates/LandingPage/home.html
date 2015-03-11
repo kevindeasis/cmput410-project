@@ -23,14 +23,18 @@
            <div id="post_form">
            {% if lenn %}
 					 {% for post in posts %}
+		 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
                         <div class="post">
-                            <p><a href="/display/{{post.post_id}}/">{{post.post_title}}</a>
-                                {{post.post_text}}
+				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+                                
                                 {% if post.image %}
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> </p> 
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
                                 {%else%}  
-                                {% endif %}                    
-                        </div>
+                                {% endif %}  
+				{{post.post_text}}                  
+                        </div></div></div></div>
                     {% endfor %}
                     {%else%}
                             <h1>No comments</h1>

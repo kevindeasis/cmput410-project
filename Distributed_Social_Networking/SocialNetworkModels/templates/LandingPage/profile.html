@@ -14,17 +14,14 @@
         </br>
         <h1>Profile</h1> <a class="navbar-brand" href="/profile1/">Edit</a></br></br></br>
   {% if edit == '0' %}
-	<img src="{{STATIC_URL}}../{{picture}}" /> 
+	<img src="{{STATIC_URL}}../{{picture}}"  style="width:100px;height:100px;"/> 
 	<p><label for="id_username">Username:</label>
         <h1>{{username}}</h1>
 	<p><label for="id_email">Email address:</label> 
         <h1>{{email}}</h1>
 	<p><label for="github">github username:</label> 
         <h1>{{github_username}}</h1>
-	    <h1>{{picture}}</h1>
-	<img src="{{STATIC_URL}}../{{picture}}" style="width:100px;height:100px;"  /> 
 
-	
   {% endif %}
 
   {% if edit == '1' %}
@@ -73,6 +70,6 @@ function checkEmpty(){
 
 -->
 </script>
->>>>>>> 1b80f5cd91c3b97ce45b301c0535a74fa60abb8b
+
 
 {%endblock%}
