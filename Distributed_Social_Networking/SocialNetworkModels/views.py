@@ -117,14 +117,15 @@ def search_users(request):
                 #find the user/authors friends
                 ourfriends = []
                 for afriend in allfriends:
-                    afriendusername = ourfriends.reciever.get_username()
+                    afriendusername = afriend.reciever.get_username()
                     ourfriends.append('{s}'.format(s=afriendusername))
 
-                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends})
+                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends, 'username': request.user.username})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:
         return redirect('/login')
+
 
 
 @login_required
@@ -143,7 +144,7 @@ def search_posts(request):
 
 
 @login_required
-def add_friend(request, reciever_pk):
+def follow(request, reciever_pk):
     #actually right now your adding following
     #search for users
     if request.user.is_authenticated():
@@ -187,12 +188,29 @@ def add_friend(request, reciever_pk):
         return redirect('/home')
 
 @login_required
+def unfriend(request, reciever_pk):
+    logout(request)
+    return redirect('/')
+
+@login_required
+def unfollow(request, reciever_pk):
+    logout(request)
+    return redirect('/')
+
+@login_required
+def addfriend(request, reciever_pk):
+    logout(request)
+    return redirect('/')
+
+
+@login_required
 def author_post(request):
     if request.method =='POST':
         title = request.POST.get('post_title')
         text = request.POST.get('post_text')
         visibility = request.POST.get('visibility')
-        picture = request.FILES.get('picture')        
+        picture = request.FILES.get('picture')     
+	mark_down = request.POST.get('markdown')   
         #post =Posts.objects.create(post_author = request.user.username, 
                                   #psot_title = title, post_text= text,visibility= visibility)
         post = Posts()
@@ -203,6 +221,9 @@ def author_post(request):
         post.image = None
         if picture is not None:
             post.image=picture
+
+        if mark_down is not None:
+            post.mark_down= True
         post.save()
         return redirect('/home')
     else:
@@ -246,8 +267,15 @@ def author_post_edit(request,post_id):
         post.post_text = request.POST.get('post_text')
         post.visibility = request.POST.get('visibility')
         image = request.FILES.get('picture')
+	mark_down = request.POST.get('markdown')
         if image is not None:
             post.image=image
+
+	if mark_down is not None:
+	    post.mark_down = True
+	else:
+	    post.mark_down = False
+	
         post.save()
     return render(request, 'LandingPage/display.html',{'post':post})
         

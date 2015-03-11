@@ -10,11 +10,10 @@ from urlparse import urlparse
 from django.db import IntegrityError
 from django.contrib import messages
 
-#from django.core import serializers
-import json
 #from django.core.serializers.json import DjangoJSONEncoder
+#from django.core import serializers
 
-
+import json
 
 #user login page
 def user_login(request):
@@ -56,13 +55,17 @@ def user_login(request):
 def home(request):
     if request.method == 'GET':
         if request.user.is_authenticated():
+            user = request.user
+            post = Posts.objects.all()
+            count = len(post)
+            #return HttpResponse(len(post))
+        
             try:
-                return render(request, 'LandingPage/home.html')
+                return render(request, 'LandingPage/home.html',{'posts':post, 'lenn':count})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
         return render(request, 'LandingPage/home.html')
-    
 
 
 def register(request):
@@ -102,20 +105,27 @@ def search_users(request):
                 authors = Author.objects.all()
                 #follows = Follows()
                 followed = Follows.followManager.getFollowing(request.user)
+                allfriends = Friends.friendmanager.getFriends(request.user)
+
 
                 #if this got turned into a json, can do client side
-
                 ourfollows = []
                 for afollow in followed:
                     ausername = afollow.followed.get_username()
                     ourfollows.append('{s}'.format(s=ausername))
 
+                #find the user/authors friends
+                ourfriends = []
+                for afriend in allfriends:
+                    afriendusername = afriend.reciever.get_username()
+                    ourfriends.append('{s}'.format(s=afriendusername))
 
-                return render(request, 'LandingPage/search_users.html',{'authors': authors, 'followed': ourfollows})
+                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends, 'username': request.user.username})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:
         return redirect('/login')
+
 
 
 @login_required
@@ -140,7 +150,6 @@ def add_friend(request, reciever_pk):
     if request.user.is_authenticated():
         try:
 
-
             follows = Follows()
             follows.follower = User.objects.get(username = request.user)
             follows.followed = User.objects.get(pk = reciever_pk)
@@ -150,7 +159,6 @@ def add_friend(request, reciever_pk):
                 previousfollowed = Follows.followManager.getFollowers(request.user)
                 previousfollower = User.objects.get(pk = reciever_pk).username
                 #following = Follows.followManager.getFollowing(previousfollower)
-
 
                 ausername = ''
                 test = False
@@ -168,24 +176,16 @@ def add_friend(request, reciever_pk):
                     friend.reciever = User.objects.get(pk = reciever_pk)
                     friend.save()
 
-                #return HttpResponse("%s(%s)"%(ausername,previousfollower))
-                #return HttpResponse(test)
                 return redirect('/searchusers')
-
-
-
             except:
                  return HttpResponse('breaked at add_friend')
 
             return redirect('/searchusers')
 
-
         except Author.DoesNotExist:
             return redirect('/searchusers')
     else:
         return redirect('/home')
-
-
 
 @login_required
 def author_post(request):
@@ -193,7 +193,8 @@ def author_post(request):
         title = request.POST.get('post_title')
         text = request.POST.get('post_text')
         visibility = request.POST.get('visibility')
-        picture = request.FILES.get('picture')        
+        picture = request.FILES.get('picture')     
+	mark_down = request.POST.get('markdown')   
         #post =Posts.objects.create(post_author = request.user.username, 
                                   #psot_title = title, post_text= text,visibility= visibility)
         post = Posts()
@@ -201,14 +202,68 @@ def author_post(request):
         post.post_title = title
         post.post_text = text
         post.visibility = visibility
+        post.image = None
         if picture is not None:
             post.image=picture
+
+        if mark_down is not None:
+            post.mark_down= True
         post.save()
         return redirect('/home')
     else:
         return render(request, 'LandingPage/post.html')
         
     return render(request, 'LandingPage/post.html')
+
+
+@login_required
+def author_post_delete(request,post_id):
+    user = request.user
+    post = Posts.objects.get(post_id = post_id)
+    conText = ''
+   
+    if user.author !=post.post_author:
+        context = 'you have no permissions to delete this post'
+        return render(request, 'LandingPage/display.html',{'message':context,'post':post})
+    else:
+        post.delete()
+        return redirect('/home')
+
+@login_required
+def display_post(request,post_id):
+    post = Posts.objects.get(post_id = post_id)
+    return render(request,'LandingPage/display.html',{'post':post})
+    
+@login_required
+def author_post_edit(request,post_id):
+    if request.method =="GET":
+        user = request.user
+        post = Posts.objects.get(post_id = post_id)
+        conText = ''
+        if user.author !=post.post_author:
+            context = 'you have no permissions to edit this post'
+            return render(request, 'LandingPage/display.html',{'message':context,'post':post})
+        else:
+            return render(request, 'LandingPage/post.html',{'edit':'1','post':post})
+    elif request.method =="POST":
+        post = Posts.objects.get(post_id = post_id)
+        post.post_title = request.POST.get('post_title')
+        post.post_text = request.POST.get('post_text')
+        post.visibility = request.POST.get('visibility')
+        image = request.FILES.get('picture')
+	mark_down = request.POST.get('markdown')
+        if image is not None:
+            post.image=image
+
+	if mark_down is not None:
+	    post.mark_down = True
+	else:
+	    post.mark_down = False
+	
+        post.save()
+    return render(request, 'LandingPage/display.html',{'post':post})
+        
+        
 
 @login_required
 def profile(request,edit):
@@ -222,6 +277,7 @@ def profile(request,edit):
             return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'edit':edit})
     return render(request, 'LandingPage/profile.html')
 
+
 @login_required
 def profile_edit(request):
     '''
@@ -234,7 +290,7 @@ def profile_edit(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         github_username = request.POST.get('github_username')	
-	picture = request.FILES.get('picture')
+        picture = request.FILES.get('picture')
 
         if username is not None and username != '':
             request.user.username = username
@@ -246,7 +302,7 @@ def profile_edit(request):
         if github_username is not None:
             author.github_username = github_username
 
-	if image is not None:
+        if picture is not None:
             author.picture = picture
 
         try:
@@ -275,59 +331,4 @@ def profile_edit(request):
             messages.error(request, e.message)
 
     return render_to_response('main/profile.html', {}, context)
-"""
-    form = AuthorForm()
 
-        #context = RequestContext(request)
-    try:
-        if request.method == 'POST':
-            username = request.POST.get("username","")
-            password = request.POST.get("password","")
-
-
-
-            #l = Link.objects.get_or_create(title=title, url=url)[0]
-
-            #for atag in tags.split():
-             #   t = Tag.objects.get_or_create(name=atag)[0]
-             #   l.tags.add(t)
-    except:
-            return render(request, 'author/add_author.html', {'form': form})
-
-            #return redirect(index)
-
-
-    return render(request, 'author/add_author.html', {'form': form})
-
-    #return redirect(index)
-
-#    return render(request, 'LandingPage/index.html', None)
-#    return HttpResponse("Hello, world. You're at the  index.")"""
-
-
-
-"""
-
-def add_author(request):
-    # A HTTP POST?
-    if request.method == 'POST':
-        form = AuthorForm(request.POST)
-
-        # Have we been provided with a valid form?
-        if form.is_valid():
-            # Save the new category to the database.
-            form.save(commit=True)
-
-            # Now call the index() view.
-            # The user will be shown the homepage.
-            return index(request)
-        else:
-            # The supplied form contained errors - just print them to the terminal.
-            print form.errors
-    else:
-        # If the request was not a POST, display the form to enter details.
-        form = AuthorForm()
-
-    # Bad form (or form details), no form supplied...
-    # Render the form with error messages (if any).
-    return render(request, 'author/add_author.html', {'form': form})"""

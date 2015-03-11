@@ -169,36 +169,53 @@ class Test_User_Auth(TestCase):
 class Test_Profile(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
-
-    #saved
-    #user = UserFactory.create()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
     # render profile page?
-#    def test_render_profile()
+    def test_render_profile(self):
+        response = self.client.get('/profile/')
+        self.assertEqual(response.status_code, 200)
 
     # get correct profile data?
-#    def test_data_profile()
+    # def test_data_profile()
 
 
 class Test_Post(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
-
-    #saved
-    #user = UserFactory.create()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
     # render post page?
-#   def test_render_post
+    def test_render_post(self):
+        response = self.client.get('/post/')
+        self.assertEqual(response.status_code, 200)
 
-    # get correct post data?
-#    def test_data_post()
 
+    # render search searchposts page?
+    #def test_render_searchposts(self):
+        #response = self.client.get('/searchposts/')
+        #self.assertEqual(response.status_code, 200)
+
+
+'''
 class Test_Search_User(TestCase):
     client = Client()
 
@@ -208,7 +225,9 @@ class Test_Search_User(TestCase):
 
     #saved
     #user = UserFactory.create()
-    
+'''   
+
+''' 
 class Test_Friend(TestCase):
     client = Client()
 
@@ -218,6 +237,8 @@ class Test_Friend(TestCase):
 
     #saved
     #user = UserFactory.create()
+'''   
+
     
 class Test_Follow(TestCase):
     client = Client()
