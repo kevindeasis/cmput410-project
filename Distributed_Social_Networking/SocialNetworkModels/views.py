@@ -57,11 +57,23 @@ def home(request):
         if request.user.is_authenticated():
             user = request.user
             post = Posts.objects.all()
-            count = len(post)
+            ourfriend=[]
+            FOAF=[]
+            allfriends =Friends.friendmanager.getFriends(request.user)
+            #get friend of user
+            for afriend in allfriends:
+                ourfriend.append(afriend.reciever.get_username())
+                friendOfFriend =Friends.friendmanager.getFriends(afriend)
+                for friend in friendOfFriend:
+                    if friend.reciever.get_username() not in FOAF and friend.reciever.get_username() != request.user:
+                        FOAF.append(friend.reciever.get_username())
+                
+            #friends = Friends.objects.all()
             #return HttpResponse(len(post))
+            count = len(post)
         
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'lenn':count})
+                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friend':ourfriend,'lenn':count})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':

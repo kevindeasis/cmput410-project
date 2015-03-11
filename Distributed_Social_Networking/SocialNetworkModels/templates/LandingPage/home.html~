@@ -23,18 +23,74 @@
            <div id="post_form">
            {% if lenn %}
 					 {% for post in posts %}
-		 <div class="panel panel-default">
+		 
+		                   {%if post.post_author = user.author%}
+		                   <div class="panel panel-default">
 		 <div class="panel-body">
 		 <div class="panel-more1">
                         <div class="post">
-				<a href="/display/{{post.post_id}}/">{{post.post_title}}  by </a><a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
                                 <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
                                 {%else%}  
                                 {% endif %}  
-				{{post.post_text}}                  
-                        </div></div></div></div>
+				           {{post.post_text}} 
+                </div></div></div>
+                
+                
+                
+                 {%elif post.post_author in friend and post.visibility = 'FRIENDS'%}
+                 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+                        <div class="post">
+				            <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+                                
+                                {% if post.image %}
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+				           {{post.post_text}} 
+              </div></div></div>
+                
+                
+                
+                
+                 {%elif post.visibility = 'PUBLIC'%}
+                 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+                        <div class="post">
+				            <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+                                
+                                {% if post.image %}
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+				           {{post.post_text}} 
+				           </div></div></div>
+				           
+				           
+				{%elif post.post_author in friend and post.visibility = 'FRIENDS'%}
+                 <div class="panel panel-default">
+		 <div class="panel-body">
+		 <div class="panel-more1">
+                        <div class="post">
+				            <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+                                
+                                {% if post.image %}
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+				           {{post.post_text}} 
+              </div></div></div>
+                {%endif%}
+                
+                
+              
+                
+                        </div>
                     {% endfor %}
                     {%else%}
                             <h1>No comments</h1>
