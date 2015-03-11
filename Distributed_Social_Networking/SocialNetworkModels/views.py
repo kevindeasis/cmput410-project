@@ -188,17 +188,17 @@ def follow(request, reciever_pk):
         return redirect('/home')
 
 @login_required
-def unfriend(request):
+def unfriend(request, reciever_pk):
     logout(request)
     return redirect('/')
 
 @login_required
-def unfollow(request):
+def unfollow(request, reciever_pk):
     logout(request)
     return redirect('/')
 
 @login_required
-def addfriend(request):
+def addfriend(request, reciever_pk):
     logout(request)
     return redirect('/')
 
