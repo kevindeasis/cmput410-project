@@ -166,6 +166,60 @@ class Test_User_Auth(TestCase):
         self.assertTrue((response))
 
 
+class Test_Profile(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    #user = UserFactory.create()
+
+    # render profile page?
+#    def test_render_profile()
+
+    # get correct profile data?
+#    def test_data_profile()
+
+
+class Test_Post(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    #user = UserFactory.create()
+
+    # render post page?
+#   def test_render_post
+
+    # get correct post data?
+#    def test_data_post()
+
+class Test_Search_User(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    #user = UserFactory.create()
+    
+class Test_Friend(TestCase):
+    client = Client()
+
+    #not saved
+    user = UserFactory.build()
+    superuser = SuperFactory.build()
+
+    #saved
+    #user = UserFactory.create()
+    
+
 '''
 #tutorials
 #https://docs.djangoproject.com/en/1.7/topics/testing/tools/
