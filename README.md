@@ -61,11 +61,11 @@ Files Modified: files about post, friend and database as well as urls
 Weekly Contribution (Hours): 24
 
 ##dylan3		(Dylan Cassidy)
-Contributions
+Contributions: Testing
 
-Files Modified:
+Files Modified: tests.py
 
-Weekly Contribution (Hours):
+Weekly Contribution (Hours): 8
 
 
 ##gmeyer1 	(Glenn Meyer)
