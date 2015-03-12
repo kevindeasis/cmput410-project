@@ -154,7 +154,6 @@ def search_posts(request):
     else:
         return redirect('/login')
 
-
 @login_required
 def follow(request, reciever_pk):
     #actually right now your adding following
@@ -162,10 +161,17 @@ def follow(request, reciever_pk):
     if request.user.is_authenticated():
         try:
 
-            follows = Follows()
-            follows.follower = User.objects.get(username = request.user)
-            follows.followed = User.objects.get(pk = reciever_pk)
-            follows.save()
+            #follows = Follows()
+            #mainuser = User.objects.get(username = request.user)
+            #tobefollowed = User.objects.get(pk = reciever_pk)
+            #follows.save()
+            #Follows.followManager.create(followed=tobefollowed, follower=mainuser)
+
+
+            if(Follows.followManager.isFollowing(User.objects.get(pk = reciever_pk), User.objects.get(username = request.user))):
+                Follows.followManager.get(followed=User.objects.get(pk = reciever_pk),follower=User.objects.get(username=request.user)).delete()
+
+            Follows.followManager.create(followed=User.objects.get(pk = reciever_pk),follower=User.objects.get(username=request.user))
 
             try:
                 previousfollowed = Follows.followManager.getFollowers(request.user)
@@ -190,7 +196,7 @@ def follow(request, reciever_pk):
 
                 return redirect('/searchusers')
             except:
-                 return HttpResponse('breaked at add_friend')
+                return redirect('/searchusers')
 
             return redirect('/searchusers')
 
@@ -216,7 +222,6 @@ def unfriend(request, reciever_pk):
 def unfollow(request, reciever_pk):
     if request.user.is_authenticated():
         try:
-
             follows = Follows.followManager.get(follower=User.objects.get(username = request.user),followed = User.objects.get(pk = reciever_pk))
             follows.delete()
             return redirect('/searchusers')
