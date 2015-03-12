@@ -1,6 +1,7 @@
 ------
 # cmput410-project
 ------
+#All of the links are in this page
 
 ##Testing:
 
@@ -39,19 +40,39 @@ https://github.com/abramhindle/CMPUT404-project-socialdistribution/blob/master/p
 ##Chat Room
 https://gitter.im/diego04/cmput410-project.
 
-##Rest Interface
-http://cs410.cs.ualberta.ca:41071/rest
+##API Rest Interface (You can open this in a webpage as well)
+https://github.com/diego04/cmput410-project/tree/master/Documents
+
+#Quick Demo
+
+http://cs410.cs.ualberta.ca:41071/service
+
+http://cs410.cs.ualberta.ca:41071/service/author
+
+http://cs410.cs.ualberta.ca:41071/service/author/userid
+
+http://cs410.cs.ualberta.ca:41071/service/post
+
+http://cs410.cs.ualberta.ca:41071/service/post/postid
+
+http://cs410.cs.ualberta.ca:41071/service/friends/
+
+http://cs410.cs.ualberta.ca:41071/service/friends/friendid
+
+
+##Design
+https://github.com/diego04/cmput410-project/wiki/UI-Mockup
 
 ------
 #Members:
 ------
 
 ##deasis		(Kevin De Asis)
-Contributions: Testing, Documentation, Models, User Interface, Modules, Planning
+Contributions: Testing, Documentation, Models, User Interface, Modules, Planning, API, Views
 
 Files Modified: admin.py, forms.py, tests.py, urls.py, bootstrap, views.py, html files
 
-Weekly Contribution (Hours): 3+ 5 + 12 + 16 + 24 = 60
+Weekly Contribution (Hours): 3+ 5 + 12 + 16 + 36 = 72
 
 ##xuefeng1	(Audrey Li)
 Contributions: Post, Friend, populate database
