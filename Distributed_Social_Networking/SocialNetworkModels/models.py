@@ -19,7 +19,7 @@ class FriendManager(models.Manager):
     #call this by Friends.friendmanager.getFriends(authorname)
     #everything is mutual
     def getFriends(self, authorname):
-        return self.get_queryset().filter(initiator=authorname)
+        return self.get_queryset().filter(initiator=authorname, approvedrequest=True)
 
     def getRequests(self, authorname):
         return self.get_queryset().filter(initiator=authorname, approvedrequest=False)
@@ -36,6 +36,25 @@ class FriendManager(models.Manager):
             self.follow(follower1,follower2)
         elif firstcase and not reversecase:
             self.follow(follower2, follower1)
+        else:
+            print("dont add any")
+
+    def addFriend(self, follower1, follower2):
+
+
+        firstcase = self.isFriend(follower1, follower2)
+        reversecase = self.isFriend(follower2, follower1)
+
+        if not firstcase and not reversecase:
+            self.friend(follower1, follower2)
+            self.friend(follower2, follower1)
+        elif not firstcase and reversecase:
+            self.friend(follower1,follower2)
+            self.friend(follower2,follower1)
+
+        elif firstcase and not reversecase:
+            self.friend(follower1,follower2)
+            self.friend(follower2, follower1)
         else:
             print("dont add any")
 
@@ -61,6 +80,12 @@ class FriendManager(models.Manager):
             return True
         except:
             return False
+    def friend(self, follower1, follower2):
+        try:
+            self.create(initiator = follower1, reciever = follower2, approvedrequest=True)
+            return True
+        except:
+            return False
 
     def unfriend(self, follower1, follower2):
         try:
@@ -73,6 +98,10 @@ class FriendManager(models.Manager):
     def isFriend(self, follower1, follower2):
         self.get_queryset().filter(initiator=follower1, reciever=follower2).exists()
 
+    def confirmFriend(self, follower1, follower2):
+        if (self.get_queryset().filter(initiator=follower1, reciever=follower2).exists()):
+            self.get(initiator=follower1, reciever=follower2).delete()
+        return False
 
 class FollowManager(models.Manager):
 

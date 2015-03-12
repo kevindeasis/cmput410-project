@@ -73,7 +73,7 @@ Contributions: User administration, authentication, database design, API documen
 
 Files Modified: admin.py, models.py, views.py
 
-Weekly Contribution (Hours): <to be calculated>
+Weekly Contribution (Hours): 20
 
 
 ##cye2 		(Chongyang Ye)

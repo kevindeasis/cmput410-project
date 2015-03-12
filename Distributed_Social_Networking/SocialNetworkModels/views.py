@@ -201,19 +201,16 @@ def follow(request, reciever_pk):
 
 @login_required
 def unfriend(request, reciever_pk):
-    if request.user.is_authenticated():
-        try:
+    #return HttpResponse(request.user) utf?
 
-            nofollows = Follows.followManager.mutualUnFollow(User.objects.get(username = request.user), User.objects.get(pk = reciever_pk))
-            nofriends = Friends.friendmanager.mutualUnFriend(User.objects.get(username = request.user), User.objects.get(pk = reciever_pk))
+    #try:
+    Follows.followManager.mutualFollow(User.objects.get(username = request.user), User.objects.get(username = reciever_pk))
 
-            return redirect('/searchusers')
-
-
-        except Author.DoesNotExist:
-            return redirect('/searchusers')
-    else:
-        return redirect('/home')
+    inst = Friends.friendmanager.get(initiator=User.objects.get(username = request.user),reciever=User.objects.get(username = reciever_pk))
+    inst2 = Friends.friendmanager.get(initiator=User.objects.get(username = reciever_pk),reciever=User.objects.get(username = request.user))
+    inst.delete()
+    inst2.delete()
+    return redirect('/home')
 
 @login_required
 def unfollow(request, reciever_pk):
@@ -238,26 +235,22 @@ def addfriend(request, reciever_pk):
         return redirect('/searchusers')
     return redirect('/searchusers')
 
+
 @login_required
 def confirmfriend(request, reciever_pk):
-    if request.method == 'GET':
-        if request.user.is_authenticated():
-            try:
+    #return HttpResponse(request.user) utf?
 
-                #Youll need to move mutual follow here
-                allfriends = Friends.friendmanager.getRequests(request.user)
+    #try:
+    Follows.followManager.mutualFollow(User.objects.get(username = request.user), User.objects.get(username = reciever_pk))
 
-                #find the user/authors requests
-                ourfriends = []
-                for afriend in allfriends:
-                    afriendusername = afriend.reciever.get_username()
-                    ourfriends.append('{s}'.format(s=afriendusername))
-
-                return render(request, 'LandingPage/confirmfriendrequest.html', {'allfriendrequest': ourfriends, 'username': request.user.username})
-            except Author.DoesNotExist:
-                return redirect('/login')
-    else:
-        return redirect('/login')
+    inst = Friends.friendmanager.get(initiator=User.objects.get(username = request.user),reciever=User.objects.get(username = reciever_pk))
+    inst2 = Friends.friendmanager.get(initiator=User.objects.get(username = reciever_pk),reciever=User.objects.get(username = request.user))
+    inst.delete()
+    inst2.delete()
+    Friends.friendmanager.addFriend(User.objects.get(username = request.user),User.objects.get(username = reciever_pk))
+    #except:
+    #    return redirect('/xhz')
+    return redirect('/searchusers')
 
 @login_required
 def viewfriendrequests(request):
