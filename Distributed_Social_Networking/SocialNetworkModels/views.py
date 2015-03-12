@@ -229,7 +229,6 @@ def unfollow(request, reciever_pk):
 @login_required
 def addfriend(request, reciever_pk):
     try:
-        Follows.followManager.mutualFollow(User.objects.get(username = request.user), User.objects.get(pk = reciever_pk))
         Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(pk = reciever_pk))
     except:
         return redirect('/searchusers')
@@ -273,14 +272,14 @@ def viewfriendrequests(request):
     else:
         return redirect('/login')
 
-
+'''
 @login_required
 def testaddfriend(request, reciever_pk):
     try:
         Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(pk = reciever_pk))
     except:
         return redirect('/searchusers')
-    return redirect('/searchusers')
+    return redirect('/searchusers')'''
 
 
 @login_required
