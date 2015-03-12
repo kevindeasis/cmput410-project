@@ -169,55 +169,99 @@ class Test_User_Auth(TestCase):
 class Test_Profile(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
-
-    #saved
-    #user = UserFactory.create()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
     # render profile page?
-#    def test_render_profile()
+    def test_render_profile(self):
+        response = self.client.get('/profile/')
+        self.assertEqual(response.status_code, 200)
 
     # get correct profile data?
-#    def test_data_profile()
+    # def test_data_profile()
 
 
 class Test_Post(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
-
-    #saved
-    #user = UserFactory.create()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
     # render post page?
-#   def test_render_post
+    def test_render_post(self):
+        response = self.client.get('/post/')
+        self.assertEqual(response.status_code, 200)
 
-    # get correct post data?
-#    def test_data_post()
+
+    # render search searchposts page?
+    def test_render_searchposts(self):
+        response = self.client.get('/searchposts/')
+        self.assertEqual(response.status_code, 200)
+        
 
 class Test_Search_User(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
-    #saved
-    #user = UserFactory.create()
-    
+    # render searchusers page?
+    #def test_render_profile(self):
+        #response = self.client.get('/searchusers/')
+        #self.assertEqual(response.status_code, 200)
+
+
 class Test_Friend(TestCase):
     client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
+    # logged in?
+    # IMPORTANT: FUNCTION NAME MUST BE setUp !!!
+    def setUp(self):
+        u = User.objects.create_user(username='myuser1', email='email@emsail.com', password='myuser1')
+        u.save()
+        author = Author()
+        author.user = u
+        author.save()
+        login = self.client.login(username = 'myuser1', password = 'myuser1')
+        self.assertTrue(login)
 
-    #saved
-    #user = UserFactory.create()
+    # render friend page?
+    def test_render_friend(self):
+        response = self.client.get('/searchposts/')
+        self.assertEqual(response.status_code, 200)
+        
+    # able to add other user as friend?
+    #def test_add_friend(self):
+    
+    # able to delete a friend?
+    #def test_delete_friend(self):
+
+
+
     
 class Test_Follow(TestCase):
     client = Client()
@@ -243,22 +287,14 @@ class Test_Author(TestCase):
 
         self.assertEqual((author.user == self.superuser), True)
 
-    # currently allowed to have duplicate users?
+    # i dont think this works?
     def test_duplicate_author(self):
         author1 = Author(user=self.superuser)
-        #author1.user = self.superuser
         author1.save()
         author2 = Author(user=self.superuser)
-        #author2.user = self.superuser
         author2.save()
 
         self.assertEqual((author1.user == author2.user), True)
-
-    def test_long_github(self):
-        author = Author(user=self.superuser, approved="a")
-        author.save()
-
-        self.assertEqual(author.approved, "a")
 
 '''
 #tutorials

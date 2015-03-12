@@ -280,21 +280,41 @@ class Test_Author(TestCase):
     superuser = SuperFactory.build()
 
     #saved
+    def setUp(self):
+        self.author1 = Author(user=User(username="username1", password="password1"), github_username="github_username1", picture=None, approved=False)
+        self.author2 = Author(user=User(username="username2", password="password2"), github_username="github_username2", picture=None, approved=True)
+        self.author1.save()
+        self.author2.save()
+
     def test_create_author(self):
-        author = Author()
-        author.user = self.superuser
-        author.save()
+        usr = User(username="username1", password="password1")
 
-        self.assertEqual((author.user == self.superuser), True)
+        self.assertEqual((self.author1.user == usr), False)
+        self.assertEqual((self.author1.user.username == "username1"), True)
+        self.assertEqual((self.author1.user.password == "password1"), True)
+        self.assertEqual((self.author1.github_username == "github_username1"), True)
+        self.assertEqual((self.author1.picture == None), True)
+        self.assertEqual((self.author1.approved == False), True)
 
-    # i dont think this works?
     def test_duplicate_author(self):
-        author1 = Author(user=self.superuser)
-        author1.save()
-        author2 = Author(user=self.superuser)
-        author2.save()
+        auth = Author(user=User(username="username1", password="password1"), github_username="github_username1", picture=None, approved=False)
+        auth.save()
+        usr = User(username="username1", password="password1")
 
-        self.assertEqual((author1.user == author2.user), True)
+        self.assertEqual((self.author1.user == usr), False)
+        self.assertEqual((self.author1.user.username == "username1"), True)
+        self.assertEqual((self.author1.user.password == "password1"), True)
+        self.assertEqual((self.author1.github_username == "github_username1"), True)
+        self.assertEqual((self.author1.picture == None), True)
+        self.assertEqual((self.author1.approved == False), True)
+        self.assertEqual((auth.user == usr), False)
+        self.assertEqual((auth.user.username == "username1"), True)
+        self.assertEqual((auth.user.password == "password1"), True)
+        self.assertEqual((auth.github_username == "github_username1"), True)
+        self.assertEqual((auth.picture == None), True)
+        self.assertEqual((auth.approved == False), True)
+
+        self.assertEqual((self.author1 == auth), False)
 
 '''
 #tutorials
