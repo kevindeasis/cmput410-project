@@ -273,19 +273,14 @@ class Test_Follow(TestCase):
     #saved
 
 class Test_Author(TestCase):
-    client = Client()
 
-    #not saved
-    user = UserFactory.build()
-    superuser = SuperFactory.build()
-
-    #saved
     def setUp(self):
         self.author1 = Author(user=User(username="username1", password="password1"), github_username="github_username1", picture=None, approved=False)
         self.author2 = Author(user=User(username="username2", password="password2"), github_username="github_username2", picture=None, approved=True)
         self.author1.save()
         self.author2.save()
 
+    # test instance creation works
     def test_create_author(self):
         usr = User(username="username1", password="password1")
 
@@ -296,6 +291,7 @@ class Test_Author(TestCase):
         self.assertEqual((self.author1.picture == None), True)
         self.assertEqual((self.author1.approved == False), True)
 
+    # create a duplicate author, and compare them
     def test_duplicate_author(self):
         auth = Author(user=User(username="username1", password="password1"), github_username="github_username1", picture=None, approved=False)
         auth.save()
