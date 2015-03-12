@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
@@ -6,26 +6,32 @@
     <link rel='stylesheet' href='style.css' type='text/css'>
     
     <script type='text/javascript' src='jquery.min.js'></script>
+    <script type='text/javascript' src='jquery.debounce.min.js'></script>
     <script type='text/javascript' src='jquery.tablesorter.min.js'></script>
     <script type='text/javascript' src='jquery.hotkeys.js'></script>
     <script type='text/javascript' src='coverage_html.js'></script>
-    <script type='text/javascript' charset='utf-8'>
+    <script type='text/javascript'>
         jQuery(document).ready(coverage.index_ready);
     </script>
 </head>
-<body id='indexfile'>
+<body class='indexfile'>
 
 <div id='header'>
     <div class='content'>
         <h1>Coverage report:
             <span class='pc_cov'>0%</span>
         </h1>
-        <img id='keyboard_icon' src='keybd_closed.png'>
+
+        <img id='keyboard_icon' src='keybd_closed.png' alt='Show keyboard shortcuts' />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
     </div>
 </div>
 
 <div class='help_panel'>
-    <img id='panel_icon' src='keybd_open.png'>
+    <img id='panel_icon' src='keybd_open.png' alt='Hide keyboard shortcuts' />
     <p class='legend'>Hot-keys on this page</p>
     <div>
     <p class='keyhelp'>
@@ -60,37 +66,41 @@
                 <td>29</td>
                 <td>0</td>
                 
-                <td class='right'>0%</td>
+                <td class='right' data-ratio='0 29'>0%</td>
             </tr>
         </tfoot>
         <tbody>
             
             <tr class='file'>
-                <td class='name left'><a href='Distributed_Social_Networking.html'>Distributed_Social_Networking</a></td>
+                <td class='name left'><a href='Distributed_Social_Networking_py.html'>Distributed_Social_Networking.py</a></td>
                 <td>0</td>
                 <td>0</td>
                 <td>0</td>
                 
-                <td class='right'>100%</td>
+                <td class='right' data-ratio='0 0'>100%</td>
             </tr>
             
             <tr class='file'>
-                <td class='name left'><a href='Distributed_Social_Networking_settings.html'>Distributed_Social_Networking.settings</a></td>
+                <td class='name left'><a href='Distributed_Social_Networking_settings_py.html'>Distributed_Social_Networking/settings.py</a></td>
                 <td>29</td>
                 <td>29</td>
                 <td>0</td>
                 
-                <td class='right'>0%</td>
+                <td class='right' data-ratio='0 29'>0%</td>
             </tr>
             
         </tbody>
     </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
 </div>
 
 <div id='footer'>
     <div class='content'>
         <p>
-            <a class='nav' href='http://nedbatchelder.com/code/coverage'>coverage.py v3.7.1</a>
+            <a class='nav' href='https://coverage.readthedocs.org/en/coverage-4.0a5'>coverage.py v4.0a5</a>
         </p>
     </div>
 </div>
