@@ -1,0 +1,36 @@
+API(Subject to change, authentication and data mutation will be added after first project deadline)
+
+Json is not the default, but it will be the defaul after the first project deadline
+
+It uses a different JSON format, but will be restructured after the first project deadline
+
+Below is the API and it returns links to the options you have for using the API
+WEB: http://cs410.cs.ualberta.ca:41071/service
+JSON: http://localhost:8900/service/?format=json
+
+Below returns all of the authors in the database
+WEB: http://cs410.cs.ualberta.ca:41071/service/author
+JSON: http://cs410.cs.ualberta.ca:41071/service/author?format=json
+
+Below returns a specific authors in the database using their userid
+WEB: http://cs410.cs.ualberta.ca:41071/service/author/userid
+JSON: http://cs410.cs.ualberta.ca:41071/service/author/userid/?format=json
+
+Below returns all of the posts in the database
+WEB: http://cs410.cs.ualberta.ca:41071/service/post/
+JSON: http://localhost:8900/service/post/?format=json
+
+Below returns a specific posts in the database using its postid
+WEB: http://cs410.cs.ualberta.ca:41071/service/post/postid
+JSON: http://cs410.cs.ualberta.ca:41071/service/post/postid/?format=json
+
+Below returns all of the friend connections in the database
+WEB: http://cs410.cs.ualberta.ca:41071/service/friends/
+JSON: http://cs410.cs.ualberta.ca:41071/service/friends/?format=json
+
+Below returns a specific friend connections in the database
+WEB: http://cs410.cs.ualberta.ca:41071/service/friends/friendid
+JSON: http://cs410.cs.ualberta.ca:41071/service/friends/friendid/?format=json
+
+To be implemented:
+POST and PUT for all models
