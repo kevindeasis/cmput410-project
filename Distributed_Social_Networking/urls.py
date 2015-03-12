@@ -6,6 +6,10 @@ from rest_framework import serializers, viewsets, routers
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework import generics
+from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -13,15 +17,99 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
+#class UserViewSet(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
+    def get_queryset(self):
+        user = self.kwargs['username']
+
+        return User.objects.filter(username=user)
+
+class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('user', 'github_username', 'picture', 'approved')
+
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+class FriendsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Friends
+        fields = ('initiator', 'reciever', 'fof_private', 'friend_private', 'own_private', 'remote_private')
+
+class FriendsViewSet(viewsets.ModelViewSet):
+    queryset = Friends.friendmanager.all()
+    serializer_class = FriendsSerializer
+
+class FollowSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Follows
+        fields = ('followed', 'follower', 'hide')
+
+class FollowViewSet(viewsets.ModelViewSet):
+    queryset = Follows.followManager.all()
+    serializer_class = FollowSerializer
+
+class PostsSerializer(serializers.HyperlinkedModelSerializer):
+    #http://stackoverflow.com/questions/17066074/modelserializer-using-model-property
+    class Meta:
+        model = Posts
+        fields = ('post_id', 'post_author', 'post_title', 'post_text', 'VISIBILITY', 'image', 'mark_down' )
+        #    id = serializers.CharField(read_only=True)
+
+
+class PostsViewSet(viewsets.ModelViewSet):
+    queryset = Posts.objects.all()
+    serializer_class = PostsSerializer
+
+class AuthorPostsSerializer(serializers.HyperlinkedModelSerializer):
+    #http://stackoverflow.com/questions/17066074/modelserializer-using-model-property
+
+    #def posts(self, obj):
+    #    return "http://127.0.0.1:8000/users/%d/tickets" % obj.id
+
+
+    class Meta:
+        model = Posts
+        fields = ('post_id', 'post_author', 'post_title', 'post_text', 'VISIBILITY', 'image', 'mark_down' )
+
+class AuthorPosts(viewsets.ModelViewSet):
+    #username = serializers.SerializerMethodField('get_username')
+
+    #queryset = Posts.objects.get_queryset().filter(post_author=authorname)
+    serializer_class = AuthorPostsSerializer
+
+
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
+
+#router.register(r'service/(?P<pk>[0-9]+)/', AuthorPosts)
+
 router.register(r'users', UserViewSet)
+router.register(r'author', AuthorViewSet)
+router.register(r'friends', FriendsViewSet)
+router.register(r'follows', FollowViewSet)
+router.register(r'post', PostsViewSet)
+#router.register(r'service/author//(?P<username>.+)/posts/$', AuthorPosts)
+
 
 
 urlpatterns = patterns('',
+
+
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^service/', include(router.urls)),
+
+    #
+    #url(r'^rest/', ListCreateAPIView.as_view(model=User)),
+    url(r'^users/(?P<username>.+)/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
+
+
+
     url(r'^$', views.user_login, name = 'user_login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', views.user_login, name = 'user_login'),
@@ -37,9 +125,6 @@ urlpatterns = patterns('',
     url(r'^profile1/', views.profile, {'edit': '1'}, name ='profile'),
     url(r'^profile_edit/', views.profile_edit, name ='profile_edit'),
     url(r'^register/', views.register, name ='register'),
-
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^rest/', include(router.urls)),
 
     url(r'^searchusers/', views.search_users, name ='search_users'),
     url(r'^searchposts/', views.search_posts, name ='search_posts'),
