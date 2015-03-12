@@ -30,7 +30,7 @@ def user_login(request):
                     login(request, user)
                     return redirect('/home')
 
-                elif user:
+                elif u.author.approved:
                     login(request, user)
                     return redirect('/home')
                 else:
