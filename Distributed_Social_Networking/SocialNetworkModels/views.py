@@ -118,6 +118,8 @@ def search_users(request):
                 #follows = Follows()
                 followed = Follows.followManager.getFollowing(request.user)
                 allfriends = Friends.friendmanager.getFriends(request.user)
+                allpending = Friends.friendmanager.getAll(request.user)
+
 
 
                 #if this got turned into a json, can do client side
@@ -132,7 +134,12 @@ def search_users(request):
                     afriendusername = afriend.reciever.get_username()
                     ourfriends.append('{s}'.format(s=afriendusername))
 
-                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends, 'username': request.user.username})
+                pendingrequests = []
+                for apending in allpending:
+                    afriendusername = apending.reciever.get_username()
+                    pendingrequests.append('{s}'.format(s=afriendusername))
+
+                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:

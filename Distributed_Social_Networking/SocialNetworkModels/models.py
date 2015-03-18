@@ -21,6 +21,11 @@ class FriendManager(models.Manager):
     def getFriends(self, authorname):
         return self.get_queryset().filter(initiator=authorname, approvedrequest=True)
 
+    def getAll(self, authorname):
+        #grabs pending or approved
+        return self.get_queryset().filter(initiator=authorname)
+
+
     def getRequests(self, authorname):
         return self.get_queryset().filter(initiator=authorname, approvedrequest=False)
 

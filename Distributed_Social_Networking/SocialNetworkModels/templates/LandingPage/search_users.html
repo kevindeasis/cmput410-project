@@ -18,7 +18,7 @@
                         </a>
                     </div>
 
-                        {% if author.user.username not in allfriends %}
+                        {% if author.user.username not in allpending %}
                                 <div>
                                   <a href="/addfriend/{{ author.user.pk}}">
                                       Add Friend
@@ -41,7 +41,7 @@
                                 </a>
                             </div>
 
-                            {% if author.user.username not in allfriends %}
+                            {% if author.user.username not in allpending %}
                                 <div>
                                   <a href="/addfriend/{{ author.user.pk}}">
                                       Add Friend
