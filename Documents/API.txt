@@ -33,4 +33,14 @@ WEB: http://cs410.cs.ualberta.ca:41071/service/friends/friendid
 JSON: http://cs410.cs.ualberta.ca:41071/service/friends/friendid/?format=json
 
 To be implemented:
+
+This is what it looks like (not finished):
+curl -X POST -H "Content-Type: application/json" -d '
+{
+    "username": "testpost2",
+    "email": "testpost2@testpost.com",
+    "is_staff": false
+}' http://127.0.0.1:9000/users/5/
+
+
 POST and PUT for all models

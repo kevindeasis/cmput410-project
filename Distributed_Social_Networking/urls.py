@@ -9,7 +9,9 @@ from django.conf.urls.static import static
 from rest_framework import generics
 from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
 
+# http://www.django-rest-framework.org/#tutorial
 
+# Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
