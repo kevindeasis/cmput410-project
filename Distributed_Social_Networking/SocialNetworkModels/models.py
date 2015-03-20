@@ -6,7 +6,7 @@ from django_extensions.db.fields import UUIDField
 
 #   We can refactor these classes into their own files later
 class Author(models.Model):
-    user = models.OneToOneField(User, primary_key=True)
+    user = models.OneToOneField(User, primary_key=True, related_name="post_author")
     github_username = models.CharField(max_length=128, blank=True)
     picture = models.ImageField(upload_to='static/profile_images/', blank = True)
     approved = models.BooleanField(default=False)

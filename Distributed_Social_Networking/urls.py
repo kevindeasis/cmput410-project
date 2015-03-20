@@ -24,15 +24,17 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-    def get_queryset(self):
+    '''def get_queryset(self):
         user = self.kwargs['username']
 
-        return User.objects.filter(username=user)
+        return User.objects.filter(username=user)'''
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+    author_details = UserSerializer(source='user')
+
     class Meta:
         model = Author
-        fields = ('user', 'github_username', 'picture', 'approved')
+        fields = ('user', 'github_username', 'picture', 'approved', 'author_details')
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
@@ -58,9 +60,12 @@ class FollowViewSet(viewsets.ModelViewSet):
 
 class PostsSerializer(serializers.HyperlinkedModelSerializer):
     #http://stackoverflow.com/questions/17066074/modelserializer-using-model-property
+    post_author = AuthorSerializer(required=True)
+    #post_author = AuthorSerializer(read_only=True)
+
     class Meta:
         model = Posts
-        fields = ('post_id', 'post_author', 'post_title', 'post_text', 'VISIBILITY', 'image', 'mark_down' )
+        fields = ('post_title', 'post_id', 'post_text', 'post_author')
         #    id = serializers.CharField(read_only=True)
 
 
@@ -108,7 +113,8 @@ urlpatterns = patterns('',
 
     #
     #url(r'^rest/', ListCreateAPIView.as_view(model=User)),
-    url(r'^users/(?P<username>.+)/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
+    #url(r'^users/(?P<username>.+)/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
+    url(r'^users/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
 
 
 
