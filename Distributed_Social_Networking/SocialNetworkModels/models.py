@@ -98,6 +98,11 @@ class FriendManager(models.Manager):
             return True
         except:
             return False
+    def getFriends(self, follower1, follower2):
+        try:
+          return self.get_queryset().filter(initiator=follower1, reciever=follower2)
+        except:
+            return False
 
 
     def isFriend(self, follower1, follower2):
