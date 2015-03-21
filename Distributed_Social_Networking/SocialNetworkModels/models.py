@@ -98,7 +98,7 @@ class FriendManager(models.Manager):
             return True
         except:
             return False
-    def getFriends(self, follower1, follower2):
+    def get_api_friends(self, follower1, follower2):
         try:
           return self.get_queryset().filter(initiator=follower1, reciever=follower2)
         except:

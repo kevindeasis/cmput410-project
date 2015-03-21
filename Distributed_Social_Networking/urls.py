@@ -55,7 +55,7 @@ class FriendViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user1 = self.kwargs['username1']
         user2 = self.kwargs['username2']
-        return Friends.friendmanager.getFriends(user1, user2)
+        return Friends.friendmanager.get_api_friends(user1, user2)
 
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
