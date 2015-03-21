@@ -6,6 +6,11 @@ from rest_framework import serializers, viewsets, routers
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+
+import json
+
 from rest_framework import generics
 from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
 
@@ -19,15 +24,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
-#class UserViewSet(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-
-    '''def get_queryset(self):
-        user = self.kwargs['username']
-
-        return User.objects.filter(username=user)'''
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     author_details = UserSerializer(source='user')
@@ -41,13 +39,54 @@ class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
 
 class FriendsSerializer(serializers.HyperlinkedModelSerializer):
+
+    friends = serializers.CharField(source='approvedrequest')
+
     class Meta:
         model = Friends
-        fields = ('initiator', 'reciever', 'fof_private', 'friend_private', 'own_private', 'remote_private')
+        fields = ('initiator', 'reciever', 'fof_private', 'friend_private', 'own_private', 'remote_private', 'friends')
 
 class FriendsViewSet(viewsets.ModelViewSet):
     queryset = Friends.friendmanager.all()
     serializer_class = FriendsSerializer
+
+class FriendViewSet(viewsets.ModelViewSet):
+    queryset = Friends.friendmanager.all()
+    serializer_class = FriendsSerializer
+
+    def get_queryset(self):
+        user1 = self.kwargs['username1']
+        user2 = self.kwargs['username2']
+        return Friends.friendmanager.get_api_friends(user1, user2)
+
+#http://stackoverflow.com/questions/14824807/adding-root-element-to-json-response-django-rest-framework
+class CustomFriendRenderer(JSONRenderer):
+    queryset = Friends.friendmanager.all()
+    serializer_class = FriendsSerializer
+
+    def render(self, data, accepted_media_type=None, renderer_context= None):
+        #data = {'query':'friends',data}
+        jsondata = {}
+        jsondata['query']='friends'
+        jsondata['authors']= []
+        jsondata['authors'].append(data[0]["initiator"])
+        jsondata['authors'].append(data[0]["reciever"])
+        jsondata['friends']=data[0]["friends"]
+
+        return super(CustomFriendRenderer, self).render(jsondata, accepted_media_type, renderer_context)
+
+
+
+class CustomFriendsViewSet(viewsets.ModelViewSet):
+    renderer_classes = (CustomFriendRenderer, )
+    queryset = Friends.friendmanager.all()
+    serializer_class = FriendsSerializer
+
+    def get_queryset(self):
+        user1 = self.kwargs['username1']
+        user2 = self.kwargs['username2']
+        return Friends.friendmanager.get_api_friends(user1, user2)
+
 
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -76,33 +115,25 @@ class PostsViewSet(viewsets.ModelViewSet):
 class AuthorPostsSerializer(serializers.HyperlinkedModelSerializer):
     #http://stackoverflow.com/questions/17066074/modelserializer-using-model-property
 
-    #def posts(self, obj):
-    #    return "http://127.0.0.1:8000/users/%d/tickets" % obj.id
-
-
     class Meta:
         model = Posts
         fields = ('post_id', 'post_author', 'post_title', 'post_text', 'VISIBILITY', 'image', 'mark_down' )
 
 class AuthorPosts(viewsets.ModelViewSet):
-    #username = serializers.SerializerMethodField('get_username')
-
-    #queryset = Posts.objects.get_queryset().filter(post_author=authorname)
     serializer_class = AuthorPostsSerializer
 
 
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 
-#router.register(r'service/(?P<pk>[0-9]+)/', AuthorPosts)
-
 router.register(r'users', UserViewSet)
 router.register(r'author', AuthorViewSet)
+
 router.register(r'friends', FriendsViewSet)
+router.register(r'friends/(?P<username1>.+)/(?P<username2>.+)', CustomFriendsViewSet)
+
 router.register(r'follows', FollowViewSet)
 router.register(r'post', PostsViewSet)
-#router.register(r'service/author//(?P<username>.+)/posts/$', AuthorPosts)
-
 
 
 urlpatterns = patterns('',
@@ -111,12 +142,7 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls)),
 
-    #
-    #url(r'^rest/', ListCreateAPIView.as_view(model=User)),
-    #url(r'^users/(?P<username>.+)/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
     url(r'^users/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
-
-
 
     url(r'^$', views.user_login, name = 'user_login'),
     url(r'^admin/', include(admin.site.urls)),
@@ -142,8 +168,6 @@ urlpatterns = patterns('',
     url(r'^unfollow/(?P<reciever_pk>\w+)/$', views.unfollow, name="unfollow"),
     url(r'^unfriend/(?P<reciever_pk>\w+)/$', views.unfriend, name="unfriend"),
     url(r'^confirmfriend/(?P<reciever_pk>\w+)/$', views.confirmfriend, name="confirmfriend"),
-
-    #url(r'^testaddfriend/(?P<reciever_pk>\w+)/$', views.testaddfriend, name="testaddfriend"),
 
     url(r'^friendrequests/', views.viewfriendrequests, name="viewfriendrequests"),
 
