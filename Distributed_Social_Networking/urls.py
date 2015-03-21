@@ -7,7 +7,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 
+import json
 
 from rest_framework import generics
 from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
@@ -57,6 +59,35 @@ class FriendViewSet(viewsets.ModelViewSet):
         user2 = self.kwargs['username2']
         return Friends.friendmanager.get_api_friends(user1, user2)
 
+#http://stackoverflow.com/questions/14824807/adding-root-element-to-json-response-django-rest-framework
+class CustomFriendRenderer(JSONRenderer):
+    queryset = Friends.friendmanager.all()
+    serializer_class = FriendsSerializer
+
+    def render(self, data, accepted_media_type=None, renderer_context= None):
+        #data = {'query':'friends',data}
+        jsondata = {}
+        jsondata['query']='friends'
+        jsondata['authors']= []
+        jsondata['authors'].append(data[0]["initiator"])
+        jsondata['authors'].append(data[0]["reciever"])
+        jsondata['friends']=data[0]["friends"]
+
+        return super(CustomFriendRenderer, self).render(jsondata, accepted_media_type, renderer_context)
+
+
+
+class CustomFriendsViewSet(viewsets.ModelViewSet):
+    renderer_classes = (CustomFriendRenderer, )
+    queryset = Friends.friendmanager.all()
+    serializer_class = FriendsSerializer
+
+    def get_queryset(self):
+        user1 = self.kwargs['username1']
+        user2 = self.kwargs['username2']
+        return Friends.friendmanager.get_api_friends(user1, user2)
+
+
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Follows
@@ -99,7 +130,7 @@ router.register(r'users', UserViewSet)
 router.register(r'author', AuthorViewSet)
 
 router.register(r'friends', FriendsViewSet)
-router.register(r'friends/(?P<username1>.+)/(?P<username2>.+)', FriendViewSet)
+router.register(r'friends/(?P<username1>.+)/(?P<username2>.+)', CustomFriendsViewSet)
 
 router.register(r'follows', FollowViewSet)
 router.register(r'post', PostsViewSet)
