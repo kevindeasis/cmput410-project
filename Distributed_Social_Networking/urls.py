@@ -13,6 +13,18 @@ import json
 
 from rest_framework import generics
 from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
+from rest_framework.decorators import api_view
+
+
+from rest_framework import mixins
+
+from rest_framework import status
+from rest_framework.decorators import detail_route
+from django.http import HttpResponse, HttpResponseRedirect
+
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 # http://www.django-rest-framework.org/#tutorial
 
@@ -88,6 +100,41 @@ class CustomFriendsViewSet(viewsets.ModelViewSet):
         return Friends.friendmanager.get_api_friends(user1, user2)
 
 
+class FindFriendsSerializer(serializers.HyperlinkedModelSerializer):
+
+    author = serializers.CharField(source='initiator')
+    friends = serializers.CharField(source='reciever')
+
+    class Meta:
+        model = Friends
+        fields = ('author', 'friends')
+
+class FriendList(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+
+    queryset = Friends.friendmanager.all()
+    serializer_class = FindFriendsSerializer
+
+
+    def get(self, request, *args, **kwargs):
+
+        user1 = self.kwargs['username1']
+        #return Friends.friendmanager.getAll(user1)
+        return HttpResponse(user1)
+    #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        user1 = self.kwargs['username1']
+        #return Friends.friendmanager.getAll(user1)
+        return HttpResponse(user1+user1)
+
+
+
+
+
+
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Follows
@@ -123,21 +170,28 @@ class AuthorPosts(viewsets.ModelViewSet):
     serializer_class = AuthorPostsSerializer
 
 
+
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 
 router.register(r'users', UserViewSet)
 router.register(r'author', AuthorViewSet)
 
-router.register(r'friends', FriendsViewSet)
-router.register(r'friends/(?P<username1>.+)/(?P<username2>.+)', CustomFriendsViewSet)
+#router.register(r'friends', FriendsViewSet)
+#router.register(r'friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet )
+
+#router.register(r'friends/(?P<username1>.+)/$', FriendList.as_view() )
+
+
 
 router.register(r'follows', FollowViewSet)
 router.register(r'post', PostsViewSet)
 
 
 urlpatterns = patterns('',
+    url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
 
+    url(r'^service/friends/(?P<username1>.+)/$', csrf_exempt(FriendList.as_view())),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls)),
