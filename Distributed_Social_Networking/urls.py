@@ -24,6 +24,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.views.decorators.csrf import csrf_exempt
 
+import logging, logging.config
+import sys
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
+}
+
+logging.config.dictConfig(LOGGING)
+
 
 
 # http://www.django-rest-framework.org/#tutorial
@@ -120,6 +139,9 @@ class FriendList(mixins.ListModelMixin,
 
     def get(self, request, *args, **kwargs):
 
+        logging.info('Get')
+
+
         user1 = self.kwargs['username1']
         #return Friends.friendmanager.getAll(user1)
         return HttpResponse(user1)
@@ -127,6 +149,9 @@ class FriendList(mixins.ListModelMixin,
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         user1 = self.kwargs['username1']
+
+        logging.info('Post')
+
         #return Friends.friendmanager.getAll(user1)
         return HttpResponse(user1+user1)
 
