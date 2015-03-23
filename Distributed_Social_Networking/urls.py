@@ -139,7 +139,9 @@ class FriendList(mixins.ListModelMixin,
 
     def get(self, request, *args, **kwargs):
 
-        logging.info('Get')
+        logging.info(request.GET.get('username'))
+        #logging.info(request.GET['username'])
+
 
 
         user1 = self.kwargs['username1']
@@ -150,10 +152,24 @@ class FriendList(mixins.ListModelMixin,
     def post(self, request, *args, **kwargs):
         user1 = self.kwargs['username1']
 
-        logging.info('Post')
+        data = json.loads(request.body)
+        #logging.info(request.POST['username'])
+        #logging.info(type(data))
+        logging.info((data['username']))
+        logging.info((type(user1)))
+        logging.info(((user1)))
 
-        #return Friends.friendmanager.getAll(user1)
-        return HttpResponse(user1+user1)
+        logging.info(User.objects.get(pk=user1))
+        logging.info(User.objects.get(pk=user1).username)
+
+
+        logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+
+
+
+
+        return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+        #return HttpResponse(user1+user1)
 
 
 
