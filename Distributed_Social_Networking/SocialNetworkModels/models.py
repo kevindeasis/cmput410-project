@@ -244,6 +244,16 @@ class Posts(models.Model):
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_title
 
+class Comments(models.Model):
+    #create visibility let author choose when they make post
+    post_id = models.CharField(max_length = 200)
+    comment_id = UUIDField(primary_key=True, auto=True)
+    #comment_author = models.ForeignKey(Author)
+    comment_text = models.CharField(max_length=200)
+
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        return self.comment_text
+
 
 #Tutorials
 #if you wanna know what this is doing:

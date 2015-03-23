@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect,render_to_response
-from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
+from SocialNetworkModels.models import Posts, Comments, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -31,6 +31,7 @@ def user_login(request):
                     return redirect('/home')
 
                 elif u.author.approved:
+		#else: 
                     login(request, user)
                     return redirect('/home')
                 else:
@@ -67,13 +68,14 @@ def home(request):
                 for friend in friendOfFriend:
                     if friend.reciever.get_username() not in FOAF and friend.reciever.get_username() != request.user:
                         FOAF.append(friend.reciever.get_username())
-            print ourfriend, FOAF    
+            print ourfriend, FOAF 
+	    comments = Comments.objects.all()   
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
             count = len(post)
         
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count})
+                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
@@ -321,6 +323,26 @@ def author_post(request):
         return render(request, 'LandingPage/post.html')
         
     return render(request, 'LandingPage/post.html')
+
+
+@login_required
+def author_post_comment(request, post_id):
+    if request.method =='POST':
+        comment_text = request.POST.get('comment')
+        #post =Posts.objects.create(post_author = request.user.username, 
+                                  #psot_title = title, post_text= text,visibility= visibility)
+        comment = Comments()
+        
+        comment.post_id = post_id
+        comment.comment_text = comment_text
+
+        comment.save()
+        return redirect('/home')
+    else:
+	return redirect('/home')
+        
+    return render(request, '/home')
+
 
 
 @login_required
