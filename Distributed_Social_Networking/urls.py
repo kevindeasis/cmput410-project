@@ -24,6 +24,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.views.decorators.csrf import csrf_exempt
 
+import logging, logging.config
+import sys
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
+}
+
+logging.config.dictConfig(LOGGING)
+
 
 
 # http://www.django-rest-framework.org/#tutorial
@@ -119,20 +138,94 @@ class FriendList(mixins.ListModelMixin,
 
 
     def get(self, request, *args, **kwargs):
+        user1 = self.kwargs['username1']
+        user2 = self.kwargs['username2']
+        allusers = []
+        allusers.append(user1)
+        allusers.append(user2)
+
+        isfriends = False
+
+        jsonresponse = {}
+        jsonresponse['query'] = 'friends'
+        jsonresponse['author'] = allusers
+
+        arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
+
+        if arefriends>0:
+            isfriends = True
+
+        jsonresponse['friends'] = isfriends
+
+        logging.info(arefriends)
+        #logging.info(request.GET.get('username'))
+        #logging.info(request.GET['username'])
+
+
 
         user1 = self.kwargs['username1']
         #return Friends.friendmanager.getAll(user1)
-        return HttpResponse(user1)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
     #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         user1 = self.kwargs['username1']
-        #return Friends.friendmanager.getAll(user1)
-        return HttpResponse(user1+user1)
+
+        data = json.loads(request.body)
+        #logging.info(request.POST['username'])
+        #logging.info(type(data))
+        #logging.info((data['query']))
+        #logging.info((data['author']))
+
+        #logging.info(type(data['authors']))
+
+        #OK THIS WORKS
+        friendslist = []
+        ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
+        for y in ourfriendlist:
+            friendslist.append(y.reciever.pk)
+        logging.info(friendslist)
+
+        returnlist = []
+        for x in range(len(data['authors'])):
+            #logging.info(type(int(data['authors'][x][0])))
+            #logging.info(data['authors'][x][0] in friendslist)
+            #logging.info(type(data['authors'][x]))
+            #logging.info(type(friendslist[0]))
+
+            if int(data['authors'][x]) in friendslist:
+                returnlist.append(data['authors'][x])
+
+        jsonresponse = {}
+        jsonresponse['query'] = 'friends'
+        jsonresponse['author'] = user1
+        jsonresponse['friends'] = returnlist
+
+        logging.info(jsonresponse)
+
+        #logging.info((data['authors'][0]))
+        #this is a list
+        #logging.info((data['authors']))
+        #logging.info((data['']))
+
+        #logging.info((type(user1)))
+        #logging.info(((user1)))
+
+        #logging.info(User.objects.get(pk=user1))
+        #logging.info(User.objects.get(pk=user1).username)
 
 
+        #logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
+        #obviously returns a list
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
+        #this is Friends but get the attribute titled reciever
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1))[0].reciever)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
 
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
@@ -159,6 +252,7 @@ class PostsViewSet(viewsets.ModelViewSet):
     queryset = Posts.objects.all()
     serializer_class = PostsSerializer
 
+
 class AuthorPostsSerializer(serializers.HyperlinkedModelSerializer):
     #http://stackoverflow.com/questions/17066074/modelserializer-using-model-property
 
@@ -166,8 +260,171 @@ class AuthorPostsSerializer(serializers.HyperlinkedModelSerializer):
         model = Posts
         fields = ('post_id', 'post_author', 'post_title', 'post_text', 'VISIBILITY', 'image', 'mark_down' )
 
-class AuthorPosts(viewsets.ModelViewSet):
+class AuthorPosts(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
     serializer_class = AuthorPostsSerializer
+
+    #queryset = Posts.objects.filter(post_author=Author)
+    #serializer_class = FindFriendsSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        user1 = self.kwargs['authorid']
+        theauthor = Author.objects.get(user=User.objects.get(pk=user1))
+        allposts = Posts.objects.filter(post_author=theauthor)
+
+        authorid = user1
+        authorhost = 'somehosturl'
+        authordisplayname = theauthor.user.username
+        authorurl = 'someurl'
+
+        postarray = []
+        for x in allposts:
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+            jsoncommentobject = {}
+            jsoncommentauthoroject = {}
+
+            jsoncommentauthoroject["id"] = "commentauthorid"
+            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+            jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+            jsoncommentobject["author"]=jsoncommentauthoroject
+            jsoncommentobject["comment"]="author"
+            jsoncommentobject["pubDate"]="author"
+            jsoncommentobject["guid"]="author"
+
+
+            commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+            #logging.info(x.post_title)
+            #logging.info(x.post_author.user.username)
+            #logging.info(x.post_text)
+
+
+
+        #logging.info(allposts)
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+        #jsonresponse['query'] = 'friends'
+        #jsonresponse['author'] = allusers
+
+        #arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
+
+        #if arefriends>0:
+        #    isfriends = True
+
+        #jsonresponse['friends'] = isfriends
+
+        #logging.info(arefriends)
+        #logging.info(request.GET.get('username'))
+        #logging.info(request.GET['username'])
+
+
+
+        #user1 = self.kwargs['username1']
+        #return Friends.friendmanager.getAll(user1)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+
+
+class FriendRequest(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+
+    queryset = Friends.friendmanager.all()
+    serializer_class = FindFriendsSerializer
+
+    #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+
+        data = json.loads(request.body)
+
+        authorid = data['author']['id']
+        authorhost = data['author']['host']
+        authordisplayname = data['author']['displayname']
+
+        friendid = data['friend']['id']
+        friendhost = data['friend']['host']
+        frienddisplayname = data['friend']['displayname']
+        friendurl = data['friend']['url']
+
+        logging.info(authorid)
+        logging.info(authorhost)
+        logging.info(friendid)
+        logging.info(friendhost)
+
+        #OK THIS WORKS
+        '''
+        friendslist = []
+        ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
+        for y in ourfriendlist:
+            friendslist.append(y.reciever.pk)
+        logging.info(friendslist)
+
+        returnlist = []
+        for x in range(len(data['authors'])):
+            #logging.info(type(int(data['authors'][x][0])))
+            #logging.info(data['authors'][x][0] in friendslist)
+            #logging.info(type(data['authors'][x]))
+            #logging.info(type(friendslist[0]))
+
+            if int(data['authors'][x]) in friendslist:
+                returnlist.append(data['authors'][x])
+
+        jsonresponse = {}
+        jsonresponse['query'] = 'friends'
+        jsonresponse['author'] = user1
+        jsonresponse['friends'] = returnlist
+
+        logging.info(jsonresponse)
+        '''
+        #logging.info((data['authors'][0]))
+        #this is a list
+        #logging.info((data['authors']))
+        #logging.info((data['']))
+
+        #logging.info((type(user1)))
+        #logging.info(((user1)))
+
+        #logging.info(User.objects.get(pk=user1))
+        #logging.info(User.objects.get(pk=user1).username)
+
+
+        #logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+
+        #obviously returns a list
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+
+        #this is Friends but get the attribute titled reciever
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1))[0].reciever)
+        return HttpResponse(json.dumps({}), content_type = 'application/json')
+
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
 
 
@@ -188,10 +445,23 @@ router.register(r'follows', FollowViewSet)
 router.register(r'post', PostsViewSet)
 
 
+
 urlpatterns = patterns('',
-    url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
+    #url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
+
+    #url(r'^service/posts/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    url(r'^service/author/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    #url(r'^service/author/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    #url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(AuthorPosts.as_view())),
+    #url(r'^service/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    url(r'^service/friendrequest/$', csrf_exempt(FriendRequest.as_view())),
+
+
+
+    url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', csrf_exempt(FriendList.as_view())),
 
     url(r'^service/friends/(?P<username1>.+)/$', csrf_exempt(FriendList.as_view())),
+
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls)),
