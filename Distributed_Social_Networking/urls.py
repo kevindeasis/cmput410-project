@@ -138,15 +138,35 @@ class FriendList(mixins.ListModelMixin,
 
 
     def get(self, request, *args, **kwargs):
+        user1 = self.kwargs['username1']
+        user2 = self.kwargs['username2']
+        allusers = []
+        allusers.append(user1)
+        allusers.append(user2)
 
-        logging.info(request.GET.get('username'))
+        isfriends = False
+
+        jsonresponse = {}
+        jsonresponse['query'] = 'friends'
+        jsonresponse['author'] = allusers
+
+        arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
+
+        if arefriends>0:
+            isfriends = True
+
+        jsonresponse['friends'] = isfriends
+
+        logging.info(arefriends)
+        #logging.info(request.GET.get('username'))
         #logging.info(request.GET['username'])
 
 
 
         user1 = self.kwargs['username1']
         #return Friends.friendmanager.getAll(user1)
-        return HttpResponse(user1)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
     #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
     @csrf_exempt
     def post(self, request, *args, **kwargs):
@@ -262,9 +282,12 @@ router.register(r'post', PostsViewSet)
 
 
 urlpatterns = patterns('',
-    url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
+    #url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
+
+    url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', csrf_exempt(FriendList.as_view())),
 
     url(r'^service/friends/(?P<username1>.+)/$', csrf_exempt(FriendList.as_view())),
+
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls)),
