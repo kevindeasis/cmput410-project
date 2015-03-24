@@ -326,7 +326,7 @@ def author_post(request):
 
 
 @login_required
-def author_post_comment(request, post_id):
+def author_post_comment(request, post_id, author):
     if request.method =='POST':
         comment_text = request.POST.get('comment')
         #post =Posts.objects.create(post_author = request.user.username, 
@@ -334,6 +334,7 @@ def author_post_comment(request, post_id):
         comment = Comments()
         
         comment.post_id = post_id
+        comment.comment_author = author
         comment.comment_text = comment_text
 
         comment.save()
@@ -406,6 +407,18 @@ def profile(request,edit):
             return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'edit':edit})
     return render(request, 'LandingPage/profile.html')
 
+@login_required
+def profile_post(request,user_id,edit):
+    if request.user.is_authenticated():
+        if request.method =='GET':
+	    user1 = User.objects.get(username = user_id)
+            author = Author.objects.get(user = user1)
+            username = author.user.username
+            email = author.user.email
+            github_username=author.github_username
+            picture = author.picture
+            return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'edit':edit})
+    return render(request, 'LandingPage/profile.html')
 
 @login_required
 def profile_edit(request):

@@ -37,55 +37,7 @@
 		 <div class="panel-body">
 		 <div class="panel-more1">
 
-				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
-                                
-                                {% if post.image %}
-
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-
-				           {{post.post_text}} 
-                 </br></br>
-				 <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment..." type="text" value = "{{username}}" />   
-				 <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = ""/>           
-                        </div></div></div>
-
-                        
-                        {% elif post.visibility = 'FRIENDS' and post.post_author.user.username in friends%}
-                     
-                                    
-
-		                <div class="panel panel-default">
-		                <div class="panel-body">
-		                <div class="panel-more1">
-
-				        <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
-                                
-                                {% if post.image %}
-
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-
-				           {{post.post_text}} 
-                 </br></br>
-				 <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment..." type="text" value = "{{username}}" />   
-				 <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = ""/>           
-                        </div></div></div>
-                      
-                        
-                      {%elif post.visibility = 'PUBLIC'%}
-
-
-
-
-		 <div class="panel panel-default">
-
-		 <div class="panel-body">
-		 <div class="panel-more1">
-
-				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
 
@@ -100,12 +52,86 @@
 					<div class="panel panel-default">
 					<div class="panel-body">
 					<div class="panel-more1">
-						{{comment.comment_text}} </br>
+						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
 					</div></div></div>
 				{% else %}		            
 				{% endif %}
 			{% endfor %}
-				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/" enctype="multipart/form-data">
+				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
+					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
+				</form>         
+                        </div></div></div>
+
+                        
+                        {% elif post.visibility = 'FRIENDS' and post.post_author.user.username in friends%}
+                     
+                                    
+
+		                <div class="panel panel-default">
+		                <div class="panel-body">
+		                <div class="panel-more1">
+
+				        <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
+                                
+                                {% if post.image %}
+
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+
+				           {{post.post_text}} 
+                 </br></br>
+			{%for comment in comments %}
+				{% if comment.post_id = post.post_id %}
+					<div class="panel panel-default">
+					<div class="panel-body">
+					<div class="panel-more1">
+						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
+					</div></div></div>
+				{% else %}		            
+				{% endif %}
+			{% endfor %}
+				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
+					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
+				</form>                 
+                        </div></div></div>
+                      
+                        
+                      {%elif post.visibility = 'PUBLIC'%}
+
+
+
+
+		 <div class="panel panel-default">
+
+		 <div class="panel-body">
+		 <div class="panel-more1">
+
+				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
+                                
+                                {% if post.image %}
+
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+
+				           {{post.post_text}} 
+                 </br></br>
+			{%for comment in comments %}
+				{% if comment.post_id = post.post_id %}
+					<div class="panel panel-default">
+					<div class="panel-body">
+					<div class="panel-more1">
+						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
+					</div></div></div>
+				{% else %}		            
+				{% endif %}
+			{% endfor %}
+				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 					{% csrf_token %}
 					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
 					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
@@ -119,7 +145,7 @@
 		 <div class="panel-body">
 		 <div class="panel-more1">
 
-				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/display/{{post.post_id}}/">{{post.post_author}}</a></br></br>
+				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
 
@@ -129,9 +155,21 @@
 
 				           {{post.post_text}} 
                  </br></br>
-
-				 <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment..." type="text" value = "{{username}}" />   
-				 <input type="submit" name="submit" class="btn btn-default" value="Submit" onclick = ""/>           
+			{%for comment in comments %}
+				{% if comment.post_id = post.post_id %}
+					<div class="panel panel-default">
+					<div class="panel-body">
+					<div class="panel-more1">
+						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
+					</div></div></div>
+				{% else %}		            
+				{% endif %}
+			{% endfor %}
+				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
+					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
+				</form>                 
                         </div></div></div>
 
                         </div>

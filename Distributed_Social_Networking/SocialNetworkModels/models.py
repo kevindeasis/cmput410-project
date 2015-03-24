@@ -248,7 +248,7 @@ class Comments(models.Model):
     #create visibility let author choose when they make post
     post_id = models.CharField(max_length = 200)
     comment_id = UUIDField(primary_key=True, auto=True)
-    #comment_author = models.ForeignKey(Author)
+    comment_author = models.CharField(max_length = 200)
     comment_text = models.CharField(max_length=200)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
