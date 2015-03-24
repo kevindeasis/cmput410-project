@@ -1,7 +1,23 @@
 API(Subject to change, authentication and data mutation will be added after first project deadline)
+===========================================================
 
-Json is not the default, but it will be the defaul after the first project deadline
+This works
+# ask a service if anyone in the list is a friend
+curl -X POST -H "Content-Type: application/json" -d '
+{"query":"friends",
+ "author":"9de17f29c12e8f97bcbbd34cc908f1baba40658e",
+ "authors":[
+		"69",
+		"68",
+		"67"
+  ]
+}' http://127.0.0.1:9000/service/friends/67/
 
+
+# reponds with
+{"query": "friends", "friends": ["69", "68"], "author": "67"}
+
+============================================================================
 It uses a different JSON format, but will be restructured after the first project deadline
 
 Below is the API and it returns links to the options you have for using the API

@@ -155,25 +155,57 @@ class FriendList(mixins.ListModelMixin,
         data = json.loads(request.body)
         #logging.info(request.POST['username'])
         #logging.info(type(data))
-        logging.info((data['username']))
-        logging.info((type(user1)))
-        logging.info(((user1)))
+        #logging.info((data['query']))
+        #logging.info((data['author']))
 
-        logging.info(User.objects.get(pk=user1))
-        logging.info(User.objects.get(pk=user1).username)
+        #logging.info(type(data['authors']))
+
+        #OK THIS WORKS
+        friendslist = []
+        ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
+        for y in ourfriendlist:
+            friendslist.append(y.reciever.pk)
+        logging.info(friendslist)
+
+        returnlist = []
+        for x in range(len(data['authors'])):
+            #logging.info(type(int(data['authors'][x][0])))
+            #logging.info(data['authors'][x][0] in friendslist)
+            #logging.info(type(data['authors'][x]))
+            #logging.info(type(friendslist[0]))
+
+            if int(data['authors'][x]) in friendslist:
+                returnlist.append(data['authors'][x])
+
+        jsonresponse = {}
+        jsonresponse['query'] = 'friends'
+        jsonresponse['author'] = user1
+        jsonresponse['friends'] = returnlist
+
+        logging.info(jsonresponse)
+
+        #logging.info((data['authors'][0]))
+        #this is a list
+        #logging.info((data['authors']))
+        #logging.info((data['']))
+
+        #logging.info((type(user1)))
+        #logging.info(((user1)))
+
+        #logging.info(User.objects.get(pk=user1))
+        #logging.info(User.objects.get(pk=user1).username)
 
 
-        logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+        #logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
+        #obviously returns a list
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
+        #this is Friends but get the attribute titled reciever
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1))[0].reciever)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
-
-        return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
-        #return HttpResponse(user1+user1)
-
-
-
-
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
 
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
