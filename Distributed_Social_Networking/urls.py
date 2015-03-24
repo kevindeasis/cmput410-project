@@ -465,14 +465,14 @@ urlpatterns = patterns('',
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls)),
-
+    
     url(r'^users/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
-
+    
     url(r'^$', views.user_login, name = 'user_login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', views.user_login, name = 'user_login'),
     url(r'^logout/', views.user_logout, name = 'user_logout'), # NEW MAPPING!
-
+    url(r'^api/', include('api_urls')),
     url(r'^home/', views.home,name='home'), # NEW MAPPING!
 
     url(r'^post/', views.author_post, name ='author_post'),
