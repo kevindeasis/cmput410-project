@@ -1,4 +1,4 @@
-API(Subject to change, authentication and data mutation will be added after first project deadline)
+Obviously not finished but most of it works
 ===========================================================
 
 This works
@@ -36,6 +36,25 @@ curl -X GET -H "Content-Type: application/json" -d '
 
 Response
 {"query": "friends", "friends": true, "author": ["67", "68"]}
+
+
+===========
+
+curl -X POST -H "Content-Type: application/json" -d '
+{"query":"friendrequest",
+"author":{
+"id":"8d919f29c12e8f97bcbbd34cc908f19ab9496989",
+"host":"http://127.0.0.1:5454/",
+"displayname":"Greg"
+},
+"friend": {
+                 "id":"9de17f29c12e8f97bcbbd34cc908f1baba40658e",
+                 "host":"http://127.0.0.1:5454/",
+                 "displayname":"Lara",
+                 "url":"http://127.0.0.1:5454/author/9de17f29c12e8f97bcbbd34cc908f1baba40658e"
+           }
+}' http://localhost:9000/service/friendrequest/
+
 
 ============================================================================
 It uses a different JSON format, but will be restructured after the first project deadline
