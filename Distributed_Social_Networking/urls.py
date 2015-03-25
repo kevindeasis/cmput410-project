@@ -12,7 +12,7 @@ from rest_framework.renderers import JSONRenderer
 import json
 
 from rest_framework import generics
-from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
+from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager, Comments
 from rest_framework.decorators import api_view
 
 
@@ -43,7 +43,8 @@ LOGGING = {
 
 logging.config.dictConfig(LOGGING)
 
-
+def obtaincomment(id):
+    return Comments.objects.filter(post_id=id)
 
 # http://www.django-rest-framework.org/#tutorial
 
@@ -412,6 +413,9 @@ class GrabPostID(mixins.ListModelMixin,
 
     def get(self, request, *args, **kwargs):
         postid = self.kwargs['postid']
+
+        logging.info(obtaincomment(postid).exists())
+
         #theauthor = Author.objects.get(user=User.objects.get(pk=user1))
         apost = Posts.objects.get(post_id=postid)
         allposts = [apost]
@@ -424,6 +428,7 @@ class GrabPostID(mixins.ListModelMixin,
 
         postarray = []
         for x in allposts:
+
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
             jsonpostobject["source"] = x.post_title
@@ -443,20 +448,45 @@ class GrabPostID(mixins.ListModelMixin,
             commentarray = []
             #obviously there will be a for loop here
 
-            jsoncommentobject = {}
-            jsoncommentauthoroject = {}
-
-            jsoncommentauthoroject["id"] = "commentauthorid"
-            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
-            jsoncommentauthoroject["displayname"] = "commentauthor username"
-
-            jsoncommentobject["author"]=jsoncommentauthoroject
-            jsoncommentobject["comment"]="author"
-            jsoncommentobject["pubDate"]="author"
-            jsoncommentobject["guid"]="author"
 
 
-            commentarray.append(jsoncommentobject)
+            #comments_exists=obtaincomment(x.post_id).exists()
+            #logging.info(comments_exists)
+
+            if obtaincomment(x.post_id).exists():
+                for q in obtaincomment(x.post_id):
+                    jsoncommentobject = {}
+                    jsoncommentauthoroject = {}
+
+                    jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
+                    jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                    jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
+
+                    jsoncommentobject["author"]=jsoncommentauthoroject
+                    jsoncommentobject["comment"]=q.comment_text
+                    jsoncommentobject["pubDate"]="somedate"
+                    jsoncommentobject["guid"]=q.post_id
+
+                    commentarray.append(jsoncommentobject)
+
+
+            else:
+
+
+                jsoncommentobject = {}
+                jsoncommentauthoroject = {}
+
+                jsoncommentauthoroject["id"] = "commentauthorid"
+                jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+                jsoncommentobject["author"]=jsoncommentauthoroject
+                jsoncommentobject["comment"]="author"
+                jsoncommentobject["pubDate"]="author"
+                jsoncommentobject["guid"]="author"
+
+
+                commentarray.append(jsoncommentobject)
 
             jsonpostobject["comments"]=commentarray
 
