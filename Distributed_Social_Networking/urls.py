@@ -404,7 +404,96 @@ class FriendRequest(mixins.ListModelMixin,
 
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
-        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+class GrabPostID(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    serializer_class = AuthorPostsSerializer
+
+    #queryset = Posts.objects.filter(post_author=Author)
+    #serializer_class = FindFriendsSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        postid = self.kwargs['postid']
+        #theauthor = Author.objects.get(user=User.objects.get(pk=user1))
+        apost = Posts.objects.get(post_id=postid)
+        allposts = [apost]
+
+        postauthor = apost.post_author.user
+        authorid = postauthor.pk
+        authorhost = 'somehosturl'
+        authordisplayname = postauthor.username
+        authorurl = 'someurl'
+
+        postarray = []
+        for x in allposts:
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+            jsoncommentobject = {}
+            jsoncommentauthoroject = {}
+
+            jsoncommentauthoroject["id"] = "commentauthorid"
+            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+            jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+            jsoncommentobject["author"]=jsoncommentauthoroject
+            jsoncommentobject["comment"]="author"
+            jsoncommentobject["pubDate"]="author"
+            jsoncommentobject["guid"]="author"
+
+
+            commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+            #logging.info(x.post_title)
+            #logging.info(x.post_author.user.username)
+            #logging.info(x.post_text)
+
+
+
+        #logging.info(allposts)
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+        #jsonresponse['query'] = 'friends'
+        #jsonresponse['author'] = allusers
+
+        #arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
+
+        #if arefriends>0:
+        #    isfriends = True
+
+        #jsonresponse['friends'] = isfriends
+
+        #logging.info(arefriends)
+        #logging.info(request.GET.get('username'))
+        #logging.info(request.GET['username'])
+
+
+
+        #user1 = self.kwargs['username1']
+        #return Friends.friendmanager.getAll(user1)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
 
 
 
@@ -432,7 +521,7 @@ urlpatterns = patterns('',
     #url(r'^service/posts/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
     url(r'^service/author/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
     #url(r'^service/author/posts/$', csrf_exempt(AuthorPosts.as_view())),
-    #url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(AuthorPosts.as_view())),
+    url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(GrabPostID.as_view())),
     #url(r'^service/posts/$', csrf_exempt(AuthorPosts.as_view())),
     url(r'^service/friendrequest/$', csrf_exempt(FriendRequest.as_view())),
 

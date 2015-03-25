@@ -160,6 +160,27 @@ Response
 {"query": "friends", "friends": true, "author": ["67", "68"]}
 
 
+****USE GET FOR NOW****
+REQUEST
+curl -X GET -H "Content-Type: application/json" -d '
+{"query":"friendrequest",
+"author":{
+"id":"67",
+"host":"http://127.0.0.1:5454/",
+"displayname":"1"
+},
+"friend": {
+                 "id":"68",
+                 "host":"http://127.0.0.1:5454/",
+                 "displayname":"2",
+                 "url":"http://localhost:9000/service/author/68/"
+           }
+}' http://127.0.0.1:9000/service/friendrequest/
+
+RESPONSE
+{}
+
+
 ===========
 
 request
