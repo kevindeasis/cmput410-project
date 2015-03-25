@@ -6,6 +6,8 @@
 ##Testing:
 
 python manage.py test
+[![Build Status](https://api.travis-ci.org/diego04/cmput410-project.svg)](https://travis-ci.org/diego04/cmput410-project/)
+
 
 ## Modules Used:
 
