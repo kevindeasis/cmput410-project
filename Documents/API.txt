@@ -27,6 +27,7 @@ response
 {"posts": [{"origin": "no", "description": "no", "title": "no", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "no", "source": "no", "content-type": "no"}, {"origin": "jeff private", "description": "jeff private", "title": "jeff private", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "jeff private", "source": "jeff private", "content-type": "jeff private"}, {"origin": "jeff Friend", "description": "jeff Friend", "title": "jeff Friend", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "jeff Friend", "source": "jeff Friend", "content-type": "jeff Friend"}, {"origin": "demo", "description": "demo", "title": "demo", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "demo", "source": "demo", "content-type": "demo"}]}
 ==========================
 
+request
 curl -X GET -H "Content-Type: application/json" -d '
 {
     "username": "testpost24",
@@ -40,6 +41,7 @@ Response
 
 ===========
 
+request
 curl -X POST -H "Content-Type: application/json" -d '
 {"query":"friendrequest",
 "author":{
@@ -55,6 +57,63 @@ curl -X POST -H "Content-Type: application/json" -d '
            }
 }' http://localhost:9000/service/friendrequest/
 
+response
+{}
+
+=====================================
+
+request
+curl -X GET http://localhost:9000/service/author/63/
+
+response
+{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/author/63/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
+
+=====================================
+
+request
+curl -X GET http://localhost:9000/service/author/posts/
+
+response
+NOT CURRENTLY WORKING ({"detail":"Not found."})
+should return posts that are visible to the currently authenticated user
+
+=====================================
+
+request
+curl -X GET http://localhost:9000/service/post/
+
+response
+[{"post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://127.0.0.1:8000/service/post/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://127.0.0.1:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}},{"post_title":"yes yes","post_id":"ab1b4435-790f-4d36-b88c-ddfadfcf18f4","post_text":"yes yes","post_author":{"user":65,"github_username":"haha","picture":"http://127.0.0.1:8000/service/post/static/profile_images/index1_nJNutT5.jpeg","approved":false,"author_details":{"url":"http://127.0.0.1:8000/service/users/65/","username":"haha","email":"hahaha@gmail.com","is_staff":false}}},...
+
+=====================================
+
+request
+curl -X GET http://localhost:9000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+response
+{"post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}}
+
+=====================================
+
+request
+curl -X POST -d '{"
+post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
+}' http://localhost:9000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+response
+NOT CURRENTLY WORKING ({"detail":"Method \"POST\" not allowed."})
+should insert the post
+
+=====================================
+
+request
+curl -X PUT -d '{"
+post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
+}' http://localhost:9000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+response
+NOT CURRENTLY WORKING ({"detail":"Unsupported media type \"application/x-www-form-urlencoded\" in request."})
+should insert/update the post
 
 ============================================================================
 It uses a different JSON format, but will be restructured after the first project deadline
