@@ -410,10 +410,6 @@ class GrabPostID(mixins.ListModelMixin,
 
     serializer_class = AuthorPostsSerializer
 
-    #queryset = Posts.objects.filter(post_author=Author)
-    #serializer_class = FindFriendsSerializer
-
-
     def get(self, request, *args, **kwargs):
         postid = self.kwargs['postid']
         #theauthor = Author.objects.get(user=User.objects.get(pk=user1))
@@ -465,33 +461,11 @@ class GrabPostID(mixins.ListModelMixin,
             jsonpostobject["comments"]=commentarray
 
             postarray.append(jsonpostobject)
-            #logging.info(x.post_title)
-            #logging.info(x.post_author.user.username)
-            #logging.info(x.post_text)
-
-
 
         #logging.info(allposts)
         jsonresponse = {}
         jsonresponse['posts'] = postarray
-        #jsonresponse['query'] = 'friends'
-        #jsonresponse['author'] = allusers
 
-        #arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
-
-        #if arefriends>0:
-        #    isfriends = True
-
-        #jsonresponse['friends'] = isfriends
-
-        #logging.info(arefriends)
-        #logging.info(request.GET.get('username'))
-        #logging.info(request.GET['username'])
-
-
-
-        #user1 = self.kwargs['username1']
-        #return Friends.friendmanager.getAll(user1)
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
 
@@ -500,10 +474,6 @@ class GrabPublicPost(mixins.ListModelMixin,
                   generics.GenericAPIView):
 
     serializer_class = AuthorPostsSerializer
-
-    #queryset = Posts.objects.filter(post_author=Author)
-    #serializer_class = FindFriendsSerializer
-
 
     def get(self, request, *args, **kwargs):
         allposts = Posts.objects.all()
@@ -558,35 +528,101 @@ class GrabPublicPost(mixins.ListModelMixin,
             jsonpostobject["comments"]=commentarray
 
             postarray.append(jsonpostobject)
-            #logging.info(x.post_title)
-            #logging.info(x.post_author.user.username)
-            #logging.info(x.post_text)
 
-
-
-        #logging.info(allposts)
         jsonresponse = {}
         jsonresponse['posts'] = postarray
-        #jsonresponse['query'] = 'friends'
-        #jsonresponse['author'] = allusers
 
-        #arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
-
-        #if arefriends>0:
-        #    isfriends = True
-
-        #jsonresponse['friends'] = isfriends
-
-        #logging.info(arefriends)
-        #logging.info(request.GET.get('username'))
-        #logging.info(request.GET['username'])
-
-
-
-        #user1 = self.kwargs['username1']
-        #return Friends.friendmanager.getAll(user1)
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
+
+
+class GrabFoafPost(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    serializer_class = AuthorPostsSerializer
+
+    def get(self, request, *args, **kwargs):
+
+        logging.info('ei')
+
+
+        data = json.loads(request.body)
+
+        logging.info(data)
+
+        requester_id = data['author']['id']
+        requester_host = data['author']['host']
+        requester_displayname = data['author']['displayname']
+
+        user1 = data['id']
+
+        mutual_friends_list = data['friends']
+
+        theauthor = Author.objects.get(user=User.objects.get(pk=user1))
+        allposts = Posts.objects.filter(post_author=theauthor)
+
+        authorid = data['id']
+        authorhost = 'somehosturl'
+        authordisplayname = theauthor.user.username
+        authorurl = 'someurl'
+
+        cangetpost = False
+
+        returnlist = []
+        for x in range(len(data['friends'])):
+            data['friends'][x]
+
+
+            '''
+            Ok you need info from the other group otherwise you cant do this
+            '''
+
+
+        postarray = []
+        for x in allposts:
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+            jsoncommentobject = {}
+            jsoncommentauthoroject = {}
+
+            jsoncommentauthoroject["id"] = "commentauthorid"
+            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+            jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+            jsoncommentobject["author"]=jsoncommentauthoroject
+            jsoncommentobject["comment"]="author"
+            jsoncommentobject["pubDate"]="author"
+            jsoncommentobject["guid"]="author"
+
+
+            commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
 
 
@@ -617,6 +653,7 @@ urlpatterns = patterns('',
     url(r'^service/posts/$', csrf_exempt(GrabPublicPost.as_view())),
     url(r'^service/friendrequest/$', csrf_exempt(FriendRequest.as_view())),
 
+    url(r'^service/foaf/getposts/$', csrf_exempt(GrabFoafPost.as_view())),
 
 
     url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', csrf_exempt(FriendList.as_view())),

@@ -357,6 +357,57 @@ curl -X POST -H "Content-Type: application/json" -d '
 response
 {}
 
+
+REQUEST
+
+curl -X GET -H "Content-Type: application/json" -d '
+{"query":"getpost",
+ "id":"63",
+ "author":{
+    "id":"66",
+    "host":"http://127.0.0.1:5454/",
+    "displayname":"Greg"
+ },
+ "friends":[
+    "67",
+    "68"
+ ]
+}
+' http://127.0.0.1:9000/service/foaf/getposts/
+
+Response
+{
+    "posts": [
+        {
+            "origin": "no",
+            "description": "no",
+            "title": "no",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": 63
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "no",
+            "source": "no",
+            "content-type": "no"
+        }
+    ]
+}
+
+
 =====================================
 
 request
