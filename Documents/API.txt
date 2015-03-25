@@ -1,31 +1,152 @@
-Obviously not finished but most of it works
-===========================================================
+REQUEST
+curl GET http://localhost:9000/service/friends/67/68/
 
-This works
-# ask a service if anyone in the list is a friend
-request
+Response
+{
+    "query": "friends",
+    "friends": true,
+    "author": [
+        "67",
+        "68"
+    ]
+}
+
+
+REQUEST
 curl -X POST -H "Content-Type: application/json" -d '
 {"query":"friends",
  "author":"9de17f29c12e8f97bcbbd34cc908f1baba40658e",
  "authors":[
-		"69",
+ 		"69",
 		"68",
 		"67"
   ]
 }' http://127.0.0.1:9000/service/friends/67/
 
+RESPONSE
+{
+    "query": "friends",
+    "friends": [
+        "69",
+        "68"
+    ],
+    "author": "67"
+}
 
-# reponds with
-{"query": "friends", "friends": ["69", "68"], "author": "67"}
+REQUEST
+curl GET http://localhost:9000/service/author/63/posts/
+
+RESPONSE
+{
+    "posts": [
+        {
+            "origin": "no",
+            "description": "no",
+            "title": "no",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": "63"
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "no",
+            "source": "no",
+            "content-type": "no"
+        },
+        {
+            "origin": "jeff private",
+            "description": "jeff private",
+            "title": "jeff private",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": "63"
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "jeff private",
+            "source": "jeff private",
+            "content-type": "jeff private"
+        },
+        {
+            "origin": "jeff Friend",
+            "description": "jeff Friend",
+            "title": "jeff Friend",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": "63"
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "jeff Friend",
+            "source": "jeff Friend",
+            "content-type": "jeff Friend"
+        },
+        {
+            "origin": "demo",
+            "description": "demo",
+            "title": "demo",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": "63"
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "demo",
+            "source": "demo",
+            "content-type": "demo"
+        }
+    ]
+}
 
 
-====================================
-request
-CURL http://localhost:9000/service/author/63/posts/
-
-response
-{"posts": [{"origin": "no", "description": "no", "title": "no", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "no", "source": "no", "content-type": "no"}, {"origin": "jeff private", "description": "jeff private", "title": "jeff private", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "jeff private", "source": "jeff private", "content-type": "jeff private"}, {"origin": "jeff Friend", "description": "jeff Friend", "title": "jeff Friend", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "jeff Friend", "source": "jeff Friend", "content-type": "jeff Friend"}, {"origin": "demo", "description": "demo", "title": "demo", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": "63"}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "demo", "source": "demo", "content-type": "demo"}]}
-==========================
 
 request
 curl -X GET -H "Content-Type: application/json" -d '
