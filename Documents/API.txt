@@ -180,7 +180,162 @@ curl -X GET -H "Content-Type: application/json" -d '
 RESPONSE
 {}
 
+REQUEST:
+curl get http://localhost:9000/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
+RESPONSE
+{
+    "posts": [
+        {
+            "origin": "no",
+            "description": "no",
+            "title": "no",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": 63
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "no",
+            "source": "no",
+            "content-type": "no"
+        }
+    ]
+}
+
+request
+curl get http://localhost:9000/service/author/posts/
+
+response
+{
+    "posts": [
+        {
+            "origin": "no",
+            "description": "no",
+            "title": "no",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": 63
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "no",
+            "source": "no",
+            "content-type": "no"
+        },
+        {
+            "origin": "yes yes",
+            "description": "yes yes",
+            "title": "yes yes",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "haha",
+                "id": 65
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "yes yes",
+            "source": "yes yes",
+            "content-type": "yes yes"
+        }
+    ]
+}
+
+request
+curl get http://localhost:9000/service/posts/
+
+response
+{
+    "posts": [
+        {
+            "origin": "no",
+            "description": "no",
+            "title": "no",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "jeff",
+                "id": 63
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "no",
+            "source": "no",
+            "content-type": "no"
+        },
+        {
+            "origin": "yes yes",
+            "description": "yes yes",
+            "title": "yes yes",
+            "author": {
+                "url": "someurl",
+                "host": "somehosturl",
+                "displayname": "haha",
+                "id": 65
+            },
+            "comments": [
+                {
+                    "comment": "author",
+                    "guid": "author",
+                    "pubDate": "author",
+                    "author": {
+                        "hostname": "commentauthor urlhost",
+                        "displayname": "commentauthor username",
+                        "id": "commentauthorid"
+                    }
+                }
+            ],
+            "content": "yes yes",
+            "source": "yes yes",
+            "content-type": "yes yes"
+        }
+    ]
+}
 ===========
 
 request

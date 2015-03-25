@@ -495,6 +495,99 @@ class GrabPostID(mixins.ListModelMixin,
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
 
+class GrabPublicPost(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    serializer_class = AuthorPostsSerializer
+
+    #queryset = Posts.objects.filter(post_author=Author)
+    #serializer_class = FindFriendsSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        allposts = Posts.objects.all()
+
+
+        postarray = []
+        for x in allposts:
+
+            #apost = Posts.objects.get(post_id=postid)
+            #allposts = [apost]
+
+            postauthor = x.post_author.user
+            authorid = postauthor.pk
+            authorhost = 'somehosturl'
+            authordisplayname = postauthor.username
+            authorurl = 'someurl'
+
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+            jsoncommentobject = {}
+            jsoncommentauthoroject = {}
+
+            jsoncommentauthoroject["id"] = "commentauthorid"
+            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+            jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+            jsoncommentobject["author"]=jsoncommentauthoroject
+            jsoncommentobject["comment"]="author"
+            jsoncommentobject["pubDate"]="author"
+            jsoncommentobject["guid"]="author"
+
+
+            commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+            #logging.info(x.post_title)
+            #logging.info(x.post_author.user.username)
+            #logging.info(x.post_text)
+
+
+
+        #logging.info(allposts)
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+        #jsonresponse['query'] = 'friends'
+        #jsonresponse['author'] = allusers
+
+        #arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
+
+        #if arefriends>0:
+        #    isfriends = True
+
+        #jsonresponse['friends'] = isfriends
+
+        #logging.info(arefriends)
+        #logging.info(request.GET.get('username'))
+        #logging.info(request.GET['username'])
+
+
+
+        #user1 = self.kwargs['username1']
+        #return Friends.friendmanager.getAll(user1)
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+
 
 
 # Routers provide a way of automatically determining the URL conf.
@@ -518,11 +611,10 @@ router.register(r'post', PostsViewSet)
 urlpatterns = patterns('',
     #url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
 
-    #url(r'^service/posts/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
     url(r'^service/author/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
-    #url(r'^service/author/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    url(r'^service/author/posts/$', csrf_exempt(GrabPublicPost.as_view())),
     url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(GrabPostID.as_view())),
-    #url(r'^service/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    url(r'^service/posts/$', csrf_exempt(GrabPublicPost.as_view())),
     url(r'^service/friendrequest/$', csrf_exempt(FriendRequest.as_view())),
 
 
