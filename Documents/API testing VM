@@ -1,0 +1,35 @@
+http://cs410.cs.ualberta.ca:41071
+
+curl GET http://cs410.cs.ualberta.ca:41071/service/friends/67/68/
+
+
+curl -X POST -H "Content-Type: application/json" -d '
+{"query":"friends",
+"author":"9de17f29c12e8f97bcbbd34cc908f1baba40658e",
+"authors":[
+"69",
+"68",
+"67"
+]
+}' http://cs410.cs.ualberta.ca:41071/service/friends/67/
+
+
+curl GET http://cs410.cs.ualberta.ca:41071/service/author/63/posts/
+
+curl get http://cs410.cs.ualberta.ca:41071/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+
+curl -X POST -H "Content-Type: application/json" -d '
+{"query":"friendrequest",
+"author":{
+"id":"67",
+"host":"http://127.0.0.1:5454/",
+"displayname":"1"
+},
+"friend": {
+"id":"68",
+"host":"http://127.0.0.1:5454/",
+"displayname":"2",
+"url":"http://localhost:9000/service/author/68/"
+}
+}' http://cs410.cs.ualberta.ca:41071/service/friendrequest/

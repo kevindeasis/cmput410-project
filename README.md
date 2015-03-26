@@ -2,10 +2,15 @@
 # cmput410-project
 ------
 #All of the links are in this page
+##API
+https://github.com/diego04/cmput410-project/blob/master/Documents/API.txt
 
 ##Testing:
 
 python manage.py test
+
+
+
 
 ## Modules Used:
 
@@ -130,6 +135,7 @@ http://127.0.0.1:8000/admin
 ------
 ##Tutorials Used:
 ------
+[![Build Status](https://api.travis-ci.org/diego04/cmput410-project.svg)](https://travis-ci.org/diego04/cmput410-project/)
 
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 

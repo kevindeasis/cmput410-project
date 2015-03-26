@@ -24,44 +24,45 @@
            
 		   {% for post in posts %}
 
-	{% if post.mark_down %}
-		<b>
-	{% endif %}
-		 {%if post.post_author = user.author%}
+	            {% if post.mark_down %}
+		            <b>
+	            {% endif %}
+		        {%if post.post_author = user.post_author%}
+
+        
 
 
+		                         <div class="panel panel-default">
 
+		                        <div class="panel-body">
+		                        <div class="panel-more1">
 
-		 <div class="panel panel-default">
-
-		 <div class="panel-body">
-		 <div class="panel-more1">
-
-				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
+				                <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
                                 
                                 {% if post.image %}
 
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
+                                    <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}
+                                  
                                 {% endif %}  
 
-				           {{post.post_text}} 
-                 </br></br>
-			{%for comment in comments %}
-				{% if comment.post_id = post.post_id %}
-					<div class="panel panel-default">
-					<div class="panel-body">
-					<div class="panel-more1">
-						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
-					</div></div></div>
-				{% else %}		            
-				{% endif %}
-			{% endfor %}
-				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
-					{% csrf_token %}
-					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
-					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
-				</form>         
+				                {{post.post_text}} 
+                                </br></br>
+			                    {%for comment in comments %}
+				                    {% if comment.post_id = post.post_id %}
+					                    <div class="panel panel-default">
+					                    <div class="panel-body">
+					                    <div class="panel-more1">
+						                <a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
+					                    </div></div></div>
+				                    {% else %}		            
+				                    {% endif %}
+			                    {% endfor %}
+				                <form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+					            {% csrf_token %}
+					            <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
+					            <input type="submit" name="submit" class="btn btn-default" value="Submit">  
+				                </form>         
                         </div></div></div>
 
                         

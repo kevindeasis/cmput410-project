@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url 
 from django.contrib import admin
-from SocialNetworkModels import views
+from SocialNetworkModels import views, api_urls
 from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets, routers
 from django.conf import settings
@@ -12,7 +12,7 @@ from rest_framework.renderers import JSONRenderer
 import json
 
 from rest_framework import generics
-from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
+from SocialNetworkModels.models import Posts, Author, Friends, FriendManager, Follows, FollowManager, FriendManager, Comments
 from rest_framework.decorators import api_view
 
 
@@ -43,7 +43,8 @@ LOGGING = {
 
 logging.config.dictConfig(LOGGING)
 
-
+def obtaincomment(id):
+    return Comments.objects.filter(post_id=id)
 
 # http://www.django-rest-framework.org/#tutorial
 
@@ -358,6 +359,28 @@ class FriendRequest(mixins.ListModelMixin,
     queryset = Friends.friendmanager.all()
     serializer_class = FindFriendsSerializer
 
+
+    def get(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+
+        authorid = data['author']['id']
+        authorhost = data['author']['host']
+        authordisplayname = data['author']['displayname']
+
+        friendid = data['friend']['id']
+        friendhost = data['friend']['host']
+        frienddisplayname = data['friend']['displayname']
+        friendurl = data['friend']['url']
+
+        logging.info(authorid)
+        logging.info(authorhost)
+        logging.info(friendid)
+        logging.info(friendhost)
+
+        Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
+
+        return HttpResponse(json.dumps({}), content_type = 'application/json')
+
     #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
     @csrf_exempt
     def post(self, request, *args, **kwargs):
@@ -378,53 +401,258 @@ class FriendRequest(mixins.ListModelMixin,
         logging.info(friendid)
         logging.info(friendhost)
 
-        #OK THIS WORKS
-        '''
-        friendslist = []
-        ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
-        for y in ourfriendlist:
-            friendslist.append(y.reciever.pk)
-        logging.info(friendslist)
+        Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
 
-        returnlist = []
-        for x in range(len(data['authors'])):
-            #logging.info(type(int(data['authors'][x][0])))
-            #logging.info(data['authors'][x][0] in friendslist)
-            #logging.info(type(data['authors'][x]))
-            #logging.info(type(friendslist[0]))
-
-            if int(data['authors'][x]) in friendslist:
-                returnlist.append(data['authors'][x])
-
-        jsonresponse = {}
-        jsonresponse['query'] = 'friends'
-        jsonresponse['author'] = user1
-        jsonresponse['friends'] = returnlist
-
-        logging.info(jsonresponse)
-        '''
-        #logging.info((data['authors'][0]))
-        #this is a list
-        #logging.info((data['authors']))
-        #logging.info((data['']))
-
-        #logging.info((type(user1)))
-        #logging.info(((user1)))
-
-        #logging.info(User.objects.get(pk=user1))
-        #logging.info(User.objects.get(pk=user1).username)
-
-
-        #logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
-
-        #obviously returns a list
-        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
-
-        #this is Friends but get the attribute titled reciever
-        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1))[0].reciever)
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
-        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+class GrabPostID(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    serializer_class = AuthorPostsSerializer
+
+    def get(self, request, *args, **kwargs):
+        postid = self.kwargs['postid']
+
+        logging.info(obtaincomment(postid).exists())
+
+        #theauthor = Author.objects.get(user=User.objects.get(pk=user1))
+        apost = Posts.objects.get(post_id=postid)
+        allposts = [apost]
+
+        postauthor = apost.post_author.user
+        authorid = postauthor.pk
+        authorhost = 'somehosturl'
+        authordisplayname = postauthor.username
+        authorurl = 'someurl'
+
+        postarray = []
+        for x in allposts:
+
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+
+
+            #comments_exists=obtaincomment(x.post_id).exists()
+            #logging.info(comments_exists)
+
+            if obtaincomment(x.post_id).exists():
+                for q in obtaincomment(x.post_id):
+                    jsoncommentobject = {}
+                    jsoncommentauthoroject = {}
+
+                    jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
+                    jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                    jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
+
+                    jsoncommentobject["author"]=jsoncommentauthoroject
+                    jsoncommentobject["comment"]=q.comment_text
+                    jsoncommentobject["pubDate"]="somedate"
+                    jsoncommentobject["guid"]=q.post_id
+
+                    commentarray.append(jsoncommentobject)
+
+
+            else:
+
+
+                jsoncommentobject = {}
+                jsoncommentauthoroject = {}
+
+                jsoncommentauthoroject["id"] = "commentauthorid"
+                jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+                jsoncommentobject["author"]=jsoncommentauthoroject
+                jsoncommentobject["comment"]="author"
+                jsoncommentobject["pubDate"]="author"
+                jsoncommentobject["guid"]="author"
+
+
+                commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+
+        #logging.info(allposts)
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+
+class GrabPublicPost(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    serializer_class = AuthorPostsSerializer
+
+    def get(self, request, *args, **kwargs):
+        allposts = Posts.objects.all()
+
+
+        postarray = []
+        for x in allposts:
+
+            #apost = Posts.objects.get(post_id=postid)
+            #allposts = [apost]
+
+            postauthor = x.post_author.user
+            authorid = postauthor.pk
+            authorhost = 'somehosturl'
+            authordisplayname = postauthor.username
+            authorurl = 'someurl'
+
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+            jsoncommentobject = {}
+            jsoncommentauthoroject = {}
+
+            jsoncommentauthoroject["id"] = "commentauthorid"
+            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+            jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+            jsoncommentobject["author"]=jsoncommentauthoroject
+            jsoncommentobject["comment"]="author"
+            jsoncommentobject["pubDate"]="author"
+            jsoncommentobject["guid"]="author"
+
+
+            commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+
+
+class GrabFoafPost(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+    serializer_class = AuthorPostsSerializer
+
+    def get(self, request, *args, **kwargs):
+
+        logging.info('ei')
+
+
+        data = json.loads(request.body)
+
+        logging.info(data)
+
+        requester_id = data['author']['id']
+        requester_host = data['author']['host']
+        requester_displayname = data['author']['displayname']
+
+        user1 = data['id']
+
+        mutual_friends_list = data['friends']
+
+        theauthor = Author.objects.get(user=User.objects.get(pk=user1))
+        allposts = Posts.objects.filter(post_author=theauthor)
+
+        authorid = data['id']
+        authorhost = 'somehosturl'
+        authordisplayname = theauthor.user.username
+        authorurl = 'someurl'
+
+        cangetpost = False
+
+        returnlist = []
+        for x in range(len(data['friends'])):
+            data['friends'][x]
+
+
+            '''
+            Ok you need info from the other group otherwise you cant do this
+            '''
+
+
+        postarray = []
+        for x in allposts:
+            jsonpostobject = {}
+            jsonpostobject["title"] = x.post_title
+            jsonpostobject["source"] = x.post_title
+            jsonpostobject["origin"] = x.post_title
+            jsonpostobject["description"] = x.post_title
+            jsonpostobject["content-type"] = x.post_title
+            jsonpostobject["content"] = x.post_title
+
+            jsonauthorobject = {}
+            jsonauthorobject["id"] = authorid
+            jsonauthorobject["host"] = authorhost
+            jsonauthorobject["displayname"] = authordisplayname
+            jsonauthorobject["url"] = authorurl
+
+            jsonpostobject["author"]=jsonauthorobject
+
+            commentarray = []
+            #obviously there will be a for loop here
+
+            jsoncommentobject = {}
+            jsoncommentauthoroject = {}
+
+            jsoncommentauthoroject["id"] = "commentauthorid"
+            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+            jsoncommentauthoroject["displayname"] = "commentauthor username"
+
+            jsoncommentobject["author"]=jsoncommentauthoroject
+            jsoncommentobject["comment"]="author"
+            jsoncommentobject["pubDate"]="author"
+            jsoncommentobject["guid"]="author"
+
+
+            commentarray.append(jsoncommentobject)
+
+            jsonpostobject["comments"]=commentarray
+
+            postarray.append(jsonpostobject)
+
+        jsonresponse = {}
+        jsonresponse['posts'] = postarray
+
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
 
 
@@ -434,7 +662,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'author', AuthorViewSet)
 
-#router.register(r'friends', FriendsViewSet)
+router.register(r'allfriends', FriendsViewSet)
 #router.register(r'friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet )
 
 #router.register(r'friends/(?P<username1>.+)/$', FriendList.as_view() )
@@ -449,13 +677,13 @@ router.register(r'post', PostsViewSet)
 urlpatterns = patterns('',
     #url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', CustomFriendsViewSet.as_view({'get': 'list', 'post': 'list'})),
 
-    #url(r'^service/posts/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
     url(r'^service/author/(?P<authorid>.+)/posts/$', csrf_exempt(AuthorPosts.as_view())),
-    #url(r'^service/author/posts/$', csrf_exempt(AuthorPosts.as_view())),
-    #url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(AuthorPosts.as_view())),
-    #url(r'^service/posts/$', csrf_exempt(AuthorPosts.as_view())),
+    url(r'^service/author/posts/$', csrf_exempt(GrabPublicPost.as_view())),
+    url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(GrabPostID.as_view())),
+    url(r'^service/posts/$', csrf_exempt(GrabPublicPost.as_view())),
     url(r'^service/friendrequest/$', csrf_exempt(FriendRequest.as_view())),
 
+    url(r'^service/foaf/getposts/$', csrf_exempt(GrabFoafPost.as_view())),
 
 
     url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', csrf_exempt(FriendList.as_view())),
@@ -465,14 +693,14 @@ urlpatterns = patterns('',
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls)),
-
+    
     url(r'^users/$', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
-
+    
     url(r'^$', views.user_login, name = 'user_login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/', views.user_login, name = 'user_login'),
     url(r'^logout/', views.user_logout, name = 'user_logout'), # NEW MAPPING!
-
+    #url(r'^api/', include('api_urls')),
     url(r'^home/', views.home,name='home'), # NEW MAPPING!
 
     url(r'^post/', views.author_post, name ='author_post'),
