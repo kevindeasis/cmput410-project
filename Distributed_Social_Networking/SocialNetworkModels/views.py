@@ -63,7 +63,7 @@ def home(request):
             #get friend of user
             for afriend in allfriends:
                 ourfriend.append(afriend.reciever.get_username())
-                friendOfFriend =Friends.friendmanager.getFriends(afriend)
+                friendOfFriend =Friends.friendmanager.getAll(afriend)
                 for friend in friendOfFriend:
                     if friend.reciever.get_username() not in FOAF and friend.reciever.get_username() != request.user:
                         FOAF.append(friend.reciever.get_username())
@@ -351,7 +351,7 @@ def author_post_delete(request,post_id):
     post = Posts.objects.get(post_id = post_id)
     conText = ''
    
-    if user.author !=post.post_author:
+    if user.post_author !=post.post_author:
         context = 'you have no permissions to delete this post'
         return render(request, 'LandingPage/display.html',{'message':context,'post':post})
     else:
@@ -369,7 +369,7 @@ def author_post_edit(request,post_id):
         user = request.user
         post = Posts.objects.get(post_id = post_id)
         conText = ''
-        if user.author !=post.post_author:
+        if user.post_author !=post.post_author:
             context = 'you have no permissions to edit this post'
             return render(request, 'LandingPage/display.html',{'message':context,'post':post})
         else:
@@ -427,7 +427,7 @@ def profile_edit(request):
     context = RequestContext(request)
     
     if request.method == "POST":
-        author = request.user.author
+        author = request.user.post_author
         username = request.POST.get('username')
         email = request.POST.get('email')
         github_username = request.POST.get('github_username')	

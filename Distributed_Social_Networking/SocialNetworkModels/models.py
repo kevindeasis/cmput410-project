@@ -100,7 +100,7 @@ class FriendManager(models.Manager):
             return False
     def get_api_friends(self, follower1, follower2):
         try:
-          return self.get_queryset().filter(initiator=follower1, reciever=follower2)
+            return self.get_queryset().filter(initiator=follower1, reciever=follower2)
         except:
             return False
 
@@ -240,6 +240,7 @@ class Posts(models.Model):
     visibility = models.CharField(max_length = 10, choices = VISIBILITY,default="PUBLIC")
     image = models.ImageField(upload_to='static/post_images/',blank = True)
     mark_down = models.BooleanField(default=False)
+    publication_date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_title
