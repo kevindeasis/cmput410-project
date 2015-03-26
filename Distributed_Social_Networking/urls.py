@@ -526,11 +526,11 @@ class GrabPostID(mixins.ListModelMixin,
         github_username = data['post_author']['github_username']
         picture = data['post_author']['picture']
         approved = data['post_author']['approved']
-        
+
         url2 = data['post_author']['author_details']['url']
         username = data['post_author']['author_details']['username']
         email = data['post_author']['author_details']['email']
-        is_staff = data['post_author']['author_details']['is_staff']
+        isstaff = data['post_author']['author_details']['is_staff']
 
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
