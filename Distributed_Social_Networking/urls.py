@@ -498,6 +498,42 @@ class GrabPostID(mixins.ListModelMixin,
 
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
+    @csrf_exempt
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+
+        #authorid = data['author']['id']
+        #authorhost = data['author']['host']
+        #authordisplayname = data['author']['displayname']
+
+        #friendid = data['friend']['id']
+        #friendhost = data['friend']['host']
+        #frienddisplayname = data['friend']['displayname']
+        #friendurl = data['friend']['url']
+
+        #logging.info(authorid)
+        #logging.info(authorhost)
+        #logging.info(friendid)
+        #logging.info(friendhost)
+
+        #Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
+
+        posttitle = data['post_title']
+        postid = data['post_id']
+        posttext = data['post_text']
+
+        user1 = data['post_author']['user']
+        github_username = data['post_author']['github_username']
+        picture = data['post_author']['picture']
+        approved = data['post_author']['approved']
+        
+        url2 = data['post_author']['author_details']['url']
+        username = data['post_author']['author_details']['username']
+        email = data['post_author']['author_details']['email']
+        is_staff = data['post_author']['author_details']['is_staff']
+
+        return HttpResponse(json.dumps({}), content_type = 'application/json')
+
 
 class GrabPublicPost(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
