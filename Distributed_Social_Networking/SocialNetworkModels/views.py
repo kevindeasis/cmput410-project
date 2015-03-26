@@ -30,12 +30,12 @@ def user_login(request):
                     login(request, user)
                     return redirect('/home')
 
-                elif u.author.approved:
-		#else: 
+                #elif u.author.approved:
+		else: 
                     login(request, user)
                     return redirect('/home')
-                else:
-                    return render(request, 'LandingPage/login.html',{'error': 'not approved'})
+                #else:
+                    #return render(request, 'LandingPage/login.html',{'error': 'not approved'})
             else:
                 error = True
                 return render(request, 'LandingPage/login.html',{'error': error})
