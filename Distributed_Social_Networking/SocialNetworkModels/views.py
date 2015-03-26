@@ -29,21 +29,11 @@ def user_login(request):
                 if u.username == 'admin':
                     login(request, user)
                     return redirect('/home')
-
-<<<<<<< HEAD
-                #elif u.author.approved:
-		else: 
-                    login(request, user)
-                    return redirect('/home')
-                #else:
-                    #return render(request, 'LandingPage/login.html',{'error': 'not approved'})
-=======
                 elif u.post_author.approved:
                     login(request, user)
                     return redirect('/home')
                 else:
                     return render(request, 'LandingPage/login.html',{'error': 'Please wait for approval'})
->>>>>>> d22bb066f2f980cbc22792d6452be25ee4c1b427
             else:
                 error = True
                 return render(request, 'LandingPage/login.html',{'error': error})
