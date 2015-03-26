@@ -502,6 +502,10 @@ class GrabPostID(mixins.ListModelMixin,
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
 
+        #postid = self.kwargs['postid']
+        #logging.info(obtaincomment(postid).exists())
+        #post = Posts.objects.get(post_id=postid)
+
         #authorid = data['author']['id']
         #authorhost = data['author']['host']
         #authordisplayname = data['author']['displayname']
