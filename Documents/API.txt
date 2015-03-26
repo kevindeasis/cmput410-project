@@ -156,6 +156,15 @@ curl -X GET -H "Content-Type: application/json" -d '
     "is_staff": false
 }' http://127.0.0.1:9000/service/friends/67/68/
 
+OR
+
+curl -X POST -H "Content-Type: application/json" -d '
+{
+    "username": "testpost24",
+    "email": "testpost24@testpost.com",
+    "is_staff": false
+}' http://127.0.0.1:9000/service/friends/67/68/
+
 Response
 {"query": "friends", "friends": true, "author": ["67", "68"]}
 
