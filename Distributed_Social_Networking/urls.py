@@ -521,7 +521,42 @@ class GrabPostID(mixins.ListModelMixin,
         #email = data['post_author']['author_details']['email']
         #isstaff = data['post_author']['author_details']['is_staff']
 
-        views.author_post_edit(request, postid)
+        try:
+            post = Posts.objects.get(post_id=postid)
+        except DoesNotExist:
+            views.author_post(request)
+
+        return HttpResponse(json.dumps({}), content_type = 'application/json')
+
+    @csrf_exempt
+    def put(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+
+        #logging.info(authorid)
+        #logging.info(authorhost)
+        #logging.info(friendid)
+        #logging.info(friendhost)
+
+        #posttitle = data['post_title']
+        postid = data['post_id']
+        #posttext = data['post_text']
+
+        #user1 = data['post_author']['user']
+        #github_username = data['post_author']['github_username']
+        #picture = data['post_author']['picture']
+        #approved = data['post_author']['approved']
+
+        #url2 = data['post_author']['author_details']['url']
+        #username = data['post_author']['author_details']['username']
+        #email = data['post_author']['author_details']['email']
+        #isstaff = data['post_author']['author_details']['is_staff']
+
+        try:
+            post = Posts.objects.get(post_id=postid)
+        except DoesNotExist:
+            views.author_post(request)
+        else:
+            views.author_post_edit(request, postid)
 
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
