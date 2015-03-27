@@ -130,13 +130,13 @@ def search_users(request):
                 # try 2: always throws exception
                 # response=response.json() keeps raising exception
                 try:
-                    response=requests.get('http://social-distribution.herokuapp.com/api/author/',auth=('team7','cs410.cs.ualberta.ca:team6'))
+                    response=requests.get('http://social-distribution.herokuapp.com/api/author',auth=('team7','cs410.cs.ualberta.ca:team6'))
                     response=response.json()
                 except Exception, e:
                     pass
                 else:
                     foreignauthors = json.loads(json.dumps(response))
-
+		#return HttpResponse(response)
                 # try 1: should work?
                 #response=requests.get('http://social-distribution.herokuapp.com/api/author/',auth=('team7','cs410.cs.ualberta.ca:team6'))
                 #response=response.json()
@@ -166,7 +166,7 @@ def search_users(request):
                     afriendusername = apending.reciever.get_username()
                     pendingrequests.append('{s}'.format(s=afriendusername))
 
-                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': foreignauthors})
+                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': foreignauthors['authors']})
             except Author.DoesNotExist:
                 return redirect('/login')
     else:

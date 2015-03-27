@@ -5,6 +5,21 @@
 {% include 'navigationbar.html' %}
 {% endblock %}
 {% block body %}
+    {% for authorlist in foreignauthors %}
+    <div class="link">
+        <h4>{{ authorlist.displayname}}<h4>
+        </div>
+        <div>
+            <a href="/follow/{{ author.user.pk}}">
+               Follow
+           </a>
+        </div>
+        <div>
+             <a href="/addfriend/{{ author.user.pk}}">
+                  Add Friend
+              </a>
+         </div>
+    {% endfor %}
     {% for author in authors %}
 
                     <div class="link">
