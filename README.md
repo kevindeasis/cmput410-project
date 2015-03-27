@@ -33,6 +33,8 @@ factory_boy
 
 djangorestframework
 
+requests
+
 ##VM
 http://cs410.cs.ualberta.ca:41071
 
