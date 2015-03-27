@@ -74,11 +74,12 @@ def home(request):
 	    if post !=None:
 		count =1
 	    receive=[]
-	    #response=requests.get('http://social-distribution.herokuapp.com/api/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
-	    #response1=response.json()
-	    #p = json.loads(json.dumps(response1))
+	    response=requests.get('http://social-distribution.herokuapp.com/api/author/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
+	    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+	    response=response.json()
+	    p = json.loads(json.dumps(response))
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
+                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
@@ -476,4 +477,3 @@ def profile_edit(request):
             messages.error(request, e.message)
 
     return render_to_response('main/profile.html', {}, context)
-
