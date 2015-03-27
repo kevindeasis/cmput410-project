@@ -18,21 +18,22 @@
         </br>
         </br>
            <div id="post_form">
+
            {%for p in getPost%}
                  <div class="panel panel-default">
 
 		        <div class="panel-body">
 		        <div class="panel-more1">
 
-				<a href="/display/{{post.post_id}}/">{{p.title}} </a> by <a href="/profile_post/{{p.post_author}}/">{{p.author.displayname}}</a></br></br>
-                                
-                                {% if p.image %}
+				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.post_author}}/">{{p.author.displayname}}</a></br></br>
 
+                                {% if p.image %}
+                        
                                 <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
                                 {%else%}  
                                 {% endif %}  
 
-				           {{p.description}} 
+				           {{p.content}} 
                  </br></br>
 			                    {%for comment in p.comments %}
 

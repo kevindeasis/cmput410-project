@@ -74,10 +74,13 @@ def home(request):
 	    if post !=None:
 		count =1
 	    receive=[]
-	    response=requests.get('http://social-distribution.herokuapp.com/api/author/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
-	    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-	    response=response.json()
-	    p = json.loads(json.dumps(response))
+	    try:
+		response=requests.get('http://social-distribution.herokuapp.com/api/author/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
+		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		response=response.json()
+		p = json.loads(json.dumps(response))
+	    except:
+		return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
             try:
                 return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
             except Author.DoesNotExist:
@@ -353,7 +356,22 @@ def author_post_comment(request, post_id, author):
 @login_required
 def author_post_delete(request,post_id):
     user = request.user
-    post = Posts.objects.get(post_id = post_id)
+    try:
+	post = Posts.objects.get(post_id = post_id)
+    except:
+	response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+	response=response.json()
+	p = json.loads(json.dumps(response))
+	post =Posts()
+	#post.post_author = None
+	post.post_title  = p['title']
+	post.post_text = p['content']
+	post.visibility =p['visibility']
+	post.post_id = post_id
+	post.image = None	
+	context = 'you have no permissions to delete this post'
+	return render(request, 'LandingPage/display.html',{'message':context,'post':post})
     conText = ''
    
     if user.post_author !=post.post_author:
@@ -365,14 +383,42 @@ def author_post_delete(request,post_id):
 
 @login_required
 def display_post(request,post_id):
-    post = Posts.objects.get(post_id = post_id)
+    try:
+	post = Posts.objects.get(post_id = post_id)
+    except:
+	response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+	response=response.json()
+	p = json.loads(json.dumps(response))
+	post =Posts()
+	#post.post_author = None
+	post.post_title  = p['title']
+	post.post_text = p['content']
+	post.visibility =p['visibility']
+	post.post_id = post_id
+	post.image = None
     return render(request,'LandingPage/display.html',{'post':post})
     
 @login_required
 def author_post_edit(request,post_id):
     if request.method =="GET":
         user = request.user
-        post = Posts.objects.get(post_id = post_id)
+	try:
+	    post = Posts.objects.get(post_id = post_id)
+	except:
+	    response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+	    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+	    response=response.json()
+	    p = json.loads(json.dumps(response))
+	    post =Posts()
+	    #post.post_author = None
+	    post.post_title  = p['title']
+	    post.post_text = p['content']
+	    post.visibility =p['visibility']
+	    post.post_id = post_id
+	    post.image = None		    
+	    context = 'you have no permissions to edit this post'
+	    return render(request, 'LandingPage/display.html',{'message':context,'post':post})	    
         conText = ''
         if user.post_author !=post.post_author:
             context = 'you have no permissions to edit this post'
