@@ -18,6 +18,39 @@
         </br>
         </br>
            <div id="post_form">
+           {%for p in getPost%}
+                 <div class="panel panel-default">
+
+		        <div class="panel-body">
+		        <div class="panel-more1">
+
+				<a href="/display/{{post.post_id}}/">{{p.title}} </a> by <a href="/profile_post/{{p.post_author}}/">{{p.author.displayName}}</a></br></br>
+                                
+                                {% if p.image %}
+
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+
+				           {{p.description}} 
+                 </br></br>
+			                    {%for comment in p.comments %}
+
+					                    <div class="panel panel-default">
+					                    <div class="panel-body">
+					                    <div class="panel-more1">
+						                <a href="/profile_post/{{comment.comment_author}}/">{{comment.author.displayName}}</a> : {{comment.comment}} </br>
+					                    </div></div></div>
+			                    {% endfor %}
+				                <form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+					            {% csrf_token %}
+					            <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
+					            <input type="submit" name="submit" class="btn btn-default" value="Submit">  
+				                </form>  
+					</div></div></div>
+           
+           
+           {%endfor%}
             
 
            {% if lenn %}

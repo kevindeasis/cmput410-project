@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 from urlparse import urlparse
 from django.db import IntegrityError
 from django.contrib import messages
-
+import requests
 #from django.core.serializers.json import DjangoJSONEncoder
 #from django.core import serializers
 
@@ -71,9 +71,12 @@ def home(request):
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
             count = len(post)
-        
+	    receive=[]
+	    response=requests.get('http://social-distribution.herokuapp.com/api/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
+	    response=response.json()
+	    p = json.loads(json.dumps(response))
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
+                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
