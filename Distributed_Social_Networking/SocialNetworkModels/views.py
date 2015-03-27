@@ -70,7 +70,9 @@ def home(request):
 	    comments = Comments.objects.all()   
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
-            count = len(post)
+            count = 0
+	    if post !=None:
+		count =1
 	    receive=[]
 	    #response=requests.get('http://social-distribution.herokuapp.com/api/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
 	    #response1=response.json()
