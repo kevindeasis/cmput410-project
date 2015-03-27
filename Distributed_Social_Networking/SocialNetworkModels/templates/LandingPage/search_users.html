@@ -59,5 +59,12 @@
                         {% endif %}
                     {% endif %}
     {% endfor %}
+    {% for author in foreignauthors %}
+
+                    <div class="link">
+                        <h4>{{ author.displayname }}</h4>
+                    </div>
+                    
+    {% endfor %}
 
 {%endblock%}
