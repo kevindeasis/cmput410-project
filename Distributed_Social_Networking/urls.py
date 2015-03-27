@@ -24,6 +24,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 import logging, logging.config
 import sys
 
@@ -133,6 +138,8 @@ class FriendList(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
 
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     queryset = Friends.friendmanager.all()
     serializer_class = FindFriendsSerializer
@@ -262,6 +269,9 @@ class AuthorPosts(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
 
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = AuthorPostsSerializer
 
     #queryset = Posts.objects.filter(post_author=Author)
@@ -352,6 +362,8 @@ class FriendRequest(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
 
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     queryset = Friends.friendmanager.all()
     serializer_class = FindFriendsSerializer
@@ -405,6 +417,9 @@ class FriendRequest(mixins.ListModelMixin,
 class GrabPostID(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     serializer_class = AuthorPostsSerializer
 
@@ -562,6 +577,9 @@ class GrabPublicPost(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
 
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = AuthorPostsSerializer
 
     def get(self, request, *args, **kwargs):
@@ -628,6 +646,9 @@ class GrabPublicPost(mixins.ListModelMixin,
 class GrabFoafPost(mixins.ListModelMixin,
                   mixins.CreateModelMixin,
                   generics.GenericAPIView):
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
 
     serializer_class = AuthorPostsSerializer
 
