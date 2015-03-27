@@ -10,8 +10,12 @@
         </br>
         </br>
         <h1>Profile</h1> 
-  {% if edit == '0' %}
-	<a class="btn btn-default" href="/profile1/" >Edit</a></br></br>
+  {% if edit == '0' or edit == '2' %}
+	{% if edit == '0' %}
+	`	<a class="btn btn-default" href="/profile1/" >Edit</a></br></br>
+	{% else %}
+		</br></br></br>
+	{% endif %}
 	<img src="{{STATIC_URL}}../{{picture}}"  style="width:150px;height:150px;position:absolute;right:100px;top:120px;"/> </br></br>
 		 <div class="panel panel-default">
 		 <div class="panel-body">
@@ -31,7 +35,6 @@
 
 	{%for p in posts %}
 			{% if p.post_author.user.username = username %}
-
 				<div class="panel panel-default">
 		        	<div class="panel-body">
 		        	<div class="panel-more1">
@@ -44,15 +47,12 @@
 				{{p.post_text}} </br></br>
 			                   
 				</div></div></div>
-           		{% endif %}
-           
+           		{% endif %}     
          {% endfor %}
 	{%for p in post%}
-                 <div class="panel panel-default">
-
+                 	<div class="panel panel-default">
 		        <div class="panel-body">
 		        <div class="panel-more1">
-
 				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></br></br>
 
                                 {% if p.image %}
@@ -60,21 +60,15 @@
                                 <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
                                 {%else%}  
                                 {% endif %}  
-
-				           {{p.content}} 
-                 </br></br>
+				           {{p.content}}</br></br>
 			                    {%for comment in p.comments %}
-
 					                    <div class="panel panel-default">
 					                    <div class="panel-body">
 					                    <div class="panel-more1">
 						                <a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
 					                    </div></div></div>
-			                    {% endfor %}
-				                  
+			                    {% endfor %}			                  
 					</div></div></div>
-           
-           
            {%endfor%}	
 
   {% endif %}

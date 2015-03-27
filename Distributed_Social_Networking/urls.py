@@ -791,7 +791,7 @@ urlpatterns = patterns('',
     url(r'^postcomment/(?P<post_id>[a-zA-Z0-9\-]+)/(?P<author>[a-zA-Z0-9\-]+)/$',views.author_post_comment,name ='author_post_comment'),
     url(r'^profile/', views.profile, {'edit': '0'}, name ='profile'),
     url(r'^profile1/', views.profile, {'edit': '1'}, name ='profile'),
-    url(r'^profile_post/(?P<user_id>[a-zA-Z0-9\-]+)/$',views.profile_post,{'edit': '0'},name ='profile_post'),
+    url(r'^profile_post/(?P<user_id>[a-zA-Z0-9\-]+)/$',views.profile_post,{'edit': '2'},name ='profile_post'),
     url(r'^profile_edit/', views.profile_edit, name ='profile_edit'),
     url(r'^register/', views.register, name ='register'),
 
