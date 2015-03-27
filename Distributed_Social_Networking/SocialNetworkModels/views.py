@@ -72,11 +72,11 @@ def home(request):
             #return HttpResponse(len(post))
             count = len(post)
 	    receive=[]
-	    response=requests.get('http://social-distribution.herokuapp.com/api/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
-	    response=response.json()
-	    p = json.loads(json.dumps(response))
+	    #response=requests.get('http://social-distribution.herokuapp.com/api/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
+	    #response1=response.json()
+	    #p = json.loads(json.dumps(response1))
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
+                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':
