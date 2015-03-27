@@ -510,6 +510,7 @@ class GrabPostID(mixins.ListModelMixin,
 
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
 
+    #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         data = json.loads(request.body)
