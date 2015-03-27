@@ -45,9 +45,10 @@
 			                    {% endfor %}
 				                <form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 					            {% csrf_token %}
-					            <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
-					            <input type="submit" name="submit" class="btn btn-default" value="Submit">  
-				                </form>  
+					            <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />
+                                    <input id="comment" maxlength="150" size="120" name="comment" placeholder="Group 6 did not expose their api we are not allowing you to submit{{post.post_id}}" type="text" value = "{{username}}" />
+
+				                </form>
 					</div></div></div>
            
            

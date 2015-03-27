@@ -166,6 +166,10 @@ def search_users(request):
                     afriendusername = apending.reciever.get_username()
                     pendingrequests.append('{s}'.format(s=afriendusername))
 
+                #for foreign in foreignauthors:
+
+
+
                 return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': foreignauthors['authors']})
             except Author.DoesNotExist:
                 return redirect('/login')
