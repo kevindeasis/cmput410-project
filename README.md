@@ -2,6 +2,9 @@
 # cmput410-project
 ------
 #All of the links are in this page
+
+#[Project Part 2 Information](https://github.com/diego04/cmput410-project/wiki/Project-Part-2)
+
 ##API
 https://github.com/diego04/cmput410-project/blob/master/Documents/API.txt
 
