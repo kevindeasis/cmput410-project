@@ -520,8 +520,7 @@ post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"n
 }' http://cs410.cs.ualberta.ca:41071/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
-NOT CURRENTLY WORKING ({"detail":"Method \"POST\" not allowed."})
-should insert the post
+{}
 
 =====================================
 
@@ -531,8 +530,7 @@ post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"n
 }' http://cs410.cs.ualberta.ca:41071/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
-NOT CURRENTLY WORKING ({"detail":"Unsupported media type \"application/x-www-form-urlencoded\" in request."})
-should insert/update the post
+{}
 
 ============================================================================
 It uses a different JSON format, but will be restructured after the first project deadline
