@@ -1,5 +1,5 @@
 REQUEST
-curl GET http://localhost:9000/service/friends/67/68/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/friends/67/68/
 
 Response
 {
@@ -13,7 +13,7 @@ Response
 
 
 REQUEST
-curl -X POST -H "Content-Type: application/json" -d '
+curl -X POST -u admin:admin -H "Content-Type: application/json" -d '
 {"query":"friends",
  "author":"9de17f29c12e8f97bcbbd34cc908f1baba40658e",
  "authors":[
@@ -21,7 +21,7 @@ curl -X POST -H "Content-Type: application/json" -d '
 		"68",
 		"67"
   ]
-}' http://127.0.0.1:9000/service/friends/67/
+}' http://cs410.cs.ualberta.ca:41071/service/friends/67/
 
 RESPONSE
 {
@@ -34,7 +34,7 @@ RESPONSE
 }
 
 REQUEST
-curl GET http://localhost:9000/service/author/63/posts/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/author/63/posts/
 
 RESPONSE
 {
@@ -149,7 +149,7 @@ RESPONSE
 
 
 request
-curl -X GET -H "Content-Type: application/json" -d '
+curl -X GET -u admin:admin -H "Content-Type: application/json" -d '
 {
     "username": "testpost24",
     "email": "testpost24@testpost.com",
@@ -163,7 +163,7 @@ curl -X POST -H "Content-Type: application/json" -d '
     "username": "testpost24",
     "email": "testpost24@testpost.com",
     "is_staff": false
-}' http://127.0.0.1:9000/service/friends/67/68/
+}' http://cs410.cs.ualberta.ca:41071/service/friends/67/68/
 
 Response
 {"query": "friends", "friends": true, "author": ["67", "68"]}
@@ -171,7 +171,7 @@ Response
 
 ****USE GET FOR NOW****
 REQUEST
-curl -X POST -H "Content-Type: application/json" -d '
+curl -X POST -u admin:admin -H "Content-Type: application/json" -d '
 {"query":"friendrequest",
 "author":{
 "id":"67",
@@ -184,13 +184,13 @@ curl -X POST -H "Content-Type: application/json" -d '
                  "displayname":"2",
                  "url":"http://localhost:9000/service/author/68/"
            }
-}' http://127.0.0.1:9000/service/friendrequest/
+}' http://cs410.cs.ualberta.ca:41071/service/friendrequest/
 
 RESPONSE
 {}
 
 REQUEST:
-curl get http://localhost:9000/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 RESPONSE
 {
@@ -225,7 +225,7 @@ RESPONSE
 }
 
 request
-curl get http://localhost:9000/service/author/posts/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/author/posts/
 
 response
 {
@@ -286,7 +286,7 @@ response
 }
 
 request
-curl get http://localhost:9000/service/posts/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/posts/
 
 response
 {
@@ -350,7 +350,7 @@ response
 
 REQUEST
 
-curl -X GET -H "Content-Type: application/json" -d '
+curl -X GET -u admin:admin -H "Content-Type: application/json" -d '
 {"query":"getpost",
  "id":"63",
  "author":{
@@ -363,7 +363,7 @@ curl -X GET -H "Content-Type: application/json" -d '
     "68"
  ]
 }
-' http://127.0.0.1:9000/service/foaf/getposts/
+' http://cs410.cs.ualberta.ca:41071/service/foaf/getposts/
 
 Response
 {
@@ -399,7 +399,7 @@ Response
 ===========
 
 request
-curl -X POST -H "Content-Type: application/json" -d '
+curl -X POST -u admin:admin -H "Content-Type: application/json" -d '
 {"query":"friendrequest",
 "author":{
 "id":"8d919f29c12e8f97bcbbd34cc908f19ab9496989",
@@ -412,7 +412,7 @@ curl -X POST -H "Content-Type: application/json" -d '
                  "displayname":"Lara",
                  "url":"http://127.0.0.1:5454/author/9de17f29c12e8f97bcbbd34cc908f1baba40658e"
            }
-}' http://localhost:9000/service/friendrequest/
+}' http://cs410.cs.ualberta.ca:41071/service/friendrequest/
 
 response
 {}
@@ -421,7 +421,7 @@ response
 =====================================
 
 request
-curl -X GET http://localhost:9000/service/author/63/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/author/63/
 
 response
 {"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/author/63/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
@@ -429,7 +429,7 @@ response
 =====================================
 
 request
-curl -X GET http://localhost:9000/service/author/posts/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/author/posts/
 
 response
 {"posts": [{"origin": "no", "description": "no", "title": "no", "author": {"url": "someurl", "host": "somehosturl", "displayname": "jeff", "id": 63}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "no", "source": "no", "content-type": "no"}, {"origin": "yes yes", "description": "yes yes", "title": "yes yes", "author": {"url": "someurl", "host": "somehosturl", "displayname": "haha", "id": 65}, "comments": [{"comment": "author", "guid": "author", "pubDate": "author", "author": {"hostname": "commentauthor urlhost", "displayname": "commentauthor username", "id": "commentauthorid"}}], "content": "yes yes", "source": "yes yes", "content-type": "yes yes"},...
@@ -437,7 +437,7 @@ response
 =====================================
 
 request
-curl -X GET http://localhost:9000/service/post/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/post/
 
 response
 [{"post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://127.0.0.1:8000/service/post/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://127.0.0.1:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}},{"post_title":"yes yes","post_id":"ab1b4435-790f-4d36-b88c-ddfadfcf18f4","post_text":"yes yes","post_author":{"user":65,"github_username":"haha","picture":"http://127.0.0.1:8000/service/post/static/profile_images/index1_nJNutT5.jpeg","approved":false,"author_details":{"url":"http://127.0.0.1:8000/service/users/65/","username":"haha","email":"hahaha@gmail.com","is_staff":false}}},...
@@ -445,7 +445,7 @@ response
 =====================================
 
 request
-curl -X GET http://localhost:9000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
 {"post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}}
@@ -453,9 +453,9 @@ response
 =====================================
 
 request
-curl -X POST -d '{"
+curl -X POST -u admin:admin -d '{"
 post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
-}' http://localhost:9000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+}' http://cs410.cs.ualberta.ca:41071/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
 NOT CURRENTLY WORKING ({"detail":"Method \"POST\" not allowed."})
@@ -464,9 +464,9 @@ should insert the post
 =====================================
 
 request
-curl -X PUT -d '{"
+curl -X PUT -u admin:admin -d '{"
 post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
-}' http://localhost:9000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+}' http://cs410.cs.ualberta.ca:41071/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
 NOT CURRENTLY WORKING ({"detail":"Unsupported media type \"application/x-www-form-urlencoded\" in request."})
@@ -477,7 +477,7 @@ It uses a different JSON format, but will be restructured after the first projec
 
 Below is the API and it returns links to the options you have for using the API
 WEB: http://cs410.cs.ualberta.ca:41071/service
-JSON: http://localhost:8900/service/?format=json
+JSON: http://cs410.cs.ualberta.ca:41071/service/?format=json
 
 Below returns all of the authors in the database
 WEB: http://cs410.cs.ualberta.ca:41071/service/author
@@ -489,7 +489,7 @@ JSON: http://cs410.cs.ualberta.ca:41071/service/author/userid/?format=json
 
 Below returns all of the posts in the database
 WEB: http://cs410.cs.ualberta.ca:41071/service/post/
-JSON: http://localhost:8900/service/post/?format=json
+JSON: http://cs410.cs.ualberta.ca:41071/service/post/?format=json
 
 Below returns a specific posts in the database using its postid
 WEB: http://cs410.cs.ualberta.ca:41071/service/post/postid
@@ -506,12 +506,12 @@ JSON: http://cs410.cs.ualberta.ca:41071/service/friends/friendid/?format=json
 To be implemented:
 
 This is what it looks like (not finished):
-curl -X POST -H "Content-Type: application/json" -d '
+curl -X POST -u admin:admin -H "Content-Type: application/json" -d '
 {
     "username": "testpost2",
     "email": "testpost2@testpost.com",
     "is_staff": false
-}' http://127.0.0.1:9000/users/5/
+}' http://cs410.cs.ualberta.ca:41071/users/5/
 
 
 POST and PUT for all models
