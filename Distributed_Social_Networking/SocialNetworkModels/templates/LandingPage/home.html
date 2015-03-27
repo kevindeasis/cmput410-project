@@ -25,7 +25,7 @@
 		        <div class="panel-body">
 		        <div class="panel-more1">
 
-				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.post_author}}/">{{p.author.displayname}}</a></br></br>
+				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></br></br>
 
                                 {% if p.image %}
                         
@@ -40,7 +40,7 @@
 					                    <div class="panel panel-default">
 					                    <div class="panel-body">
 					                    <div class="panel-more1">
-						                <a href="/profile_post/{{comment.comment_author}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
+						                <a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
 					                    </div></div></div>
 			                    {% endfor %}
 				                <form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">

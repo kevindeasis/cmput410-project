@@ -47,7 +47,35 @@
            		{% endif %}
            
          {% endfor %}
-			
+	{%for p in post%}
+                 <div class="panel panel-default">
+
+		        <div class="panel-body">
+		        <div class="panel-more1">
+
+				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></br></br>
+
+                                {% if p.image %}
+                        
+                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
+                                {%else%}  
+                                {% endif %}  
+
+				           {{p.content}} 
+                 </br></br>
+			                    {%for comment in p.comments %}
+
+					                    <div class="panel panel-default">
+					                    <div class="panel-body">
+					                    <div class="panel-more1">
+						                <a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
+					                    </div></div></div>
+			                    {% endfor %}
+				                  
+					</div></div></div>
+           
+           
+           {%endfor%}	
 
   {% endif %}
 

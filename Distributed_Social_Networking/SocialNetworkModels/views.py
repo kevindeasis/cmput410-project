@@ -462,14 +462,27 @@ def profile(request,edit):
 def profile_post(request,user_id,edit):
     if request.user.is_authenticated():
         if request.method =='GET':
-	    user1 = User.objects.get(username = user_id)
-            author = Author.objects.get(user = user1)
-            username = author.user.username
-            email = author.user.email
-            github_username=author.github_username
-            picture = author.picture
- 	    post = Posts.objects.all()
-            return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit})
+	    try:
+		user1 = User.objects.get(username = user_id)
+		author = Author.objects.get(user = user1)
+		username = author.user.username
+		email = author.user.email
+		github_username=author.github_username
+		picture = author.picture
+		post = Posts.objects.all()
+		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit})
+	    except:
+		response=requests.get('http://social-distribution.herokuapp.com/api/author/%s'%(user_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		response=response.json()
+		p = json.loads(json.dumps(response))
+		
+		
+		response=requests.get('http://social-distribution.herokuapp.com/api/author/%s/posts'%(user_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		response=response.json()
+		a = json.loads(json.dumps(response))		
+		return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
     return render(request, 'LandingPage/profile.html')
 
 @login_required
