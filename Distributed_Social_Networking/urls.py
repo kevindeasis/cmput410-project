@@ -228,7 +228,6 @@ class FriendList(mixins.ListModelMixin,
 
         #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
-
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Follows
