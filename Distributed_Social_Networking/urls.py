@@ -172,33 +172,61 @@ class FriendList(mixins.ListModelMixin,
     @csrf_exempt
     def post(self, request, *args, **kwargs):
         user1 = self.kwargs['username1']
-        user2 = self.kwargs['username2']
-        allusers = []
-        allusers.append(user1)
-        allusers.append(user2)
 
-        isfriends = False
+        data = json.loads(request.body)
+        #logging.info(request.POST['username'])
+        #logging.info(type(data))
+        #logging.info((data['query']))
+        #logging.info((data['author']))
+
+        #logging.info(type(data['authors']))
+
+        #OK THIS WORKS
+        friendslist = []
+        ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
+        for y in ourfriendlist:
+            friendslist.append(y.reciever.pk)
+        logging.info(friendslist)
+
+        returnlist = []
+        for x in range(len(data['authors'])):
+            #logging.info(type(int(data['authors'][x][0])))
+            #logging.info(data['authors'][x][0] in friendslist)
+            #logging.info(type(data['authors'][x]))
+            #logging.info(type(friendslist[0]))
+
+            if int(data['authors'][x]) in friendslist:
+                returnlist.append(data['authors'][x])
 
         jsonresponse = {}
         jsonresponse['query'] = 'friends'
-        jsonresponse['author'] = allusers
+        jsonresponse['author'] = user1
+        jsonresponse['friends'] = returnlist
 
-        arefriends = len(Friends.friendmanager.get_api_friends(user1, user2))
+        logging.info(jsonresponse)
 
-        if arefriends>0:
-            isfriends = True
+        #logging.info((data['authors'][0]))
+        #this is a list
+        #logging.info((data['authors']))
+        #logging.info((data['']))
 
-        jsonresponse['friends'] = isfriends
+        #logging.info((type(user1)))
+        #logging.info(((user1)))
 
-        logging.info(arefriends)
-        #logging.info(request.GET.get('username'))
-        #logging.info(request.GET['username'])
+        #logging.info(User.objects.get(pk=user1))
+        #logging.info(User.objects.get(pk=user1).username)
 
 
+        #logging.info(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
-        user1 = self.kwargs['username1']
-        #return Friends.friendmanager.getAll(user1)
+        #obviously returns a list
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
+
+        #this is Friends but get the attribute titled reciever
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1))[0].reciever)
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+        #return HttpResponse(Friends.friendmanager.getAll(User.objects.get(pk=user1)))
 
 
 class FollowSerializer(serializers.HyperlinkedModelSerializer):
