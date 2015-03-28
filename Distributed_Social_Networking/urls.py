@@ -180,7 +180,8 @@ class FriendList(mixins.ListModelMixin,
         logging.info(friendslist)
 
         returnlist = []
-
+        
+        for x in range(len(data['authors'])):
             if int(data['authors'][x]) in friendslist:
                 returnlist.append(data['authors'][x])
 
