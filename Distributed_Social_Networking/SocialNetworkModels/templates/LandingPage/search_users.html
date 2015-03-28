@@ -5,20 +5,13 @@
 {% include 'navigationbar.html' %}
 {% endblock %}
 {% block body %}
+<ul class="list-group">
     {% for authorlist in foreignauthors %}
-    <div class="link">
-        <h4>{{ authorlist.displayname}}<h4>
-        </div>
-        <div>
-            <a href="#group6 needs to implement">
-               Follow
-           </a>
-        </div>
-        <div>
-             <a href="#group6 needs to implement">
-                  Add Friend
-              </a>
-         </div>
+    <li class="list-group-item">
+        <h2>{{ authorlist.displayname}}<h2>
+        <p><a href="#group6 needs to implement">Follow</a></p>
+        <p><a href="#group6 needs to implement">Add Friend</a></p>
+    </li>
     {% endfor %}
     {% for author in authors %}
 
@@ -81,5 +74,5 @@
                     </div>
                     
     {% endfor %}
-
+</ul>
 {%endblock%}
