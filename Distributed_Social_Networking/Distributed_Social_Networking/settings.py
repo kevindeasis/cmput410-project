@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_nose',
     'SocialNetworkModels',
+    'RestApi',
 )
 
 MIDDLEWARE_CLASSES = (
