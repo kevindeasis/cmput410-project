@@ -76,8 +76,8 @@ urlpatterns = patterns('',
     url(r'^service/friends/(?P<username1>.+)/$', csrf_exempt(Api.FriendList.as_view())),
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^service/', include(router.urls)),
-    
+    url(r'^service/', include(router.urls), name='url_service'),
+
     url(r'^users/$', Api.UserViewSet.as_view({'get': 'list', 'post': 'create'})),
     
     url(r'^$', views.user_login, name = 'user_login'),

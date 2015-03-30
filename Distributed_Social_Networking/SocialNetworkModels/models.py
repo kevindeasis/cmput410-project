@@ -10,6 +10,9 @@ class Author(models.Model):
     github_username = models.CharField(max_length=128, blank=True)
     picture = models.ImageField(upload_to='static/profile_images/', blank = True)
     approved = models.BooleanField(default=False)
+    author_url = models.CharField(max_length=128, blank=True)
+    author_host = models.CharField(max_length=128, blank=True)
+
 
     def __unicode__(self):
         return self.user.username
@@ -241,6 +244,8 @@ class Posts(models.Model):
     image = models.ImageField(upload_to='static/post_images/',blank = True)
     mark_down = models.BooleanField(default=False)
     publication_date = models.DateTimeField(auto_now_add=True)
+    content_type = models.CharField(max_length=200)
+    content_source = models.CharField(max_length=200)
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.post_title
@@ -251,6 +256,8 @@ class Comments(models.Model):
     comment_id = UUIDField(primary_key=True, auto=True)
     comment_author = models.CharField(max_length = 200)
     comment_text = models.CharField(max_length=200)
+    comment_date = models.DateTimeField(auto_now_add=True)
+
 
     def __unicode__(self):  #For Python 2, use __str__ on Python 3
         return self.comment_text
