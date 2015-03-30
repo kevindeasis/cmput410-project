@@ -262,6 +262,46 @@ class AuthorPosts(mixins.ListModelMixin,
             commentarray = []
             #obviously there will be a for loop here
 
+            if obtaincomment(x.post_id).exists():
+                for q in obtaincomment(x.post_id):
+                    jsoncommentobject = {}
+                    jsoncommentauthoroject = {}
+
+                    jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
+                    jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                    jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
+
+                    jsoncommentobject["author"]=jsoncommentauthoroject
+                    jsoncommentobject["comment"]=q.comment_text
+                    jsoncommentobject["pubDate"]="somedate"
+                    jsoncommentobject["guid"]=q.post_id
+
+                    commentarray.append(jsoncommentobject)
+
+            else:
+                jsoncommentobject = {}
+                jsoncommentauthoroject = {}
+
+                jsoncommentauthoroject["id"] = ""
+                jsoncommentauthoroject["hostname"] = ""
+                jsoncommentauthoroject["displayname"] = ""
+
+                jsoncommentobject["author"]=jsoncommentauthoroject
+                jsoncommentobject["comment"]=""
+                jsoncommentobject["pubDate"]=""
+                jsoncommentobject["guid"]=""
+
+                commentarray.append(jsoncommentobject)
+            '''
+            setofcomments = obtaincomment(x.post_id)
+            for z in commentarray:
+                jsoncommentobject = {}
+
+
+            #Comments.objects.filter()
+            #ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
+
+
             jsoncommentobject = {}
             jsoncommentauthoroject = {}
 
@@ -274,7 +314,7 @@ class AuthorPosts(mixins.ListModelMixin,
             jsoncommentobject["pubDate"]="author"
             jsoncommentobject["guid"]="author"
 
-            commentarray.append(jsoncommentobject)
+            commentarray.append(jsoncommentobject)'''
 
             jsonpostobject["comments"]=commentarray
 
@@ -584,14 +624,14 @@ class GrabFoafPost(mixins.ListModelMixin,
             jsoncommentobject = {}
             jsoncommentauthoroject = {}
 
-            jsoncommentauthoroject["id"] = "commentauthorid"
-            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
-            jsoncommentauthoroject["displayname"] = "commentauthor username"
+            jsoncommentauthoroject["id"] = ""
+            jsoncommentauthoroject["hostname"] = ""
+            jsoncommentauthoroject["displayname"] = ""
 
             jsoncommentobject["author"]=jsoncommentauthoroject
-            jsoncommentobject["comment"]="author"
-            jsoncommentobject["pubDate"]="author"
-            jsoncommentobject["guid"]="author"
+            jsoncommentobject["comment"]=""
+            jsoncommentobject["pubDate"]=""
+            jsoncommentobject["guid"]=""
 
 
             commentarray.append(jsoncommentobject)
