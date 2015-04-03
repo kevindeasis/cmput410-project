@@ -237,9 +237,9 @@ class AuthorPosts(mixins.ListModelMixin,
         allposts = Posts.objects.filter(post_author=theauthor)
 
         authorid = user1
-        authorhost = 'somehosturl'
+        authorhost = theauthor.author_host
         authordisplayname = theauthor.user.username
-        authorurl = 'someurl'
+        authorurl = theauthor.author_url
 
         postarray = []
         for x in allposts:
@@ -268,7 +268,7 @@ class AuthorPosts(mixins.ListModelMixin,
                     jsoncommentauthoroject = {}
 
                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
-                    jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                    jsoncommentauthoroject["hostname"] = Author.object.get(user = User.objects.get(username=q.comment_author)).author_host
                     jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
 
                     jsoncommentobject["author"]=jsoncommentauthoroject
@@ -282,14 +282,14 @@ class AuthorPosts(mixins.ListModelMixin,
                 jsoncommentobject = {}
                 jsoncommentauthoroject = {}
 
-                jsoncommentauthoroject["id"] = ""
-                jsoncommentauthoroject["hostname"] = ""
-                jsoncommentauthoroject["displayname"] = ""
+                jsoncommentauthoroject["id"] = "null"
+                jsoncommentauthoroject["hostname"] = "null"
+                jsoncommentauthoroject["displayname"] = "null"
 
                 jsoncommentobject["author"]=jsoncommentauthoroject
-                jsoncommentobject["comment"]=""
-                jsoncommentobject["pubDate"]=""
-                jsoncommentobject["guid"]=""
+                jsoncommentobject["comment"]="null"
+                jsoncommentobject["pubDate"]="null"
+                jsoncommentobject["guid"]="null"
 
                 commentarray.append(jsoncommentobject)
             '''
@@ -432,7 +432,15 @@ class GrabPostID(mixins.ListModelMixin,
                     jsoncommentauthoroject = {}
 
                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
-                    jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
+                    jsoncommentauthoroject["hostname"] =                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
+                    jsoncommentauthoroject["hostname"] = Author.object.get(user = User.objects.get(username=q.comment_author)).author_host
+                    jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
+
+                    jsoncommentobject["author"]=jsoncommentauthoroject
+                    jsoncommentobject["comment"]=q.comment_text
+                    jsoncommentobject["pubDate"]="somedate"
+                    jsoncommentobject["guid"]=q.post_id
+
                     jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
 
                     jsoncommentobject["author"]=jsoncommentauthoroject
@@ -446,14 +454,14 @@ class GrabPostID(mixins.ListModelMixin,
                 jsoncommentobject = {}
                 jsoncommentauthoroject = {}
 
-                jsoncommentauthoroject["id"] = "commentauthorid"
-                jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
-                jsoncommentauthoroject["displayname"] = "commentauthor username"
+                jsoncommentauthoroject["id"] = "null"
+                jsoncommentauthoroject["hostname"] = "null"
+                jsoncommentauthoroject["displayname"] = "null"
 
                 jsoncommentobject["author"]=jsoncommentauthoroject
-                jsoncommentobject["comment"]="author"
-                jsoncommentobject["pubDate"]="author"
-                jsoncommentobject["guid"]="author"
+                jsoncommentobject["comment"]="null"
+                jsoncommentobject["pubDate"]="null"
+                jsoncommentobject["guid"]="null"
 
                 commentarray.append(jsoncommentobject)
 
@@ -512,9 +520,9 @@ class GrabPublicPost(mixins.ListModelMixin,
         for x in allposts:
             postauthor = x.post_author.user
             authorid = postauthor.pk
-            authorhost = 'somehosturl'
+            authorhost = x.post_author.author_host
             authordisplayname = postauthor.username
-            authorurl = 'someurl'
+            authorurl = x.post_author.author_url
 
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
@@ -535,6 +543,46 @@ class GrabPublicPost(mixins.ListModelMixin,
             commentarray = []
             #obviously there will be a for loop here
 
+            if obtaincomment(x.post_id).exists():
+                for q in obtaincomment(x.post_id):
+                    jsoncommentobject = {}
+                    jsoncommentauthoroject = {}
+
+                    jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
+                    jsoncommentauthoroject["hostname"] = Author.object.get(user = User.objects.get(username=q.comment_author)).author_host
+                    jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
+
+                    jsoncommentobject["author"]=jsoncommentauthoroject
+                    jsoncommentobject["comment"]=q.comment_text
+                    jsoncommentobject["pubDate"]="somedate"
+                    jsoncommentobject["guid"]=q.post_id
+
+                    commentarray.append(jsoncommentobject)
+
+            else:
+                jsoncommentobject = {}
+                jsoncommentauthoroject = {}
+
+                jsoncommentauthoroject["id"] = "null"
+                jsoncommentauthoroject["hostname"] = "null"
+                jsoncommentauthoroject["displayname"] = "null"
+
+                jsoncommentobject["author"]=jsoncommentauthoroject
+                jsoncommentobject["comment"]="null"
+                jsoncommentobject["pubDate"]="null"
+                jsoncommentobject["guid"]="null"
+
+                commentarray.append(jsoncommentobject)
+            '''
+            setofcomments = obtaincomment(x.post_id)
+            for z in commentarray:
+                jsoncommentobject = {}
+
+
+            #Comments.objects.filter()
+            #ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
+
+
             jsoncommentobject = {}
             jsoncommentauthoroject = {}
 
@@ -547,7 +595,7 @@ class GrabPublicPost(mixins.ListModelMixin,
             jsoncommentobject["pubDate"]="author"
             jsoncommentobject["guid"]="author"
 
-            commentarray.append(jsoncommentobject)
+            commentarray.append(jsoncommentobject)'''
 
             jsonpostobject["comments"]=commentarray
 

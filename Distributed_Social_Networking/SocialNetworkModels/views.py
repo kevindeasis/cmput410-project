@@ -15,6 +15,25 @@ import requests
 
 import json
 
+import logging, logging.config
+import sys
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+        }
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO'
+    }
+}
+
+logging.config.dictConfig(LOGGING)
+
 #user login page
 def user_login(request):
     #test if user can successfully login
@@ -52,6 +71,7 @@ def user_login(request):
 #home page, display after user login successfully
 @login_required   
 def home(request):
+
     if request.method == 'GET':
         if request.user.is_authenticated():
             user = request.user
@@ -92,6 +112,7 @@ def home(request):
 def register(request):
     context= RequestContext(request)
 
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -103,10 +124,17 @@ def register(request):
             return render(request, 'LandingPage/register.html',{'username':'username already exist'})
         else:
             if username != None and password != None:
+
+                metainfo = request.META
+                client_host = metainfo['HTTP_HOST']
+                client_port = metainfo['SERVER_PORT']
+
+
                 user=User.objects.create_user(username ,email,password)
                 user.save()
-                author= Author.objects.create(user=user,github_username=github_username,picture = picture )
+                author= Author.objects.create(user=user,github_username=github_username,picture = picture, author_host = client_host, author_url = client_host+('/service/author/')+str(user.pk))
                 author.save()
+
                 return redirect('/login')
 
     return render(request, 'LandingPage/register.html')
