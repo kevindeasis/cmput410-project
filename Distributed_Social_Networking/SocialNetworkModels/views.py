@@ -97,15 +97,15 @@ def home(request):
 		count =1	    
 	    if node is not None:
 		for i in node:
-		    if "team7"==i.host_name and i.status == True:
+		    if i.status == True:
 			
             
 			try:
-			    response=requests.get('http://social-distribution.herokuapp.com/api/author/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
-			    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+			    response=requests.get(i.host_url+'/api/author/posts',auth=(i.host_name,i.host_password))
 			    response=response.json()
 			    p = json.loads(json.dumps(response))
-			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
+			    receive.append(p)
+		
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 			#for other group connection
@@ -113,10 +113,17 @@ def home(request):
 			pass
 		    else:
 			pass
-            try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
-            except Author.DoesNotExist:
-                return render(request, 'LandingPage/login.html',{'error': False})   
+		try:
+		    if len(receive)>0:
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts']})
+		    else:
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
+		except Author.DoesNotExist:
+		    return render(request, 'LandingPage/login.html',{'error': False})
+	    try:
+		return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
+	    except Author.DoesNotExist:
+		return render(request, 'LandingPage/login.html',{'error': False})  	    
     elif request.method =='POST':
         return render(request, 'LandingPage/home.html')
 
@@ -160,22 +167,31 @@ def user_logout(request):
 def search_users(request):
     #search for users
     if request.method == 'GET':
+	
         if request.user.is_authenticated():
+	    
+	    receive=[]
             try:
                 #this needs to be paginated later
-                authors = Author.objects.all()
-
-                foreignauthors = {}
-
-                # try 2: always throws exception
-                # response=response.json() keeps raising exception
-                try:
-                    response=requests.get('http://social-distribution.herokuapp.com/api/author',auth=('team7','cs410.cs.ualberta.ca:team6'))
-                    response=response.json()
-                except Exception, e:
-                    pass
-                else:
-                    foreignauthors = json.loads(json.dumps(response))
+                node = Nodes.objects.all()
+		#get users from other server
+                
+		if node is not None:
+		    for i in node:
+			foreignauthors = {}
+			if i.status == True:
+					
+			    
+			    try:
+				response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
+				response=response.json()
+				foreignauthors = json.loads(json.dumps(response))
+				receive.append(foreignauthors)
+				
+			    except:
+				pass
+	    except Exception, e:
+		pass
 		#return HttpResponse(response)
                 # try 1: should work?
                 #response=requests.get('http://social-distribution.herokuapp.com/api/author/',auth=('team7','cs410.cs.ualberta.ca:team6'))
@@ -183,36 +199,37 @@ def search_users(request):
                 #foreignauthors = json.loads(json.dumps(response))
 
                 #follows = Follows()
-                followed = Follows.followManager.getFollowing(request.user)
-                allfriends = Friends.friendmanager.getFriends(request.user)
-                allpending = Friends.friendmanager.getAll(request.user)
+	    followed = Follows.followManager.getFollowing(request.user)
+	    allfriends = Friends.friendmanager.getFriends(request.user)
+	    allpending = Friends.friendmanager.getAll(request.user)
 
 
 
                 #if this got turned into a json, can do client side
-                ourfollows = []
-                for afollow in followed:
-                    ausername = afollow.followed.get_username()
-                    ourfollows.append('{s}'.format(s=ausername))
+	    ourfollows = []
+	    for afollow in followed:
+		ausername = afollow.followed.get_username()
+		ourfollows.append('{s}'.format(s=ausername))
 
-                #find the user/authors friends
-                ourfriends = []
-                for afriend in allfriends:
-                    afriendusername = afriend.reciever.get_username()
-                    ourfriends.append('{s}'.format(s=afriendusername))
+	    #find the user/authors friends
+	    ourfriends = []
+	    for afriend in allfriends:
+		afriendusername = afriend.reciever.get_username()
+		ourfriends.append('{s}'.format(s=afriendusername))
 
-                pendingrequests = []
-                for apending in allpending:
-                    afriendusername = apending.reciever.get_username()
-                    pendingrequests.append('{s}'.format(s=afriendusername))
+	    pendingrequests = []
+	    for apending in allpending:
+		afriendusername = apending.reciever.get_username()
+		pendingrequests.append('{s}'.format(s=afriendusername))
 
                 #for foreign in foreignauthors:
 
+	    authors=Author.objects.all()
+	    if len(receive)>0:
+		return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': receive[0]['authors']})
+	    else:
+		return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
 
-
-                return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': foreignauthors['authors']})
-            except Author.DoesNotExist:
-                return redirect('/login')
     else:
         return redirect('/login')
 
@@ -244,7 +261,7 @@ def follow(request, reciever_pk):
             #tobefollowed = User.objects.get(pk = reciever_pk)
             #follows.save()
             #Follows.followManager.create(followed=tobefollowed, follower=mainuser)
-
+	    node = Nodes.objects.all()
 
             if(Follows.followManager.isFollowing(User.objects.get(pk = reciever_pk), User.objects.get(username = request.user))):
                 Follows.followManager.get(followed=User.objects.get(pk = reciever_pk),follower=User.objects.get(username=request.user)).delete()
