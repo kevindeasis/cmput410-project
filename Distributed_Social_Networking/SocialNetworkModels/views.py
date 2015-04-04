@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext, loader
 from django.shortcuts import render, redirect,render_to_response
-from SocialNetworkModels.models import Posts, Comments, Author, Friends, FriendManager, Follows, FollowManager, FriendManager
+from SocialNetworkModels.models import Posts, Comments, Author, Friends, FriendManager, Follows, FollowManager, FriendManager,Nodes
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -90,19 +90,31 @@ def home(request):
 	    comments = Comments.objects.all()   
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
-            count = 0
-	    if post !=None:
-		count =1
+	    node = Nodes.objects.all()
 	    receive=[]
-	    try:
-		response=requests.get('http://social-distribution.herokuapp.com/api/author/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
-		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-		response=response.json()
-		p = json.loads(json.dumps(response))
-	    except:
-		return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
+	    count = 0
+	    if post !=None:
+		count =1	    
+	    if node is not None:
+		for i in node:
+		    if "team7"==i.host_name and i.status == True:
+			
+            
+			try:
+			    response=requests.get('http://social-distribution.herokuapp.com/api/author/posts',auth=('team7','cs410.cs.ualberta.ca:team6'))
+			    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+			    response=response.json()
+			    p = json.loads(json.dumps(response))
+			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
+			except:
+			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
+			#for other group connection
+		    elif "team2"==i.host_name:
+			pass
+		    else:
+			pass
             try:
-                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':p['posts']})
+                return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
             except Author.DoesNotExist:
                 return render(request, 'LandingPage/login.html',{'error': False})   
     elif request.method =='POST':

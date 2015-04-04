@@ -198,6 +198,25 @@ class Follows(models.Model):
         return self.followed
     def getafollower(self):
         return self.follower
+    
+    
+class Nodes(models.Model):
+    node_id = models.AutoField(primary_key=True)
+    
+    host_url = models.CharField(max_length=200,unique=True)
+    
+    host_name =models.CharField(max_length = 200)
+    
+    host_password =models.CharField(max_length = 200)
+    
+    status = models.BooleanField(default=False)
+    
+    class Meta:
+            verbose_name = "Nodes"
+            verbose_name_plural = "Nodes"    
+    
+    def __unicode__(self):  #For Python 2, use __str__ on Python 3
+        return self.host_url
 
 #should really be a friend requrest
 class Friends(models.Model):
