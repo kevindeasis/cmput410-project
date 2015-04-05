@@ -103,33 +103,69 @@
         </form>
   {% endif %}
 
-<script language = "javascript">
-<!--
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("feeds", "1");</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<button onclick="myFunction()">Try it</button>
+
+<p>Click the button to display an alert box:</p>
+</br>
 
 
-function readURL(input) {
+<script>
+function myFunction() {
+var feed = new google.feeds.Feed('https://github.com/diego04.atom');
+feed.load(function (data) {
+	//alert(JSON.stringify(data));
+    // Parse data depending on the specified response format, default is JSON.
+    if (data['status']['code'] < 300 || data['status']['code'] >= 200){
+                    $( "p" ).append( ("</br>"));
 
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+    $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['title'])));
+                    $( "p" ).append( ("</br>"));
 
-        reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
-        }
+    $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['link'])));
+                    $( "p" ).append( ("</br>"));
 
-        reader.readAsDataURL(input.files[0]);
-    }
+    //entries = jQuery.parseJSON(data['feed']['entries'])
+        entries = jQuery.parseJSON(JSON.stringify(data['feed']['entries']));
+
+        //$( "p" ).append( document.createTextNode(JSON.stringify(entries)));
+
+    $.each((entries), function(key,value){
+    $( "p" ).append( document.createTextNode(JSON.stringify(value['title'])));
+                $( "p" ).append( ("</br>"));
+
+        $( "p" ).append( document.createTextNode(JSON.stringify(value['link'])));
+                $( "p" ).append( ("</br>"));
+
+        $( "p" ).append( document.createTextNode(JSON.stringify(value['author'])));
+                $( "p" ).append( ("</br>"));
+
+        $( "p" ).append( document.createTextNode(JSON.stringify(value['publishedDate'])));
+                $( "p" ).append( ("</br>"));
+
+        $( "p" ).append((JSON.stringify(value['content'].replace(new RegExp('\r?\n','g'), '<br />'))));
+                $( "p" ).append( ("</br>"));
+
+
+    //$( "p" ).append( ('ei'));
+
+    });
+    /*for (x=0; x < entries.length; x++){
+
+    $( "p" ).append( document.createTextNode(entries[x]));
+        $( "p" ).append( document.createTextNode(entries[x]));
+
+    //$( "p" ).append( document.createTextNode((x)));
+
+    	}//for */
+    }//if conditional on 'ok' status code
+
+});
+
 }
-
-
-function checkEmpty(){
-	if(user_form.username.value ==""){
-		window.alert("User name can not be empty");
-		return false;
-	}	
-		
-}
-
--->
 </script>
 
 
