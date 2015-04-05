@@ -37,9 +37,10 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-md-6"><div class="thumbnail">
-				<img src="http://farm2.staticflickr.com/1119/1328426678_6c633e60fc_z.jpg?zz=1">
+				<img src="{{ author.user.picture}}">
 			</div></div>
 			<div class="col-md-6"><div class="list-group">
+				<p>img src: {{ author.user.picture }}</p>
 				<a href="#" class="list-group-item">View Info</a>
 				<a href="#" class="list-group-item">View Posts</a>
 				{% if author.user.username not in followed and username != author.user.username %}

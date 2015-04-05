@@ -1,23 +1,34 @@
 {% extends "index.html" %}
-
 {%block head%}
-
 {% include 'navigationbar.html' %}
 {% endblock %}
 {% block body %}
-    {% for afriendrequest in allfriendrequest %}
 
-                    <div class="link">
-                        <h4>{{ afriendrequest }} Added You!</h4>
-                    </div>
+<div class="container">
+<div class="row">
 
-                    {% if username != afriendrequest.user.username %}
-                    <div>
-                        <a href="/confirmfriend/{{ afriendrequest }}">
-                            Confirm
-                        </a>
-                    </div>
-                    {% endif %}
-    {% endfor %}
+{% for afriendrequest in allfriendrequest %}
+
+	<div class="col-md-4"><div class="panel panel-default">
+		<div class="panel-heading">
+			<p class="pull-right">Added You!</p>
+			<h4>{{ afriendrequest }}<h4>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-6"><div class="thumbnail">
+				<img src="http://upload.wikimedia.org/wikipedia/commons/1/14/Nature%27s_Number_6.jpg">
+			</div></div>
+			<div class="col-md-6">
+				{% if username != afriendrequest.user.username %}
+					<p><a href="/confirmfriend/{{ afriendrequest }}">Confirm</a></p>
+				{% endif %}
+			</div>
+		</div>
+	</div></div>
+
+{% endfor %}
+
+</div>
+</div>
 
 {%endblock%}
