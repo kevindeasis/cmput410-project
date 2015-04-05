@@ -97,9 +97,7 @@ def home(request):
 		count =1	    
 	    if node is not None:
 		for i in node:
-		    if i.status == True:
-			
-            
+		    if i.host_name == "team7" and i.status == True:
 			try:
 			    response=requests.get(i.host_url+'/api/author/posts',auth=(i.host_name,i.host_password))
 			    response=response.json()
@@ -109,10 +107,17 @@ def home(request):
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 			#for other group connection
-		    elif "team2"==i.host_name:
-			pass
+		    elif i.host_name == "user" and i.status == True:
+			try:
+			    response=requests.get(i.host_url+'/main/author/posts',auth=(i.host_name,i.host_password))
+			    response=response.json()
+			    p = json.loads(json.dumps(response))
+			    receive.append(p)
+		
+			except:
+			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		    else:
-			pass
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		try:
 		    if len(receive)>0:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts']})
