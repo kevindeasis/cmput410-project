@@ -71,6 +71,9 @@ urlpatterns = patterns('',
 
     url(r'^service/foaf/getposts/$', csrf_exempt(Api.GrabFoafPost.as_view())),
 
+    url(r'^service/foaf/(?P<postid>.+)/$', csrf_exempt(Api.FoafPost.as_view())),
+
+
     url(r'^service/friends/(?P<username1>.+)/(?P<username2>.+)/$', csrf_exempt(Api.FriendList.as_view())),
 
     url(r'^service/friends/(?P<username1>.+)/$', csrf_exempt(Api.FriendList.as_view())),

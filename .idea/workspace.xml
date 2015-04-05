@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b531d24-fb95-4eea-877b-155b53866f3b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/db.sqlite3" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/index.html" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/profile.html" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/profile.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/urls.py" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cmput410-project.iws" />
@@ -28,28 +27,16 @@
     <favorites_list name="cmput410-project" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.6080139">
+    <splitter split-orientation="horizontal" split-proportion="0.19501133">
       <split-first>
-        <splitter split-orientation="horizontal" split-proportion="0.8190225">
+        <splitter split-orientation="horizontal" split-proportion="0.3329646">
           <split-first>
             <leaf>
-              <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+              <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/views.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.0" vertical-offset="7950" max-vertical-offset="9375">
-                      <caret line="339" column="27" selection-start-line="339" selection-start-column="27" selection-end-line="339" selection-end-column="27" />
-                      <folding>
-                        <element signature="e#0#58#0" expanded="true" />
-                      </folding>
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file leaf-file-name="profile.html" pinned="false" current-in-tab="true">
-                <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/profile.html">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.21303657" vertical-offset="1471" max-vertical-offset="2670">
-                      <caret line="107" column="25" selection-start-line="107" selection-start-column="25" selection-end-line="107" selection-end-column="25" />
+                    <state vertical-scroll-proportion="0.023961661" vertical-offset="0" max-vertical-offset="9375">
+                      <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
                       <folding />
                     </state>
                   </provider>
@@ -90,8 +77,8 @@
               <file leaf-file-name="Api.py" pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.0" vertical-offset="3870" max-vertical-offset="10500">
-                      <caret line="270" column="57" selection-start-line="270" selection-start-column="57" selection-end-line="270" selection-end-column="57" />
+                    <state vertical-scroll-proportion="0.0" vertical-offset="3915" max-vertical-offset="11235">
+                      <caret line="273" column="57" selection-start-line="273" selection-start-column="57" selection-end-line="273" selection-end-column="57" />
                       <folding>
                         <element signature="e#0#51#0" expanded="true" />
                       </folding>
@@ -106,8 +93,8 @@
               <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/models.py">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4410">
-                      <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+                    <state vertical-scroll-proportion="0.29862174" vertical-offset="210" max-vertical-offset="4410">
+                      <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
                       <folding>
                         <element signature="e#1#29#0" expanded="true" />
                       </folding>
@@ -131,11 +118,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/urls.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.4027565" vertical-offset="1162" max-vertical-offset="1815">
-                  <caret line="95" column="24" selection-start-line="95" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="832" max-vertical-offset="1860">
+                  <caret line="69" column="66" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="66" />
                   <folding>
                     <element signature="e#0#51#0" expanded="true" />
                   </folding>
@@ -143,11 +130,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Api.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Api.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="10500">
-                  <caret line="562" column="38" selection-start-line="562" selection-start-column="38" selection-end-line="562" selection-end-column="38" />
+                <state vertical-scroll-proportion="3.276358" vertical-offset="8989" max-vertical-offset="11235">
+                  <caret line="736" column="37" selection-start-line="736" selection-start-column="37" selection-end-line="736" selection-end-column="37" />
                   <folding>
                     <element signature="e#0#51#0" expanded="true" />
                   </folding>
@@ -167,19 +154,19 @@
       <list>
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/API/api.py" />
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/Distributed_Social_Networking/settings.py" />
-        <option value="$PROJECT_DIR$/Distributed_Social_Networking/urls.py" />
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/RestApi/tests.py" />
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/models.py" />
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/views.py" />
-        <option value="$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py" />
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/profile.html" />
         <option value="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/index.html" />
+        <option value="$PROJECT_DIR$/Distributed_Social_Networking/urls.py" />
+        <option value="$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="49" />
-    <option name="y" value="147" />
+    <option name="x" value="58" />
+    <option name="y" value="115" />
     <option name="width" value="1330" />
     <option name="height" value="750" />
   </component>
@@ -458,7 +445,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="147" width="1330" height="750" extended-state="0" />
+    <frame x="58" y="115" width="1330" height="750" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -466,7 +453,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13082707" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.13082707" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -536,9 +523,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4500" max-vertical-offset="9375">
           <caret line="300" column="21" selection-start-line="300" selection-start-column="14" selection-end-line="300" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#58#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -612,9 +597,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4070" max-vertical-offset="8520">
           <caret line="281" column="38" selection-start-line="281" selection-start-column="36" selection-end-line="281" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#58#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -793,46 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="4410">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#1#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3870" max-vertical-offset="10500">
-          <caret line="270" column="57" selection-start-line="270" selection-start-column="57" selection-end-line="270" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4027565" vertical-offset="1162" max-vertical-offset="1815">
-          <caret line="95" column="24" selection-start-line="95" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="7950" max-vertical-offset="9375">
-          <caret line="339" column="27" selection-start-line="339" selection-start-column="27" selection-end-line="339" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#58#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-21.833334" vertical-offset="2401" max-vertical-offset="3120">
@@ -841,11 +784,49 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="832" max-vertical-offset="1860">
+          <caret line="69" column="66" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.29862174" vertical-offset="210" max-vertical-offset="4410">
+          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+          <folding>
+            <element signature="e#1#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/profile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21303657" vertical-offset="1471" max-vertical-offset="2670">
-          <caret line="107" column="25" selection-start-line="107" selection-start-column="25" selection-end-line="107" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.33222592" vertical-offset="1600" max-vertical-offset="2670">
+          <caret line="120" column="46" selection-start-line="120" selection-start-column="45" selection-end-line="120" selection-end-column="46" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.023961661" vertical-offset="0" max-vertical-offset="9375">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/RestApi/Api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="3.276358" vertical-offset="8989" max-vertical-offset="11235">
+          <caret line="736" column="37" selection-start-line="736" selection-start-column="37" selection-end-line="736" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
