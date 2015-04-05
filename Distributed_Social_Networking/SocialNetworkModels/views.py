@@ -97,6 +97,7 @@ def home(request):
 		count =1	    
 	    if node is not None:
 		for i in node:
+		    #team 6 connection
 		    if i.host_name == "team7" and i.status == True:
 			try:
 			    response=requests.get(i.host_url+'/api/author/posts',auth=(i.host_name,i.host_password))
@@ -106,7 +107,7 @@ def home(request):
 		
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
-			#for other group connection
+		    #team 3 connection
 		    elif i.host_name == "user" and i.status == True:
 			try:
 			    response=requests.get(i.host_url+'/main/author/posts',auth=(i.host_name,i.host_password))
@@ -184,9 +185,8 @@ def search_users(request):
 		if node is not None:
 		    for i in node:
 			foreignauthors = {}
-			if i.status == True:
-					
-			    
+			#team 6 connection
+		    	if i.host_name == "team7" and i.status == False:		    
 			    try:
 				response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
 				response=response.json()
@@ -195,6 +195,7 @@ def search_users(request):
 				
 			    except:
 				pass
+			#team 3 does not allow us to access a list of all authors - look into profiles once that's up
 	    except Exception, e:
 		pass
 		#return HttpResponse(response)
@@ -470,7 +471,15 @@ def display_post(request,post_id):
     try:
 	post = Posts.objects.get(post_id = post_id)
     except:
-	response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+	node = Nodes.objects.all()
+
+	for i in node:
+	    #team 6 connection
+	    if i.host_name == "team7" and i.status == True:
+		response=requests.get(i.host_url+'/api/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+	    #team 3 connection
+	    elif i.host_name == "user" and i.status == False:
+		response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
 	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
 	response=response.json()
 	p = json.loads(json.dumps(response))
