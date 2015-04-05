@@ -31,6 +31,9 @@ from rest_framework.views import APIView
 import logging, logging.config
 import sys
 
+import requests
+
+
 LOGGING = {
     'version': 1,
     'handlers': {
@@ -292,29 +295,7 @@ class AuthorPosts(mixins.ListModelMixin,
                 jsoncommentobject["guid"]="null"
 
                 commentarray.append(jsoncommentobject)
-            '''
-            setofcomments = obtaincomment(x.post_id)
-            for z in commentarray:
-                jsoncommentobject = {}
 
-
-            #Comments.objects.filter()
-            #ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=user1))
-
-
-            jsoncommentobject = {}
-            jsoncommentauthoroject = {}
-
-            jsoncommentauthoroject["id"] = "commentauthorid"
-            jsoncommentauthoroject["hostname"] = "commentauthor urlhost"
-            jsoncommentauthoroject["displayname"] = "commentauthor username"
-
-            jsoncommentobject["author"]=jsoncommentauthoroject
-            jsoncommentobject["comment"]="author"
-            jsoncommentobject["pubDate"]="author"
-            jsoncommentobject["guid"]="author"
-
-            commentarray.append(jsoncommentobject)'''
 
             jsonpostobject["comments"]=commentarray
 
@@ -690,5 +671,73 @@ class GrabFoafPost(mixins.ListModelMixin,
 
         jsonresponse = {}
         jsonresponse['posts'] = postarray
+
+        return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
+
+
+
+class FoafPost(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+
+
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = AuthorPostsSerializer
+
+
+
+    def get(self, request, *args, **kwargs):
+        postid = self.kwargs['postid']
+        jsonresponse = {}
+
+        try:
+            data = json.loads(request.body)
+
+            cangetpost = False
+
+            logging.info(data)
+
+            post_id = data['id']
+
+            requester_id = data['author']['id']
+            requester_host = data['author']['host']
+            requester_displayname = data['author']['displayname']
+
+            mutual_friends_list = data['friends']
+
+            #start here
+            #data = json.loads(request.body)
+
+            friendslist = []
+            ourfriendlist = Friends.friendmanager.getAll(User.objects.get(pk=requester_id))
+            for y in ourfriendlist:
+                friendslist.append(y.reciever.pk)
+            #logging.info(friendslist)
+
+            ourserver = []
+            for x in range(len(mutual_friends_list)):
+                if int(data['friends'][x]) in friendslist:
+                    ourserver.append(data['authors'][x])
+
+            if len(ourserver) > 0:
+                jsonpayload = {}
+                jsonpayload['query'] = 'friends'
+                jsonpayload['author'] = requester_id
+                jsonpayload['authors'] = str(ourserver)
+
+                url = 'http://team7:cs410.cs.ualberta.ca:team6@social-distribution.herokuapp.com/api/friends/'+str(requester_id)
+
+                r = json.loads(requests.post(url, data=json.dumps(jsonpayload)))
+
+                responsefriendslist = r['friends']
+
+                if len(responsefriendslist) > 0:
+                    cangetpost = True
+            else:
+                jsonresponse = {}
+        except:
+            pass
 
         return HttpResponse(json.dumps(jsonresponse), content_type = 'application/json')
