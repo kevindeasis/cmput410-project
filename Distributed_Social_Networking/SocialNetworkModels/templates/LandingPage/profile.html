@@ -7,111 +7,97 @@
 {%endblock%}
 
 {%block body%}
-        </br>
-        </br>
-        <h1>Profile</h1> 
-  {% if edit == '0' or edit == '2' %}
-	{% if edit == '0' %}
-	`	<a class="btn btn-default" href="/profile1/" >Edit</a></br></br>
-	{% else %}
-		</br></br></br>
-	{% endif %}
-	<img src="{{STATIC_URL}}../{{picture}}"  style="width:150px;height:150px;position:absolute;right:100px;top:120px;"/> </br></br>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-	<p><label for="id_username">Username:</label>
-        <h4>{{username}}</h4>  </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-	<p><label for="id_email">Email address:</label> 
-        <h4>{{email}}</h4> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-	<p><label for="github">github username:</label>	 
-        <h4>{{github_username}}</h4> </div></div></div>
 
-	{%for p in posts %}
+{% if edit == '0' or edit == '2' %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{% if edit == '0' %}
+			<p><a href="/profile1/" class="pull-right">Edit</a></p>
+		{% else %}
+		{% endif %}
+		<h2>Profile</h2>
+	</div>
+	<div class="panel-body">
+		<p><img src="{{STATIC_URL}}../{{picture}}"/></p>
+		<label for="id_username">Username:</label>
+		<p>{{username}}</p>
+		<label for="id_email">Email address:</label> 
+		<p>{{email}}</p>
+		<label for="github">github username:</label>	 
+		<p>{{github_username}}</p>
+	</div>
+	<div class="panel-body">
+		{%for p in posts %}
 			{% if p.post_author.user.username = username %}
-				<div class="panel panel-default">
-		        	<div class="panel-body">
-		        	<div class="panel-more1">
-				<a href="/display/{{p.post_id}}/">{{p.post_title}} </a> by <a href="/profile_post/{{p.post_author}}/">{{p.post_author}}</a></br></br>
-                                
-                                {% if p.image %}
-                                <img src="{{STATIC_URL}}../{{p.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-				{{p.post_text}} </br></br>
-			                   
-				</div></div></div>
-           		{% endif %}     
-         {% endfor %}
-	{%for p in post%}
-                 	<div class="panel panel-default">
-		        <div class="panel-body">
-		        <div class="panel-more1">
-				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></br></br>
+			<a href="/display/{{p.post_id}}/">{{p.post_title}} </a> 
+			by <a href="/profile_post/{{p.post_author}}/">{{p.post_author}}</a>                                
+			{% if p.image %}
+			<img src="{{STATIC_URL}}../{{p.image}}" style="width:100px;height:100px;"  /> 
+			{%else%}  
+			{% endif %}  
+			{{p.post_text}}
+			{% endif %}     
+		{% endfor %}
+		{%for p in post %}
+			<a href="/display/{{p.guid}}/">{{p.title}} </a> 
+			by 
+			<a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a>
+			{% if p.image %}
+				<img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"/> 
+			{%else%}  
+			{% endif %}  
+			{{p.content}}
+			{%for comment in p.comments %}
+				<a href="/profile_post/{{comment.author.id}}/">
+				{{comment.author.displayname}}
+				</a>{{comment.comment}}
+			{% endfor %}		
+		{%endfor%}	
+	</div>
+</div>
+{% endif %}
 
-                                {% if p.image %}
-                        
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-				           {{p.content}}</br></br>
-			                    {%for comment in p.comments %}
-					                    <div class="panel panel-default">
-					                    <div class="panel-body">
-					                    <div class="panel-more1">
-						                <a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
-					                    </div></div></div>
-			                    {% endfor %}			                  
-					</div></div></div>
-           {%endfor%}	
+{% if edit == '1' %}
+<form id="user_form" method="post" action="/profile_edit/"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+	<label for="id_username">Username:</label> </br>
+    <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /> </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+    <label for="id_email">Email address:</label> </br>
+    <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /> </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+    <label for="github">github username:</label> </br>
+    <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /> </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+    <label for="id_picture">Picture:</label> </br>
+    <input id="id_picture" name="picture" type="file" onchange="readURL(this);" class="btn btn-default"/> </br>
+    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
+    <!-- Provide a button to click to submit the form. -->
+    <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();" class="btn btn-default"/>
+</form>
+{% endif %}
 
-  {% endif %}
-
-  {% if edit == '1' %}
- 	<form id="user_form" method="post" action="/profile_edit/"
-                enctype="multipart/form-data">
-                {% csrf_token %}
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-		<label for="id_username">Username:</label> </br>
-            <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-            <label for="id_email">Email address:</label> </br>
-            <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-            <label for="github">github username:</label> </br>
-            <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-            <label for="id_picture">Picture:</label> </br>
-            <input id="id_picture" name="picture" type="file" onchange="readURL(this);" class="btn btn-default"/> </br>
-	    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();" class="btn btn-default"/>
-        </form>
-  {% endif %}
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">google.load("feeds", "1");</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-<button onclick="myFunction()">Try it</button>
-
-<p>Click the button to display an alert box:</p>
-</br>
-
+<div class="panel panel-default">
+	<div class="panel-body">
+		<button onclick="myFunction()">Try it</button>
+		<p>Click the button to display an alert box:</p>
+	</div>
+</div>
 
 <script>
 function myFunction() {
