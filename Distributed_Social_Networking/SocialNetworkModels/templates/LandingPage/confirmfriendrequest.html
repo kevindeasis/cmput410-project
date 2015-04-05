@@ -13,17 +13,12 @@
 {% for afriendrequest in allfriendrequest %}
 
 	<div class="col-md-4"><div class="panel panel-default">
-		<div class="panel-heading">
-			<p class="pull-right">Added You!</p>
-			<h4>{{ afriendrequest }}<h4>
-		</div>
+		<div class="panel-heading"><p class="pull-right">Added You!</p><h4>{{ afriendrequest }}<h4></div>
 		<div class="panel-body">
-			<div class="col-md-6"><div class="thumbnail">
-				<img src="http://upload.wikimedia.org/wikipedia/commons/4/44/Question_mark_%28black_on_white%29.png">
-			</div></div>
-			<div class="col-md-6">
+			<div class="list-group">
+				<a class="list-group-item" href="/profile_post/{{ afriendrequest}}">Profile</a>
 				{% if username != afriendrequest.user.username %}
-					<p><a href="/confirmfriend/{{ afriendrequest }}">Confirm</a></p>
+					<a class="list-group-item" href="/confirmfriend/{{ afriendrequest }}">Confirm</a>
 				{% endif %}
 			</div>
 		</div>

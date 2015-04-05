@@ -5,6 +5,22 @@
 {% endblock %}
 
 {% block body %}
+
+<h2>Search Authors</h2>
+
+<!-------- Search box unfinished --------
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form id="search_author" method="post" action="/searchusers/"
+			enctype="multipart/form-data">
+			{% csrf_token %}
+			<input id="id_username" maxlength="75" type="text" value = "Enter author name..." />
+			<input type="submit" name="search" value="Search" onclick = "return checkEmpty();" class="btn btn-default"/>
+		</form>
+	</div>
+</div>
+<----------------------------------------->
+
 <div class="container">
 <div class="row">
 
@@ -17,13 +33,12 @@
 		<div class="panel-body">
 			<p style="color:green;">Group 6 needs to implement!</p>
 			<div class="col-md-6"><div class="thumbnail">
-				<img src="http://upload.wikimedia.org/wikipedia/commons/1/14/Nature%27s_Number_6.jpg">
+				<img src="#group6 needs to implement">
 			</div></div>
 			<div class="col-md-6"><div class="list-group">
-				<a href="#group6 needs to implement" class="list-group-item">View Info</a>
-				<a href="#group6 needs to implement"  class="list-group-item">View Posts</a>
+				<a href="#group6 needs to implement"  class="list-group-item">Profile</a>
 				<a href="#group6 needs to implement" class="list-group-item">Follow</a>
-				<a href="#group6 needs to implement"  class="list-group-item">Add Friend</a>
+				<a href="#group6 needs to implement"  class="list-group-item">Befriend</a>
 			</div></div>
 		</div>
 	</div></div>
@@ -37,24 +52,22 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-md-6"><div class="thumbnail">
-				<img src="{{ author.user.picture}}">
+				<img src="{{STATIC_URL}}../{{ author.picture}}">
 			</div></div>
 			<div class="col-md-6"><div class="list-group">
-				<p>img src: {{ author.user.picture }}</p>
-				<a href="#" class="list-group-item">View Info</a>
-				<a href="#" class="list-group-item">View Posts</a>
+				<a href="/profile_post/{{ author.user.username}}" class="list-group-item">Profile</a>
 				{% if author.user.username not in followed and username != author.user.username %}
 					<a href="/follow/{{ author.user.pk}}"  class="list-group-item">Follow</a>
 					{% if author.user.username not in allpending %}
-						<a href="/addfriend/{{ author.user.pk}}" class="list-group-item">Add Friend</a>
+						<a href="/addfriend/{{ author.user.pk}}" class="list-group-item">Befriend</a>
 					{% elif author.user.username in allfriends %}
 						<a href="/unfriend/{{ author.user.username}}" class="list-group-item">Unfriend</a>
 					{% endif %}
 				{% else %}
 					{% if  username != author.user.username %}
-						<a href="/unfollow/{{ author.user.pk}}" class="list-group-item">UnFollow</a>
+						<a href="/unfollow/{{ author.user.pk}}" class="list-group-item">Unfollow</a>
 						{% if author.user.username not in allpending %}
-		    					<a href="/addfriend/{{ author.user.pk}}" class="list-group-item">Add Friend</a>
+		    					<a href="/addfriend/{{ author.user.pk}}" class="list-group-item">Befriend</a>
 						{% elif author.user.username in allfriends %}
 		    					<a href="/unfriend/{{ author.user.username}}" class="list-group-item">Unfriend</a>
 						{% endif %}
