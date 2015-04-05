@@ -98,7 +98,7 @@
 	 <div class="panel-more1">
     <label for="id_picture">Picture:</label> </br>
     <input id="id_picture" name="picture" type="file" onchange="readURL(this);" class="btn btn-default"/> </br>
-    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
+    <img style="width:20%;height:150px;" id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
     <!-- Provide a button to click to submit the form. -->
     <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();" class="btn btn-default"/>
 </form>
