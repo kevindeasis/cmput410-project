@@ -99,7 +99,7 @@ def home(request):
 	    if node is not None:
 		for i in node:
 		    #team 6 connection
-		    if i.host_name == "team7" and i.status == True:
+		    if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
 			try:
 			    response=requests.get(i.host_url+'/api/author/posts',auth=(i.host_name,i.host_password))
 			    response=response.json()
@@ -107,9 +107,9 @@ def home(request):
 			    receive.append(p)
 
 			except:
-			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
+			    pass
 		    #team 3 connection
-		    elif i.host_name == "user" and i.status == True:
+		    elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
 			try:
 			    response=requests.get(i.host_url+'/main/author/posts',auth=(i.host_name,i.host_password))
 			    response=response.json()
@@ -117,14 +117,16 @@ def home(request):
 			    receive2.append(p)
 
 			except:
-			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
+			    pass
 		    else:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		try:
-		    if len(receive)>0:
+		    if len(receive)>0 and len(receive2)>0:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts'],'getPost2':receive2[0]['posts']})
 		    elif len(receive)>0:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts']})
+		    elif len(receive2)>0:
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost2':receive2[0]['posts']})
 		    else:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
 		except Author.DoesNotExist:
@@ -530,7 +532,7 @@ def display_post(request,post_id):
 
 	for i in node:
 	    #team 6 connection
-	    if i.host_name == "team7" and i.status == True:
+	    if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
 		response=requests.get(i.host_url+'/api/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
 		if response.status_code == 200 and len(response.text) > 20:
 		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
@@ -545,7 +547,7 @@ def display_post(request,post_id):
 		    post.image = None
 		    break
 	    #team 3 connection
-	    elif i.host_name == "user" and i.status == True:
+	    elif i.host_url == "http://cmput410project15.herokuapp.com" and hsstatus == True:
 		response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
 		if response.status_code == 200 and len(response.text) > 20:
 		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
@@ -634,7 +636,7 @@ def profile_post(request,user_id,edit):
 
 	for i in node:
 		#team 6 connection
-		if i.host_name == "team7" and i.status == True:
+		if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
 		    response=requests.get(i.host_url+'/api/author/%s'%(user_id),auth=(i.host_name,i.host_password))
 		    if response.status_code == 200 and len(response.text) > 20:
 			response=response.json()
@@ -646,7 +648,7 @@ def profile_post(request,user_id,edit):
 			return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
 			break
 		#team 3 connection - not currently working - needed to push regardless
-		elif i.host_name == "user" and i.status == True:
+		elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
 		    response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
 		    if response.status_code == 200 and len(response.text) > 20:
 			response=response.json()
