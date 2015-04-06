@@ -46,6 +46,37 @@
 		</div>
 	{%endfor%}
 
+	{%for p in getPost2%}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="pull-right">by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></div>
+				<h4><a href="/display/{{p.guid}}/">{{p.title}}</a></h4>
+			</div>
+			<div class="panel-body">
+				{% if p.image %}
+					<img src="{{STATIC_URL}}../{{post.image}}" style="max-width:20%;max-height:200px;"/>
+				{%else%}  
+				{% endif %}
+				<p>{{p.content}}</p>
+				<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+					{% csrf_token %}
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<p style="color:green">Group 6 did not expose their api we are not allowing you to submit{{post.post_id}}</p>
+				</form></p>
+				<div class="col-md-8"><div class="list-group">
+					{%for comment in p.comments %}
+						<div class="list-group-item">
+							<a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a>
+							:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment}}
+						</div>
+					{% endfor %}
+				</div></div>
+			</div>
+		</div>
+	{%endfor%}
+
 	{% if lenn %}
 		{% for post in posts %}
 			{% if post.mark_down %}

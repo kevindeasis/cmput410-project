@@ -92,6 +92,7 @@ def home(request):
             #return HttpResponse(len(post))
 	    node = Nodes.objects.all()
 	    receive=[]
+	    receive2=[]
 	    count = 0
 	    if post !=None:
 		count =1
@@ -113,7 +114,7 @@ def home(request):
 			    response=requests.get(i.host_url+'/main/author/posts',auth=(i.host_name,i.host_password))
 			    response=response.json()
 			    p = json.loads(json.dumps(response))
-			    receive.append(p)
+			    receive2.append(p)
 
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
@@ -121,6 +122,8 @@ def home(request):
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		try:
 		    if len(receive)>0:
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts'],'getPost2':receive2[0]['posts']})
+		    elif len(receive)>0:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts']})
 		    else:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
