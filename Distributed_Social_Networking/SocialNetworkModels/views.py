@@ -86,15 +86,15 @@ def home(request):
                 for friend in friendOfFriend:
                     if friend.reciever.get_username() not in FOAF and friend.reciever.get_username() != request.user:
                         FOAF.append(friend.reciever.get_username())
-            print ourfriend, FOAF 
-	    comments = Comments.objects.all()   
+            print ourfriend, FOAF
+	    comments = Comments.objects.all()
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
 	    node = Nodes.objects.all()
 	    receive=[]
 	    count = 0
 	    if post !=None:
-		count =1	    
+		count =1
 	    if node is not None:
 		for i in node:
 		    #team 6 connection
@@ -104,7 +104,7 @@ def home(request):
 			    response=response.json()
 			    p = json.loads(json.dumps(response))
 			    receive.append(p)
-		
+
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		    #team 3 connection
@@ -114,7 +114,7 @@ def home(request):
 			    response=response.json()
 			    p = json.loads(json.dumps(response))
 			    receive.append(p)
-		
+
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		    else:
@@ -129,10 +129,9 @@ def home(request):
 	    try:
 		return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
 	    except Author.DoesNotExist:
-		return render(request, 'LandingPage/login.html',{'error': False})  	    
+		return render(request, 'LandingPage/login.html',{'error': False})
     elif request.method =='POST':
         return render(request, 'LandingPage/home.html')
-
 
 def register(request):
     context= RequestContext(request)
@@ -171,31 +170,32 @@ def user_logout(request):
 
 @login_required
 def search_users(request):
+
     #search for users
     if request.method == 'GET':
-	
+
         if request.user.is_authenticated():
-	    
+
 	    receive=[]
             try:
                 #this needs to be paginated later
                 node = Nodes.objects.all()
 		#get users from other server
-                
+
 		if node is not None:
 		    for i in node:
 			foreignauthors = {}
-			#team 6 connection
-		    	if i.host_name == "team7" and i.status == False:		    
+			if i.status == True:
+
+
 			    try:
 				response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
 				response=response.json()
 				foreignauthors = json.loads(json.dumps(response))
 				receive.append(foreignauthors)
-				
+
 			    except:
 				pass
-			#team 3 does not allow us to access a list of all authors - look into profiles once that's up
 	    except Exception, e:
 		pass
 		#return HttpResponse(response)
@@ -238,6 +238,8 @@ def search_users(request):
 
     else:
         return redirect('/login')
+
+
 
 
 
