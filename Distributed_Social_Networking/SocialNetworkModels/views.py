@@ -492,19 +492,33 @@ def display_post(request,post_id):
 	    #team 6 connection
 	    if i.host_name == "team7" and i.status == True:
 		response=requests.get(i.host_url+'/api/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
-	    #team 3 connection - not yet functional
-	    elif i.host_name == "user" and i.status == False:
+		if response.status_code == 200 and len(response.text) > 20:
+		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		    response=response.json()
+		    p = json.loads(json.dumps(response))
+		    post =Posts()
+		    #post.post_author = None
+		    post.post_title = p['title']
+		    post.post_text = p['content']
+		    post.visibility =p['visibility']
+		    post.post_id = post_id
+		    post.image = None
+		    break
+	    #team 3 connection
+	    elif i.host_name == "user" and i.status == True:
 		response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
-	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-	response=response.json()
-	p = json.loads(json.dumps(response))
-	post =Posts()
-	#post.post_author = None
-	post.post_title  = p['title']
-	post.post_text = p['content']
-	post.visibility =p['visibility']
-	post.post_id = post_id
-	post.image = None
+		if response.status_code == 200 and len(response.text) > 20:
+		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		    response=response.json()
+		    p = json.loads(json.dumps(response))
+		    post =Posts()
+		    #post.post_author = None
+		    post.post_title = p['posts'][0]['title']
+		    post.post_text = p['posts'][0]['content']
+		    post.visibility = p['posts'][0]['visibility']
+		    post.post_id = post_id
+		    post.image = None
+		    break
     return render(request,'LandingPage/display.html',{'post':post})
     
 @login_required
