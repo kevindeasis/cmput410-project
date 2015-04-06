@@ -63,6 +63,7 @@ router.register(r'post', Api.PostsViewSet)
 
 
 urlpatterns = patterns('',
+
     url(r'^service/author/(?P<authorid>.+)/posts/$', csrf_exempt(Api.AuthorPosts.as_view())),
     url(r'^service/author/posts/$', csrf_exempt(Api.GrabPublicPost.as_view())),
     url(r'^service/posts/(?P<postid>.+)/$', csrf_exempt(Api.GrabPostID.as_view())),
@@ -80,6 +81,8 @@ urlpatterns = patterns('',
 
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^service/', include(router.urls), name='url_service'),
+
+    url(r'^addforeign/(?P<username>.+)/(?P<id>.+)/$', views.addforeign),
 
     url(r'^users/$', Api.UserViewSet.as_view({'get': 'list', 'post': 'create'})),
     

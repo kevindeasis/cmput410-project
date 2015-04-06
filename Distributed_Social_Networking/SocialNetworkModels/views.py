@@ -168,6 +168,26 @@ def user_logout(request):
     logout(request)
     return redirect('/')
 
+
+
+
+@login_required
+def addforeign(request, username, id):
+    #search for users
+    logging.info(username);
+    logging.info(id);
+
+    try:
+        user=User.objects.create_user(username ,username + '@foreignuser.com',username)
+        user.save()
+        author= Author.objects.create(user=user,foreign_id = id)
+        author.save()
+        Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(username = user.username))
+    except:
+        pass
+    return redirect('/searchusers')
+
+
 @login_required
 def search_users(request):
 
@@ -176,65 +196,82 @@ def search_users(request):
 
         if request.user.is_authenticated():
 
-	    receive=[]
+            receive=[]
             try:
                 #this needs to be paginated later
                 node = Nodes.objects.all()
-		#get users from other server
+                #get users from other server
 
-		if node is not None:
-		    for i in node:
-			foreignauthors = {}
-			if i.status == True:
+                if node is not None:
+                    for i in node:
+                        foreignauthors = {}
+                        if i.status == True:
 
 
-			    try:
-				response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
-				response=response.json()
-				foreignauthors = json.loads(json.dumps(response))
-				receive.append(foreignauthors)
+                            try:
+                                response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
+                                response=response.json()
+                                foreignauthors = json.loads(json.dumps(response))
+                                receive.append(foreignauthors)
 
-			    except:
-				pass
-	    except Exception, e:
-		pass
-		#return HttpResponse(response)
-                # try 1: should work?
-                #response=requests.get('http://social-distribution.herokuapp.com/api/author/',auth=('team7','cs410.cs.ualberta.ca:team6'))
-                #response=response.json()
-                #foreignauthors = json.loads(json.dumps(response))
+                            except:
+                                pass
+            except Exception, e:
+                    pass
 
-                #follows = Follows()
-	    followed = Follows.followManager.getFollowing(request.user)
-	    allfriends = Friends.friendmanager.getFriends(request.user)
-	    allpending = Friends.friendmanager.getAll(request.user)
+        followed = Follows.followManager.getFollowing(request.user)
+        allfriends = Friends.friendmanager.getFriends(request.user)
+        allpending = Friends.friendmanager.getAll(request.user)
 
 
 
                 #if this got turned into a json, can do client side
-	    ourfollows = []
-	    for afollow in followed:
-		ausername = afollow.followed.get_username()
-		ourfollows.append('{s}'.format(s=ausername))
+        ourfollows = []
+        for afollow in followed:
+            ausername = afollow.followed.get_username()
+            ourfollows.append('{s}'.format(s=ausername))
 
-	    #find the user/authors friends
-	    ourfriends = []
-	    for afriend in allfriends:
-		afriendusername = afriend.reciever.get_username()
-		ourfriends.append('{s}'.format(s=afriendusername))
+            #find the user/authors friends
 
-	    pendingrequests = []
-	    for apending in allpending:
-		afriendusername = apending.reciever.get_username()
-		pendingrequests.append('{s}'.format(s=afriendusername))
+        ourfriends = []
+        for afriend in allfriends:
+            afriendusername = afriend.reciever.get_username()
+            ourfriends.append('{s}'.format(s=afriendusername))
+
+        pendingrequests = []
+        for apending in allpending:
+            afriendusername = apending.reciever.get_username()
+            pendingrequests.append('{s}'.format(s=afriendusername))
 
                 #for foreign in foreignauthors:
 
-	    authors=Author.objects.all()
-	    if len(receive)>0:
-		return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': receive[0]['authors']})
-	    else:
-		return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
+        authors=Author.objects.all()
+        if len(receive)>0:
+            recieve2 = []
+            for x in json.loads(json.dumps(receive[0]['authors'])):
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info('here')
+
+                #x = json.loads(x)
+                #logging.info(x.id)
+
+                if Author.objects.filter(foreign_id = x["id"]).exists():
+                    pass
+                else:ß
+                    recieve2.append(x)
+
+            '''
+            user=User.objects.create_user(username ,username + '@foreignuser.com',username)
+            user.save()
+            author= Author.objects.create(user=user,foreign_id = id)
+            author.save()
+            Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(username = user.username))
+            '''
+            return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': recieve2})
+        else:
+            return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
 
     else:
         return redirect('/login')

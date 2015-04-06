@@ -12,7 +12,7 @@ class Author(models.Model):
     approved = models.BooleanField(default=False)
     author_url = models.CharField(max_length=128, blank=True)
     author_host = models.CharField(max_length=128, blank=True)
-
+    foreign_id = models.CharField(max_length=128, blank=True)
 
     def __unicode__(self):
         return self.user.username
