@@ -198,9 +198,7 @@ def search_users(request):
 
             receive=[]
             try:
-                #this needs to be paginated later
                 node = Nodes.objects.all()
-                #get users from other server
 
                 if node is not None:
                     for i in node:
@@ -223,15 +221,10 @@ def search_users(request):
         allfriends = Friends.friendmanager.getFriends(request.user)
         allpending = Friends.friendmanager.getAll(request.user)
 
-
-
-                #if this got turned into a json, can do client side
         ourfollows = []
         for afollow in followed:
             ausername = afollow.followed.get_username()
             ourfollows.append('{s}'.format(s=ausername))
-
-            #find the user/authors friends
 
         ourfriends = []
         for afriend in allfriends:
@@ -259,25 +252,15 @@ def search_users(request):
 
                 if Author.objects.filter(foreign_id = x["id"]).exists():
                     pass
-                else:ß
+                else:
                     recieve2.append(x)
 
-            '''
-            user=User.objects.create_user(username ,username + '@foreignuser.com',username)
-            user.save()
-            author= Author.objects.create(user=user,foreign_id = id)
-            author.save()
-            Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(username = user.username))
-            '''
             return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': recieve2})
         else:
             return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
 
     else:
         return redirect('/login')
-
-
-
 
 
 @login_required
@@ -347,7 +330,6 @@ def follow(request, reciever_pk):
 
 @login_required
 def unfriend(request, reciever_pk):
-    #return HttpResponse(request.user) utf?
 
     #try:
     Follows.followManager.mutualFollow(User.objects.get(username = request.user), User.objects.get(username = reciever_pk))
@@ -416,15 +398,6 @@ def viewfriendrequests(request):
                 return redirect('/login')
     else:
         return redirect('/login')
-
-'''
-@login_required
-def testaddfriend(request, reciever_pk):
-    try:
-        Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(pk = reciever_pk))
-    except:
-        return redirect('/searchusers')
-    return redirect('/searchusers')'''
 
 
 @login_required
@@ -645,15 +618,10 @@ def profile_edit(request):
             author.picture = picture
 
         try:
-            # Save the User first
             request.user.save()
-            # Save the Author last
             author.save()
-
-            # Add a success flash message
             messages.info(request, "Your profile was updated successfully.")
 
-            # Send the user to the profile screen
             return redirect('/home')
         except IntegrityError, e:
             if "username" in e.message:

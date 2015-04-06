@@ -812,6 +812,11 @@ class FoafPost(mixins.ListModelMixin,
 
                 if len(responsefriendslist) > 0:
                     cangetpost = True
+                    try:
+                        return HttpResponse(json.dumps(Posts.object.get(post_id)), content_type = 'application/json')
+                    except:
+                        pass
+                    return HttpResponse(json.dumps({}), content_type = 'application/json')
             else:
                 jsonresponse = {}
         except:
