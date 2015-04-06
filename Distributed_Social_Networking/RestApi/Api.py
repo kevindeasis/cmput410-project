@@ -248,11 +248,12 @@ class AuthorPosts(mixins.ListModelMixin,
         for x in allposts:
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
-            jsonpostobject["source"] = x.post_title
-            jsonpostobject["origin"] = x.post_title
-            jsonpostobject["description"] = x.post_title
-            jsonpostobject["content-type"] = x.post_title
-            jsonpostobject["content"] = x.post_title
+            jsonpostobject["source"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["origin"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["description"] = "a post"
+            jsonpostobject["content-type"] = "text/html"
+            jsonpostobject["content"] = x.post_text
+	    jsonpostobject["guid"] = x.post_id
 
             jsonauthorobject = {}
             jsonauthorobject["id"] = authorid
@@ -390,11 +391,12 @@ class GrabPostID(mixins.ListModelMixin,
 
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
-            jsonpostobject["source"] = x.post_title
-            jsonpostobject["origin"] = x.post_title
-            jsonpostobject["description"] = x.post_title
-            jsonpostobject["content-type"] = x.post_title
-            jsonpostobject["content"] = x.post_title
+            jsonpostobject["source"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["origin"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["description"] = "a post"
+            jsonpostobject["content-type"] = "text/html"
+            jsonpostobject["content"] = x.post_text
+	    jsonpostobject["guid"] = x.post_id
 
             jsonauthorobject = {}
             jsonauthorobject["id"] = authorid
@@ -507,11 +509,12 @@ class GrabPublicPost(mixins.ListModelMixin,
 
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
-            jsonpostobject["source"] = x.post_title
-            jsonpostobject["origin"] = x.post_title
-            jsonpostobject["description"] = x.post_title
-            jsonpostobject["content-type"] = x.post_title
-            jsonpostobject["content"] = x.post_title
+            jsonpostobject["source"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["origin"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["description"] = "a post"
+            jsonpostobject["content-type"] = "text/html"
+            jsonpostobject["content"] = x.post_text
+	    jsonpostobject["guid"] = x.post_id
 
             jsonauthorobject = {}
             jsonauthorobject["id"] = authorid
@@ -633,11 +636,12 @@ class GrabFoafPost(mixins.ListModelMixin,
         for x in allposts:
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
-            jsonpostobject["source"] = x.post_title
-            jsonpostobject["origin"] = x.post_title
-            jsonpostobject["description"] = x.post_title
-            jsonpostobject["content-type"] = x.post_title
-            jsonpostobject["content"] = x.post_title
+            jsonpostobject["source"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["origin"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["description"] = "a post"
+            jsonpostobject["content-type"] = "text/html"
+            jsonpostobject["content"] = x.post_text
+	    jsonpostobject["guid"] = x.post_id
 
             jsonauthorobject = {}
             jsonauthorobject["id"] = authorid
@@ -713,11 +717,12 @@ class GrabFoafPost(mixins.ListModelMixin,
         for x in allposts:
             jsonpostobject = {}
             jsonpostobject["title"] = x.post_title
-            jsonpostobject["source"] = x.post_title
-            jsonpostobject["origin"] = x.post_title
-            jsonpostobject["description"] = x.post_title
-            jsonpostobject["content-type"] = x.post_title
-            jsonpostobject["content"] = x.post_title
+            jsonpostobject["source"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["origin"] = "http://127.0.0.1:8000/service/posts/" + str(x.post_id)
+            jsonpostobject["description"] = "a post"
+            jsonpostobject["content-type"] = "text/html"
+            jsonpostobject["content"] = x.post_text
+	    jsonpostobject["guid"] = x.post_id
 
             jsonauthorobject = {}
             jsonauthorobject["id"] = authorid

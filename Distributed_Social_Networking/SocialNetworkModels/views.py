@@ -594,17 +594,33 @@ def profile_post(request,user_id,edit):
 		post = Posts.objects.all()
 		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit})
 	    except:
-		response=requests.get('http://social-distribution.herokuapp.com/api/author/%s'%(user_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-		response=response.json()
-		p = json.loads(json.dumps(response))
-		
-		
-		response=requests.get('http://social-distribution.herokuapp.com/api/author/%s/posts'%(user_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-		response=response.json()
-		a = json.loads(json.dumps(response))		
-		return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+		node = Nodes.objects.all()
+
+	for i in node:
+		#team 6 connection
+		if i.host_name == "team7" and i.status == True:
+		    response=requests.get(i.host_url+'/api/author/%s'%(user_id),auth=(i.host_name,i.host_password))
+		    if response.status_code == 200 and len(response.text) > 20:
+			response=response.json()
+			p = json.loads(json.dumps(response))
+
+			response=requests.get(i.host_url+'/api/author/%s/posts'%(user_id),auth=(i.host_name,i.host_password)) 
+			response=response.json()
+			a = json.loads(json.dumps(response))
+			return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+			break
+		#team 3 connection - not currently working - needed to push regardless
+		elif i.host_name == "user" and i.status == True:
+		    response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		    if response.status_code == 200 and len(response.text) > 20:
+			response=response.json()
+			p = json.loads(json.dumps(response))
+
+			response=requests.get(i.host_url+'/main/author/%s/posts'%(user_id),auth=(i.host_name,i.host_password)) 
+			response=response.json()
+			a = json.loads(json.dumps(response))		
+			return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+			break
     return render(request, 'LandingPage/profile.html')
 
 @login_required
