@@ -35,7 +35,37 @@ REQUEST for finding a post:
 curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 RESPONSE
-TODO: TO BE DETERMINED
+{
+    "posts": [
+    {
+        "origin": "http://127.0.0.1:8000/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e", 
+        "description": "a post", 
+        "title": "My New Car", 
+        "author": {
+            "url": "someurl", 
+            "host": "somehosturl", 
+            "displayname": "jeff", 
+            "id": 63
+        }, 
+        "comments": [
+        {
+            "comment": "null", 
+            "guid": "null", 
+            "pubDate": "null", 
+            "author": {
+                "hostname": "null", 
+                "displayname": "null", 
+                "id": "null"
+            }
+        }
+        ], 
+        "content": "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna moll", 
+        "source": "http://127.0.0.1:8000/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e", 
+        "guid": "c4d924d8-caaf-4470-ad7d-ae0e4714a26e", 
+        "content-type": "text/html"
+    }
+    ]
+}
 
 ======================================================================================
 
