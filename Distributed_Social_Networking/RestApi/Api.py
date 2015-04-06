@@ -466,9 +466,10 @@ class GrabPostID(mixins.ListModelMixin,
 
         try:
             post = Posts.objects.get(post_id=postid)
-        except DoesNotExist:
-            views.author_post(request)
-
+            #return HttpResponse("Post ID already exists\n", content_type = 'application/json')
+        except Exception:
+            views.api_author_post(request)
+            #return HttpResponse("Post created\n", content_type = 'application/json')
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
     @csrf_exempt
@@ -479,13 +480,13 @@ class GrabPostID(mixins.ListModelMixin,
 
         try:
             post = Posts.objects.get(post_id=postid)
-        except DoesNotExist:
-            views.author_post(request)
+        except Exception:
+            views.api_author_post(request)
+            #return HttpResponse("Post created\n", content_type = 'application/json')
         else:
-            views.author_post_edit(request, postid)
-
+            views.api_author_post_edit(request, postid)
+            #return HttpResponse("Post edited\n", content_type = 'application/json')
         return HttpResponse(json.dumps({}), content_type = 'application/json')
-
 
 class GrabPublicPost(mixins.ListModelMixin,
                   mixins.CreateModelMixin,

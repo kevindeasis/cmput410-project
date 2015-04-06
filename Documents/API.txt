@@ -507,17 +507,17 @@ response
 =========================================================================================
 
 request
-curl -u admin:admin http://cs410.cs.ualberta.ca:41074/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+curl -u admin:admin http://cs410.cs.ualberta.ca:41071/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
-{"post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}}
+TO BE DETERMINED
 
 =====================================
 
 request
-curl -X POST -u admin:admin -d '{"
-post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
-}' http://cs410.cs.ualberta.ca:41074/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+curl -X POST -u admin:admin -H "Content-Type: application/json" -d '{"post_title": "no", "post_id": "c4d924d8-caaf-4470-ad7d-ae0e4714a26f", "post_text": "no", "post_author": {"user": 63, "github_username": "jeff", "picture": "http://cs410.cs.ualberta.ca:41071/service/author/63/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg", "approved": true, "author_details": {"url": "http://cs410.cs.ualberta.ca:41071/service/users/63/", "username": "jeff", "email": "jeff@gmail.com", "is_staff": false}}, "visibility": "PUBLIC", "markdown": false}' http://cs410.cs.ualberta.ca:41071/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26f/
 
 response
 {}
@@ -525,9 +525,8 @@ response
 =====================================
 
 request
-curl -X PUT -u admin:admin -d '{"
-post_title":"no","post_id":"c4d924d8-caaf-4470-ad7d-ae0e4714a26e","post_text":"no","post_author":{"user":63,"github_username":"jeff","picture":"http://localhost:8000/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg","approved":true,"author_details":{"url":"http://localhost:8000/service/users/63/","username":"jeff","email":"jeff@gmail.com","is_staff":false}}
-}' http://cs410.cs.ualberta.ca:41074/service/post/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
+
+curl -X PUT -u admin:admin -H "Content-Type: application/json" -d '{"post_title": "no", "post_id": "c4d924d8-caaf-4470-ad7d-ae0e4714a26e", "post_text": "no", "post_author": {"user": 63, "github_username": "jeff", "picture": "http://cs410.cs.ualberta.ca:41071/service/author/63/static/profile_images/gamersky_034origin_067_20131111227AA2.jpg", "approved": true, "author_details": {"url": "http://cs410.cs.ualberta.ca:41071/service/users/63/", "username": "jeff", "email": "jeff@gmail.com", "is_staff": false}}, "visibility": "PUBLIC", "markdown": false}' http://cs410.cs.ualberta.ca:41071/service/posts/c4d924d8-caaf-4470-ad7d-ae0e4714a26e/
 
 response
 {}
