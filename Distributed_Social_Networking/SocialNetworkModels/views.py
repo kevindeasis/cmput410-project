@@ -410,6 +410,71 @@ def author_post(request):
         
     return render(request, 'LandingPage/post.html')
 
+@login_required
+def api_author_post(request):
+    data = json.loads(request.body)
+    title = data['post_title']
+    text = data['post_text']
+    pid = data['post_id']
+    picture = data['post_author']['picture']
+    visibility = data['visibility']
+    mark_down = data['markdown']
+
+    post = Posts()
+    post.post_author = Author.objects.get(user = request.user)
+    post.post_title = title
+    post.post_id = pid
+    post.post_text = text
+    post.visibility = visibility
+    post.mark_down= mark_down
+    post.image = None
+    if picture is not None:
+        post.image=picture
+    post.save()
+
+@login_required
+def api_author_post_edit(request,post_id):
+    if request.method =="GET":
+        user = request.user
+    try:
+        post = Posts.objects.get(post_id = post_id)
+    except:
+        response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
+        #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+        response=response.json()
+        p = json.loads(json.dumps(response))
+        post =Posts()
+        #post.post_author = None
+        post.post_title  = p['title']
+        post.post_text = p['content']
+        post.visibility =p['visibility']
+        post.post_id = post_id
+        post.image = None           
+        context = 'you have no permissions to edit this post'
+        return render(request, 'LandingPage/display.html',{'message':context,'post':post})      
+        conText = ''
+        if user.post_author !=post.post_author:
+            context = 'you have no permissions to edit this post'
+            return render(request, 'LandingPage/display.html',{'message':context,'post':post})
+        else:
+            return render(request, 'LandingPage/post.html',{'edit':'1','post':post})
+    elif request.method =="POST":
+        post = Posts.objects.get(post_id = post_id)
+        post.post_title = request.POST.get('post_title')
+        post.post_text = request.POST.get('post_text')
+        post.visibility = request.POST.get('visibility')
+        image = request.FILES.get('picture')
+    mark_down = request.POST.get('markdown')
+        if image is not None:
+            post.image=image
+
+    if mark_down is not None:
+        post.mark_down = True
+    else:
+        post.mark_down = False
+    
+        post.save()
+    return render(request, 'LandingPage/display.html',{'post':post})
 
 @login_required
 def author_post_comment(request, post_id, author):
@@ -429,8 +494,6 @@ def author_post_comment(request, post_id, author):
 	return redirect('/home')
         
     return render(request, '/home')
-
-
 
 @login_required
 def author_post_delete(request,post_id):
