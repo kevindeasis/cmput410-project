@@ -1,6 +1,6 @@
 from django.contrib import admin
 #from SocialNetworkModels.models import Author, Posts
-from SocialNetworkModels.models import Author, Posts, Friends, FriendManager, Follows, FollowManager, FriendManager,Nodes
+from SocialNetworkModels.models import Author, Posts, Friends, FriendManager, Follows, FollowManager, FriendManager,Nodes, Comments
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
@@ -24,3 +24,4 @@ admin.site.register(Follows)
 admin.site.register(Posts)
 admin.site.register(Friends)
 admin.site.register(Nodes)
+admin.site.register(Comments)
