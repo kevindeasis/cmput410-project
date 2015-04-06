@@ -2,223 +2,224 @@
 
 {%block head%}
         {% if user.is_authenticated %}
-
             <a class="navbar-brand" href="#">hello {{ user.username }}!</a>
             <a class="navbar-brand" href="/profile/">Profile</a>
             <a class="navbar-brand" href="/post/">CreateNewPost</a>
             <a class="navbar-brand" href="/searchusers/">Search Users</a>
             <a class="navbar-brand" href="/friendrequests/">Friend Requests</a>
             <a class="navbar-brand" href="/logout/">Logout</a>
-
-            
         {% endif %}
 {%endblock%}
 
 {%block body%}
-        </br>
-        </br>
-           <div id="post_form">
+<h2>Home</h2>
+<div id="post_form">
 
-           {%for p in getPost%}
-                 <div class="panel panel-default">
-
-		        <div class="panel-body">
-		        <div class="panel-more1">
-
-				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></br></br>
-
-                                {% if p.image %}
-                        
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-
-				           {{p.content}} 
-                 </br></br>
-			                    {%for comment in p.comments %}
-
-					                    <div class="panel panel-default">
-					                    <div class="panel-body">
-					                    <div class="panel-more1">
-						                <a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
-					                    </div></div></div>
-			                    {% endfor %}
-				                <form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
-					            {% csrf_token %}
-					            <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />
-                                    <input id="comment" maxlength="150" size="120" name="comment" placeholder="Group 6 did not expose their api we are not allowing you to submit{{post.post_id}}" type="text" value = "{{username}}" />
-
-				                </form>
-					</div></div></div>
-           
-           
-           {%endfor%}
-            
-
-           {% if lenn %}
-           
-		   {% for post in posts %}
-
-	            {% if post.mark_down %}
-		            <b>
-	            {% endif %}
-		        {%if post.post_author = user.post_author%}
-
-        
-
-
-		                         <div class="panel panel-default">
-
-		                        <div class="panel-body">
-		                        <div class="panel-more1">
-
-				                <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
-                                
-                                {% if post.image %}
-
-                                    <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}
-                                  
-                                {% endif %}  
-
-				                {{post.post_text}} 
-                                </br></br>
-			                    {%for comment in comments %}
-				                    {% if comment.post_id = post.post_id %}
-					                    <div class="panel panel-default">
-					                    <div class="panel-body">
-					                    <div class="panel-more1">
-						                <a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
-					                    </div></div></div>
-				                    {% else %}		            
-				                    {% endif %}
-			                    {% endfor %}
-				                <form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
-					            {% csrf_token %}
-					            <input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
-					            <input type="submit" name="submit" class="btn btn-default" value="Submit">  
-				                </form>         
-                        </div></div></div>
-
-                        
-                        {% elif post.visibility = 'FRIENDS' and post.post_author.user.username in friends%}
-                     
-                                    
-
-		                <div class="panel panel-default">
-		                <div class="panel-body">
-		                <div class="panel-more1">
-
-				        <a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
-                                
-                                {% if post.image %}
-
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-
-				           {{post.post_text}} 
-                 </br></br>
-			{%for comment in comments %}
-				{% if comment.post_id = post.post_id %}
-					<div class="panel panel-default">
-					<div class="panel-body">
-					<div class="panel-more1">
-						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
-					</div></div></div>
-				{% else %}		            
+	{%for p in getPost%}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="pull-right">by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></div>
+				<h4><a href="/display/{{p.guid}}/">{{p.title}}</a></h4>
+			</div>
+			<div class="panel-body">
+				{% if p.image %}
+					<img src="{{STATIC_URL}}../{{post.image}}" style="max-width:20%;max-height:200px;"/>
+				{%else%}  
 				{% endif %}
-			{% endfor %}
-				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+				<p>{{p.content}}</p>
+				<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 					{% csrf_token %}
-					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
-					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
-				</form>                 
-                        </div></div></div>
-                      
-                        
-                      {%elif post.visibility = 'PUBLIC'%}
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<p style="color:green">Group 6 did not expose their api we are not allowing you to submit{{post.post_id}}</p>
+				</form></p>
+				<div class="col-md-8"><div class="list-group">
+					{%for comment in p.comments %}
+						<div class="list-group-item">
+							<a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a>
+							:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment}}
+						</div>
+					{% endfor %}
+				</div></div>
+			</div>
+		</div>
+	{%endfor%}
 
-
-
-
-		 <div class="panel panel-default">
-
-		 <div class="panel-body">
-		 <div class="panel-more1">
-
-				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
-                                
-                                {% if post.image %}
-
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-
-				           {{post.post_text}} 
-                 </br></br>
-			{%for comment in comments %}
-				{% if comment.post_id = post.post_id %}
-					<div class="panel panel-default">
-					<div class="panel-body">
-					<div class="panel-more1">
-						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
-					</div></div></div>
-				{% else %}		            
+	{%for p in getPost2%}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="pull-right">by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></div>
+				<h4><a href="/display/{{p.guid}}/">{{p.title}}</a></h4>
+			</div>
+			<div class="panel-body">
+				{% if p.image %}
+					<img src="{{STATIC_URL}}../{{post.image}}" style="max-width:20%;max-height:200px;"/>
+				{%else%}  
 				{% endif %}
-			{% endfor %}
-				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+				<p>{{p.content}}</p>
+				<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 					{% csrf_token %}
-					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
-					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
-				</form>         
-                 </div></div></div>
-				
-                                      
-                   	{%elif post.post_author.user.username in FOAF and post.visibility = 'FOAF'%}
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<p style="color:green">Group 6 did not expose their api we are not allowing you to submit{{post.post_id}}</p>
+				</form></p>
+				<div class="col-md-8"><div class="list-group">
+					{%for comment in p.comments %}
+						<div class="list-group-item">
+							<a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a>
+							:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment}}
+						</div>
+					{% endfor %}
+				</div></div>
+			</div>
+		</div>
+	{%endfor%}
 
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-
-				<a href="/display/{{post.post_id}}/">{{post.post_title}} </a> by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></br></br>
-                                
-                                {% if post.image %}
-
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-
-				           {{post.post_text}} 
-                 </br></br>
-			{%for comment in comments %}
-				{% if comment.post_id = post.post_id %}
-					<div class="panel panel-default">
+	{% if lenn %}
+		{% for post in posts %}
+			{% if post.mark_down %}
+				<b>
+			{% endif %}
+			{%if post.post_author = user.post_author%}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right">by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></div>
+						<h4><a href="/display/{{post.post_id}}/">{{post.post_title}}</a></h4>
+					</div>
 					<div class="panel-body">
-					<div class="panel-more1">
-						<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a> : {{comment.comment_text}} </br>
-					</div></div></div>
-				{% else %}		            
-				{% endif %}
-			{% endfor %}
-				<form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
-					{% csrf_token %}
-					<input id="comment" maxlength="150" size="120" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" />   
-					<input type="submit" name="submit" class="btn btn-default" value="Submit">  
-				</form>                 
-                        </div></div></div>
-
-                        </div>
-             
+						{% if post.image %}
+							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
+						{%else%}
+						{% endif %}  
+						<p>{{post.post_text}}</p>
+						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+							{% csrf_token %}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" /> 
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="submit" name="submit" class="btn btn-default" value="Submit">
+						</form></p>
+						<div class="col-md-8"><div class="list-group">
+							{%for comment in comments %}
+								{% if comment.post_id = post.post_id %}
+									<div class="list-group-item">
+										<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a>
+										:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment_text}}<br/>
+									</div>
+								{% else %}
+								{% endif %}
+							{% endfor %}
+						</div></div>
+					</div>
+				</div>
+			{% elif post.visibility = 'FRIENDS' and post.post_author.user.username in friends%}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right">by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></div>
+						<h4><a href="/display/{{post.post_id}}/">{{post.post_title}}</a></h4>
+					</div>
+					<div class="panel-body">
+						{% if post.image %}
+							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
+						{%else%}
+						{% endif %}  
+						<p>{{post.post_text}}</p>
+						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+							{% csrf_token %}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" /> 
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="submit" name="submit" class="btn btn-default" value="Submit">
+						</form></p>
+						<div class="col-md-8"><div class="list-group">
+							{%for comment in comments %}
+								{% if comment.post_id = post.post_id %}
+									<div class="list-group-item">
+										<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a>
+										:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment_text}}<br/>
+									</div>
+								{% else %}
+								{% endif %}
+							{% endfor %}
+						</div></div>
+					</div>
+				</div>
+			{%elif post.visibility = 'PUBLIC'%}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right">by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></div>
+						<h4><a href="/display/{{post.post_id}}/">{{post.post_title}}</a></h4>
+					</div>
+					<div class="panel-body">
+						{% if post.image %}
+							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
+						{%else%}
+						{% endif %}  
+						<p>{{post.post_text}}</p>
+						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+							{% csrf_token %}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" /> 
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="submit" name="submit" class="btn btn-default" value="Submit">
+						</form></p>
+						<div class="col-md-8"><div class="list-group">
+							{%for comment in comments %}
+								{% if comment.post_id = post.post_id %}
+									<div class="list-group-item">
+										<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a>
+										:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment_text}}<br/>
+									</div>
+								{% else %}
+								{% endif %}
+							{% endfor %}
+						</div></div>
+					</div>
+				</div>
+			{%elif post.post_author.user.username in FOAF and post.visibility = 'FOAF'%}
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="pull-right">by <a href="/profile_post/{{post.post_author}}/">{{post.post_author}}</a></div>
+						<h4><a href="/display/{{post.post_id}}/">{{post.post_title}}</a></h4>
+					</div>
+					<div class="panel-body">
+						{% if post.image %}
+							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
+						{%else%}
+						{% endif %} 
+						<p>{{post.post_text}}</p>
+						</div>
+						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
+							{% csrf_token %}
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{post.post_id}}" type="text" value = "{{username}}" /> 
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							<input type="submit" name="submit" class="btn btn-default" value="Submit">
+						</form></p>
+						<div class="col-md-8"><div class="list-group">
+							{%for comment in comments %}
+								{% if comment.post_id = post.post_id %}
+									<div class="list-group-item">
+										<a href="/profile_post/{{comment.comment_author}}/">{{comment.comment_author}}</a>
+										:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment_text}}<br/>
+									</div>
+								{% else %}
+								{% endif %}
+							{% endfor %}
+						</div></div>
+					</div>
+				</div>
+			{% endif %}
+			{% if post.mark_down  %}
+			</b>
+			{% endif %}  
+		{% endfor %}
+	{%else%}
+		<h1>No comments</h1>
 	{% endif %}
-	{% if post.mark_down  %}
-		</b>
-	{% endif %}  
-                    {% endfor %}
-                    {%else%}
-                            <h1>No comments</h1>
-				{% endif %}
 
-                </div>
-  
+</div>
 {%endblock%}
+

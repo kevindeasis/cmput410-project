@@ -86,35 +86,44 @@ def home(request):
                 for friend in friendOfFriend:
                     if friend.reciever.get_username() not in FOAF and friend.reciever.get_username() != request.user:
                         FOAF.append(friend.reciever.get_username())
-            print ourfriend, FOAF 
-	    comments = Comments.objects.all()   
+            print ourfriend, FOAF
+	    comments = Comments.objects.all()
             #friends = Friends.objects.all()
             #return HttpResponse(len(post))
 	    node = Nodes.objects.all()
 	    receive=[]
+	    receive2=[]
 	    count = 0
 	    if post !=None:
-		count =1	    
+		count =1
 	    if node is not None:
 		for i in node:
-		    if i.status == True:
-			
-            
+		    #team 6 connection
+		    if i.host_name == "team7" and i.status == True:
 			try:
 			    response=requests.get(i.host_url+'/api/author/posts',auth=(i.host_name,i.host_password))
 			    response=response.json()
 			    p = json.loads(json.dumps(response))
 			    receive.append(p)
-		
+
 			except:
 			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
-			#for other group connection
-		    elif "team2"==i.host_name:
-			pass
+		    #team 3 connection
+		    elif i.host_name == "user" and i.status == True:
+			try:
+			    response=requests.get(i.host_url+'/main/author/posts',auth=(i.host_name,i.host_password))
+			    response=response.json()
+			    p = json.loads(json.dumps(response))
+			    receive2.append(p)
+
+			except:
+			    return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		    else:
-			pass
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,})
 		try:
 		    if len(receive)>0:
+			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts'],'getPost2':receive2[0]['posts']})
+		    elif len(receive)>0:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments,'getPost':receive[0]['posts']})
 		    else:
 			return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
@@ -123,10 +132,9 @@ def home(request):
 	    try:
 		return render(request, 'LandingPage/home.html',{'posts':post, 'user':user, 'FOAF':FOAF,'friends':ourfriend,'lenn':count, 'comments':comments})
 	    except Author.DoesNotExist:
-		return render(request, 'LandingPage/login.html',{'error': False})  	    
+		return render(request, 'LandingPage/login.html',{'error': False})
     elif request.method =='POST':
         return render(request, 'LandingPage/home.html')
-
 
 def register(request):
     context= RequestContext(request)
@@ -163,76 +171,99 @@ def user_logout(request):
     logout(request)
     return redirect('/')
 
+
+
+
+@login_required
+def addforeign(request, username, id):
+    #search for users
+    logging.info(username);
+    logging.info(id);
+
+    try:
+        user=User.objects.create_user(username ,username + '@foreignuser.com',username)
+        user.save()
+        author= Author.objects.create(user=user,foreign_id = id)
+        author.save()
+        Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(username = user.username))
+    except:
+        pass
+    return redirect('/searchusers')
+
+
 @login_required
 def search_users(request):
+
     #search for users
     if request.method == 'GET':
-	
+
         if request.user.is_authenticated():
-	    
-	    receive=[]
+
+            receive=[]
             try:
-                #this needs to be paginated later
                 node = Nodes.objects.all()
-		#get users from other server
-                
-		if node is not None:
-		    for i in node:
-			foreignauthors = {}
-			if i.status == True:
-					
-			    
-			    try:
-				response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
-				response=response.json()
-				foreignauthors = json.loads(json.dumps(response))
-				receive.append(foreignauthors)
-				
-			    except:
-				pass
-	    except Exception, e:
-		pass
-		#return HttpResponse(response)
-                # try 1: should work?
-                #response=requests.get('http://social-distribution.herokuapp.com/api/author/',auth=('team7','cs410.cs.ualberta.ca:team6'))
-                #response=response.json()
-                #foreignauthors = json.loads(json.dumps(response))
 
-                #follows = Follows()
-	    followed = Follows.followManager.getFollowing(request.user)
-	    allfriends = Friends.friendmanager.getFriends(request.user)
-	    allpending = Friends.friendmanager.getAll(request.user)
+                if node is not None:
+                    for i in node:
+                        foreignauthors = {}
+                        if i.status == True:
 
 
+                            try:
+                                response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
+                                response=response.json()
+                                foreignauthors = json.loads(json.dumps(response))
+                                receive.append(foreignauthors)
 
-                #if this got turned into a json, can do client side
-	    ourfollows = []
-	    for afollow in followed:
-		ausername = afollow.followed.get_username()
-		ourfollows.append('{s}'.format(s=ausername))
+                            except:
+                                pass
+            except Exception, e:
+                    pass
 
-	    #find the user/authors friends
-	    ourfriends = []
-	    for afriend in allfriends:
-		afriendusername = afriend.reciever.get_username()
-		ourfriends.append('{s}'.format(s=afriendusername))
+        followed = Follows.followManager.getFollowing(request.user)
+        allfriends = Friends.friendmanager.getFriends(request.user)
+        allpending = Friends.friendmanager.getAll(request.user)
 
-	    pendingrequests = []
-	    for apending in allpending:
-		afriendusername = apending.reciever.get_username()
-		pendingrequests.append('{s}'.format(s=afriendusername))
+        ourfollows = []
+        for afollow in followed:
+            ausername = afollow.followed.get_username()
+            ourfollows.append('{s}'.format(s=ausername))
+
+        ourfriends = []
+        for afriend in allfriends:
+            afriendusername = afriend.reciever.get_username()
+            ourfriends.append('{s}'.format(s=afriendusername))
+
+        pendingrequests = []
+        for apending in allpending:
+            afriendusername = apending.reciever.get_username()
+            pendingrequests.append('{s}'.format(s=afriendusername))
 
                 #for foreign in foreignauthors:
 
-	    authors=Author.objects.all()
-	    if len(receive)>0:
-		return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': receive[0]['authors']})
-	    else:
-		return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
+        authors=Author.objects.all()
+        if len(receive)>0:
+            recieve2 = []
+            for x in json.loads(json.dumps(receive[0]['authors'])):
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info('here')
+
+                #x = json.loads(x)
+                #logging.info(x.id)
+
+                if Author.objects.filter(foreign_id = x["id"]).exists():
+                    pass
+                else:
+                    recieve2.append(x)
+
+            return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username, 'foreignauthors': recieve2})
+        else:
+            return render(request, 'LandingPage/search_users.html', {'authors': authors, 'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests, 'username': request.user.username})
 
     else:
         return redirect('/login')
-
 
 
 @login_required
@@ -302,7 +333,6 @@ def follow(request, reciever_pk):
 
 @login_required
 def unfriend(request, reciever_pk):
-    #return HttpResponse(request.user) utf?
 
     #try:
     Follows.followManager.mutualFollow(User.objects.get(username = request.user), User.objects.get(username = reciever_pk))
@@ -371,15 +401,6 @@ def viewfriendrequests(request):
                 return redirect('/login')
     else:
         return redirect('/login')
-
-'''
-@login_required
-def testaddfriend(request, reciever_pk):
-    try:
-        Friends.friendmanager.mutualFriends(User.objects.get(username = request.user),User.objects.get(pk = reciever_pk))
-    except:
-        return redirect('/searchusers')
-    return redirect('/searchusers')'''
 
 
 @login_required
@@ -505,17 +526,39 @@ def display_post(request,post_id):
     try:
 	post = Posts.objects.get(post_id = post_id)
     except:
-	response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-	response=response.json()
-	p = json.loads(json.dumps(response))
-	post =Posts()
-	#post.post_author = None
-	post.post_title  = p['title']
-	post.post_text = p['content']
-	post.visibility =p['visibility']
-	post.post_id = post_id
-	post.image = None
+	node = Nodes.objects.all()
+
+	for i in node:
+	    #team 6 connection
+	    if i.host_name == "team7" and i.status == True:
+		response=requests.get(i.host_url+'/api/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		if response.status_code == 200 and len(response.text) > 20:
+		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		    response=response.json()
+		    p = json.loads(json.dumps(response))
+		    post =Posts()
+		    #post.post_author = None
+		    post.post_title = p['title']
+		    post.post_text = p['content']
+		    post.visibility =p['visibility']
+		    post.post_id = post_id
+		    post.image = None
+		    break
+	    #team 3 connection
+	    elif i.host_name == "user" and i.status == True:
+		response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		if response.status_code == 200 and len(response.text) > 20:
+		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		    response=response.json()
+		    p = json.loads(json.dumps(response))
+		    post =Posts()
+		    #post.post_author = None
+		    post.post_title = p['posts'][0]['title']
+		    post.post_text = p['posts'][0]['content']
+		    post.visibility = p['posts'][0]['visibility']
+		    post.post_id = post_id
+		    post.image = None
+		    break
     return render(request,'LandingPage/display.html',{'post':post})
     
 @login_required
@@ -587,17 +630,33 @@ def profile_post(request,user_id,edit):
 		post = Posts.objects.all()
 		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit})
 	    except:
-		response=requests.get('http://social-distribution.herokuapp.com/api/author/%s'%(user_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-		response=response.json()
-		p = json.loads(json.dumps(response))
-		
-		
-		response=requests.get('http://social-distribution.herokuapp.com/api/author/%s/posts'%(user_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-		#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-		response=response.json()
-		a = json.loads(json.dumps(response))		
-		return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+		node = Nodes.objects.all()
+
+	for i in node:
+		#team 6 connection
+		if i.host_name == "team7" and i.status == True:
+		    response=requests.get(i.host_url+'/api/author/%s'%(user_id),auth=(i.host_name,i.host_password))
+		    if response.status_code == 200 and len(response.text) > 20:
+			response=response.json()
+			p = json.loads(json.dumps(response))
+
+			response=requests.get(i.host_url+'/api/author/%s/posts'%(user_id),auth=(i.host_name,i.host_password)) 
+			response=response.json()
+			a = json.loads(json.dumps(response))
+			return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+			break
+		#team 3 connection - not currently working - needed to push regardless
+		elif i.host_name == "user" and i.status == True:
+		    response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		    if response.status_code == 200 and len(response.text) > 20:
+			response=response.json()
+			p = json.loads(json.dumps(response))
+
+			response=requests.get(i.host_url+'/main/author/%s/posts'%(user_id),auth=(i.host_name,i.host_password)) 
+			response=response.json()
+			a = json.loads(json.dumps(response))		
+			return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+			break
     return render(request, 'LandingPage/profile.html')
 
 @login_required
@@ -628,15 +687,10 @@ def profile_edit(request):
             author.picture = picture
 
         try:
-            # Save the User first
             request.user.save()
-            # Save the Author last
             author.save()
-
-            # Add a success flash message
             messages.info(request, "Your profile was updated successfully.")
 
-            # Send the user to the profile screen
             return redirect('/home')
         except IntegrityError, e:
             if "username" in e.message:

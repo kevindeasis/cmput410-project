@@ -7,129 +7,169 @@
 {%endblock%}
 
 {%block body%}
-        </br>
-        </br>
-        <h1>Profile</h1> 
-  {% if edit == '0' or edit == '2' %}
-	{% if edit == '0' %}
-	`	<a class="btn btn-default" href="/profile1/" >Edit</a></br></br>
-	{% else %}
-		</br></br></br>
-	{% endif %}
-	<img src="{{STATIC_URL}}../{{picture}}"  style="width:150px;height:150px;position:absolute;right:100px;top:120px;"/> </br></br>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-	<p><label for="id_username">Username:</label>
-        <h4>{{username}}</h4>  </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-	<p><label for="id_email">Email address:</label> 
-        <h4>{{email}}</h4> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-	<p><label for="github">github username:</label>	 
-        <h4>{{github_username}}</h4> </div></div></div>
+
+<h2>Profile</h2>
+
+{% if edit == '0' or edit == '2' %}
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{% if edit == '0' %}
+				<a href="/profile1/" class="pull-right">Edit</a><h4>User Info</h4>
+			{% else %}
+			{% endif %}
+		</div>
+		<div class="panel-body">
+			<div class="list-group">
+				<div class="list-group-item"><img style="max-width:30%;max-height:250px" src="{{STATIC_URL}}../{{picture}}"/></div>
+				<div class="list-group-item"><label for="id_username">Username:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{username}}</div>
+				<div class="list-group-item"><label for="id_email">Email address:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{email}}</div>
+				<div class="list-group-item"><label for="github">github username:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{github_username}}</div>
+			</div>
+		</div>
+	</div>
 
 	{%for p in posts %}
-			{% if p.post_author.user.username = username %}
-				<div class="panel panel-default">
-		        	<div class="panel-body">
-		        	<div class="panel-more1">
-				<a href="/display/{{p.post_id}}/">{{p.post_title}} </a> by <a href="/profile_post/{{p.post_author}}/">{{p.post_author}}</a></br></br>
-                                
-                                {% if p.image %}
-                                <img src="{{STATIC_URL}}../{{p.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-				{{p.post_text}} </br></br>
-			                   
-				</div></div></div>
-           		{% endif %}     
-         {% endfor %}
-	{%for p in post%}
-                 	<div class="panel panel-default">
-		        <div class="panel-body">
-		        <div class="panel-more1">
-				<a href="/display/{{p.guid}}/">{{p.title}} </a> by <a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></br></br>
+		{% if p.post_author.user.username = username %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="pull-right">by <a href="/profile_post/{{p.post_author}}/">{{p.post_author}}</a></div>
+					<h4><a href="/display/{{p.post_id}}/">{{p.post_title}}</a></h4>
+				</div>
+				<div class="panel-body">
+					{% if p.image %}
+						<img src="{{STATIC_URL}}../{{p.image}}" class="thumbnail" style="max-width:30%;max-height:250px;"/>
+					{%else%}  
+					{% endif %}
+					{{p.post_text}}
+				</div>
+			</div>
+		{% endif %}     
+	{% endfor %}
 
-                                {% if p.image %}
-                        
-                                <img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"  /> 
-                                {%else%}  
-                                {% endif %}  
-				           {{p.content}}</br></br>
-			                    {%for comment in p.comments %}
-					                    <div class="panel panel-default">
-					                    <div class="panel-body">
-					                    <div class="panel-more1">
-						                <a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a> : {{comment.comment}} </br>
-					                    </div></div></div>
-			                    {% endfor %}			                  
-					</div></div></div>
-           {%endfor%}	
+	{%for p in post %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="pull-right">by<a href="/profile_post/{{p.author.id}}/">{{p.author.displayname}}</a></div>
+				<h4><a href="/display/{{p.guid}}/">{{p.title}}</a></h4>
+			</div>
+			<div class="panel-body">
+				{% if p.image %}
+					<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"/> <br>
+				{%else%}
+				{% endif %}
+				{{p.content}}
+				{%for comment in p.comments %}
+					<div class="list-group">
+						<div class="list-group-item">
+							<a href="/profile_post/{{comment.author.id}}/">{{comment.author.displayname}}</a>
+							:&nbsp;&nbsp;&nbsp;&nbsp;{{comment.comment}}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>	
+	{%endfor%}
+	
+{% endif %}
 
-  {% endif %}
+{% if edit == '1' %}
 
-  {% if edit == '1' %}
- 	<form id="user_form" method="post" action="/profile_edit/"
-                enctype="multipart/form-data">
-                {% csrf_token %}
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-		<label for="id_username">Username:</label> </br>
-            <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-            <label for="id_email">Email address:</label> </br>
-            <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-            <label for="github">github username:</label> </br>
-            <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /> </div></div></div>
-		 <div class="panel panel-default">
-		 <div class="panel-body">
-		 <div class="panel-more1">
-            <label for="id_picture">Picture:</label> </br>
-            <input id="id_picture" name="picture" type="file" onchange="readURL(this);" class="btn btn-default"/> </br>
-	    <img id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
-            <!-- Provide a button to click to submit the form. -->
-            <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();" class="btn btn-default"/>
-        </form>
-  {% endif %}
+<form id="user_form" method="post" action="/profile_edit/"
+        enctype="multipart/form-data">
+        {% csrf_token %}
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+	<label for="id_username">Username:</label> </br>
+    <input id="id_username" maxlength="30" name="username" type="text" value = "{{username}}" /> </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+    <label for="id_email">Email address:</label> </br>
+    <input id="id_email" maxlength="75" name="email" type="email" value = "{{email}}" /> </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+    <label for="github">github username:</label> </br>
+    <input id="id_website" maxlength="200" name="github_username" type="text" value = "{{github_username}}" /> </div></div></div>
+	 <div class="panel panel-default">
+	 <div class="panel-body">
+	 <div class="panel-more1">
+    <label for="id_picture">Picture:</label> </br>
+    <input id="id_picture" name="picture" type="file" onchange="readURL(this);" class="btn btn-default"/> </br>
+    <img style="width:20%;height:150px;" id="blah" src="{{STATIC_URL}}../{{picture}}" alt="your image" />  </div></div></div>
+    <!-- Provide a button to click to submit the form. -->
+    <input type="submit" name="submit" value="Submit" onclick = "return checkEmpty();" class="btn btn-default"/>
+</form>
 
-<script language = "javascript">
-<!--
+{% endif %}
 
 
-function readURL(input) {
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("feeds", "1");</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+<div class="panel panel-default">
+	<div class="panel-body">
+		<button onclick="myFunction()">Try it</button>
+		<p>Click the button to display an alert box:</p>
+	</div>
+</div>
 
-        reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
-        }
+<script>
+function myFunction() {
+var feed = new google.feeds.Feed('https://github.com/diego04.atom');
+feed.load(function (data) {
+	//alert(JSON.stringify(data));
+    // Parse data depending on the specified response format, default is JSON.
+    if (data['status']['code'] < 300 || data['status']['code'] >= 200){
+                    $( "p" ).append( ("<hr>"));
 
-        reader.readAsDataURL(input.files[0]);
-    }
+    $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['title'])));
+                    $( "p" ).append( ("<hr>"));
+
+    $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['link'])));
+                    $( "p" ).append( ("<hr>"));
+
+    //entries = jQuery.parseJSON(data['feed']['entries'])
+        entries = jQuery.parseJSON(JSON.stringify(data['feed']['entries']));
+
+        //$( "p" ).append( document.createTextNode(JSON.stringify(entries)));
+
+    $.each((entries), function(key,value){
+    $( "p" ).append( document.createTextNode(JSON.stringify(value['title'])));
+                $( "p" ).append( ("<hr>"));
+
+        $( "p" ).append( document.createTextNode(JSON.stringify(value['link'])));
+                $( "p" ).append( ("<hr>"));
+
+        $( "p" ).append( document.createTextNode(JSON.stringify(value['author'])));
+                $( "p" ).append( ("<hr>"));
+
+        $( "p" ).append( document.createTextNode(JSON.stringify(value['publishedDate'])));
+                $( "p" ).append( ("<hr>"));
+
+        $( "p" ).append((JSON.stringify(value['content'].replace(new RegExp('\r?\n','g'), '<hr>'))));
+                $( "p" ).append( ("<hr>"));
+
+
+    //$( "p" ).append( ('ei'));
+
+    });
+    /*for (x=0; x < entries.length; x++){
+
+    $( "p" ).append( document.createTextNode(entries[x]));
+        $( "p" ).append( document.createTextNode(entries[x]));
+
+    //$( "p" ).append( document.createTextNode((x)));
+
+    	}//for */
+    }//if conditional on 'ok' status code
+
+});
+
 }
-
-
-function checkEmpty(){
-	if(user_form.username.value ==""){
-		window.alert("User name can not be empty");
-		return false;
-	}	
-		
-}
-
--->
 </script>
 
 

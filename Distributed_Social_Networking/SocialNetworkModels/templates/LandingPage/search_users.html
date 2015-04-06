@@ -5,45 +5,94 @@
 {% endblock %}
 
 {% block body %}
-<ul class="list-group">
+
+<h2>Search Authors</h2>
+
+<!-------- Search box unfinished --------
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form id="search_author" method="post" action="/searchusers/"
+			enctype="multipart/form-data">
+			{% csrf_token %}
+			<input id="id_username" maxlength="75" type="text" value = "Enter author name..." />
+			<input type="submit" name="search" value="Search" onclick = "return checkEmpty();" class="btn btn-default"/>
+		</form>
+	</div>
+</div>
+<----------------------------------------->
+
+<div class="container">
+<div class="row">
 
 	{% for authorlist in foreignauthors %}
-	<li class="list-group-item">
-		<h2>{{ authorlist.displayname}}<h2>
-		<p><a href="#group6 needs to implement">Follow</a></p>
-		<p><a href="#group6 needs to implement">Add Friend</a></p>
-	</li>
+	<div class="col-md-4"><div class="panel panel-default">
+		<div class="panel-heading">
+			<p class="pull-right">Group: 6</p>
+			<h4>{{ authorlist.displayname}}<h4>
+		</div>
+		<div class="panel-body">
+			<p style="color:green;">Group 6 needs to implement!</p>
+			<div class="col-md-6"><div class="thumbnail">
+				<img src="#group6 needs to implement">
+			</div></div>
+			<div class="col-md-6"><div class="list-group">
+				<a href="#group6 needs to implement"  class="list-group-item">Profile</a>
+				<a href="#group6 needs to implement" class="list-group-item">Follow</a>
+				<a href="/addforeign/{{authorlist.displayname}}/{{authorlist.id}}"  class="list-group-item">Befriend</a>
+			</div></div>
+		</div>
+	</div></div>
 	{% endfor %}
 
 	{% for author in authors %}
-	<li class="list-group-item">
-		<h2>{{ author.user.username }}</h2>
-		{% if author.user.username not in followed and username != author.user.username %}
-			<p><a href="/follow/{{ author.user.pk}}">Follow</a></p>
-			{% if author.user.username not in allpending %}
-				<p><a href="/addfriend/{{ author.user.pk}}">Add Friend</a></p>
-			{% elif author.user.username in allfriends %}
-				<p><a href="/unfriend/{{ author.user.username}}">Unfriend</a></p>
-			{% endif %}
-		{% else %}
-			{% if  username != author.user.username %}
-				<p><a href="/unfollow/{{ author.user.pk}}">UnFollow</a></p>
-				{% if author.user.username not in allpending %}
-    					<p><a href="/addfriend/{{ author.user.pk}}">Add Friend</a></p>
-				{% elif author.user.username in allfriends %}
-    					<p><a href="/unfriend/{{ author.user.username}}">Unfriend</a></p>
+	<div class="col-md-4"><div class="panel panel-default">
+		<div class="panel-heading">
+			<p class="pull-right">Group: 7</p>
+			<h4>{{ author.user.username }}<h4>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-6"><div class="thumbnail">
+				<img src="{{STATIC_URL}}../{{ author.picture}}">
+			</div></div>
+			<div class="col-md-6"><div class="list-group">
+				<a href="/profile_post/{{ author.user.username}}" class="list-group-item">Profile</a>
+				{% if author.user.username not in followed and username != author.user.username %}
+					<a href="/follow/{{ author.user.pk}}"  class="list-group-item">Follow</a>
+					{% if author.user.username not in allpending %}
+						<a href="/addfriend/{{ author.user.pk}}" class="list-group-item">Befriend</a>
+					{% elif author.user.username in allfriends %}
+						<a href="/unfriend/{{ author.user.username}}" class="list-group-item">Unfriend</a>
+					{% endif %}
+				{% else %}
+					{% if  username != author.user.username %}
+						<a href="/unfollow/{{ author.user.pk}}" class="list-group-item">Unfollow</a>
+						{% if author.user.username not in allpending %}
+		    					<a href="/addfriend/{{ author.user.pk}}" class="list-group-item">Befriend</a>
+						{% elif author.user.username in allfriends %}
+		    					<a href="/unfriend/{{ author.user.username}}" class="list-group-item">Unfriend</a>
+						{% endif %}
+					{% endif %}
 				{% endif %}
-			{% endif %}
-		{% endif %}
-	</li>
+			</div></div>
+		</div>
+	</div></div>
 	{% endfor %}
 
 	{% for author in foreignauthors %}
-	<li class="list-group-item">
-		<h2>{{ author.displayname }}</h2>
-	</li>
+	<div class="col-md-4"><div class="panel panel-default">
+		<div class="panel-heading">
+			<p class="pull-right">Group: foreign</p>
+			<h4>{{ author.displayname}}<h4>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-6"><div class="thumbnail">
+				<img src="http://data1.ibtimes.co.in/en/full/439940/earth-wiki-commons.jpg">
+			</div></div>
+		</div>
+	</div></div>
 	{% endfor %}
 
-</ul>
+</div>
+</div>
 {%endblock%}
 
