@@ -271,7 +271,7 @@ class AuthorPosts(mixins.ListModelMixin,
                     jsoncommentauthoroject = {}
 
                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
-                    jsoncommentauthoroject["hostname"] = Author.object.get(user = User.objects.get(username=q.comment_author)).author_host
+                    jsoncommentauthoroject["hostname"] = Author.objects.get(user = User.objects.get(username=q.comment_author)).author_host
                     jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
 
                     jsoncommentobject["author"]=jsoncommentauthoroject
@@ -414,7 +414,7 @@ class GrabPostID(mixins.ListModelMixin,
 
                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
                     jsoncommentauthoroject["hostname"] =                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
-                    jsoncommentauthoroject["hostname"] = Author.object.get(user = User.objects.get(username=q.comment_author)).author_host
+                    jsoncommentauthoroject["hostname"] = Author.objects.get(user = User.objects.get(username=q.comment_author)).author_host
                     jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
 
                     jsoncommentobject["author"]=jsoncommentauthoroject
@@ -530,7 +530,7 @@ class GrabPublicPost(mixins.ListModelMixin,
                     jsoncommentauthoroject = {}
 
                     jsoncommentauthoroject["id"] = User.objects.get(username=q.comment_author).pk
-                    jsoncommentauthoroject["hostname"] = Author.object.get(user = User.objects.get(username=q.comment_author)).author_host
+                    jsoncommentauthoroject["hostname"] = Author.objects.get(user = User.objects.get(username=q.comment_author)).author_host
                     jsoncommentauthoroject["displayname"] = User.objects.get(username=q.comment_author).username
 
                     jsoncommentobject["author"]=jsoncommentauthoroject
