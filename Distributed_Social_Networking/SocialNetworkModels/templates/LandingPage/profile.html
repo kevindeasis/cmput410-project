@@ -38,7 +38,7 @@
 				</div>
 				<div class="panel-body">
 					{% if p.image %}
-						<img src="{{STATIC_URL}}../{{p.image}}" style="width:20%;height:150px;"/> 
+						<img src="{{STATIC_URL}}../{{p.image}}" class="thumbnail" style="max-width:30%;max-height:250px;"/>
 					{%else%}  
 					{% endif %}
 					{{p.post_text}}
@@ -55,7 +55,7 @@
 			</div>
 			<div class="panel-body">
 				{% if p.image %}
-					<img src="{{STATIC_URL}}../{{post.image}}" style="width:100px;height:100px;"/> 
+					<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"/> <br>
 				{%else%}
 				{% endif %}
 				{{p.content}}
@@ -124,13 +124,13 @@ feed.load(function (data) {
 	//alert(JSON.stringify(data));
     // Parse data depending on the specified response format, default is JSON.
     if (data['status']['code'] < 300 || data['status']['code'] >= 200){
-                    $( "p" ).append( ("</br>"));
+                    $( "p" ).append( ("<hr>"));
 
     $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['title'])));
-                    $( "p" ).append( ("</br>"));
+                    $( "p" ).append( ("<hr>"));
 
     $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['link'])));
-                    $( "p" ).append( ("</br>"));
+                    $( "p" ).append( ("<hr>"));
 
     //entries = jQuery.parseJSON(data['feed']['entries'])
         entries = jQuery.parseJSON(JSON.stringify(data['feed']['entries']));
@@ -139,19 +139,19 @@ feed.load(function (data) {
 
     $.each((entries), function(key,value){
     $( "p" ).append( document.createTextNode(JSON.stringify(value['title'])));
-                $( "p" ).append( ("</br>"));
+                $( "p" ).append( ("<hr>"));
 
         $( "p" ).append( document.createTextNode(JSON.stringify(value['link'])));
-                $( "p" ).append( ("</br>"));
+                $( "p" ).append( ("<hr>"));
 
         $( "p" ).append( document.createTextNode(JSON.stringify(value['author'])));
-                $( "p" ).append( ("</br>"));
+                $( "p" ).append( ("<hr>"));
 
         $( "p" ).append( document.createTextNode(JSON.stringify(value['publishedDate'])));
-                $( "p" ).append( ("</br>"));
+                $( "p" ).append( ("<hr>"));
 
-        $( "p" ).append((JSON.stringify(value['content'].replace(new RegExp('\r?\n','g'), '<br />'))));
-                $( "p" ).append( ("</br>"));
+        $( "p" ).append((JSON.stringify(value['content'].replace(new RegExp('\r?\n','g'), '<hr>'))));
+                $( "p" ).append( ("<hr>"));
 
 
     //$( "p" ).append( ('ei'));
