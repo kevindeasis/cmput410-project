@@ -26,7 +26,7 @@
 					<img src="{{STATIC_URL}}../{{post.image}}" style="max-width:20%;max-height:200px;"/>
 				{%else%}  
 				{% endif %}
-				<p>{{p.content}}</p><hr>
+				<p>{{p.content}}</p>
 				<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 					{% csrf_token %}
 					&nbsp;&nbsp;&nbsp;&nbsp;
@@ -62,7 +62,7 @@
 							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
 						{%else%}
 						{% endif %}  
-						<p>{{post.post_text}}</p><hr>
+						<p>{{post.post_text}}</p>
 						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 							{% csrf_token %}
 							&nbsp;&nbsp;&nbsp;&nbsp;
@@ -94,7 +94,7 @@
 							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
 						{%else%}
 						{% endif %}  
-						<p>{{post.post_text}}</p><hr>
+						<p>{{post.post_text}}</p>
 						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 							{% csrf_token %}
 							&nbsp;&nbsp;&nbsp;&nbsp;
@@ -126,7 +126,7 @@
 							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
 						{%else%}
 						{% endif %}  
-						<p>{{post.post_text}}</p><hr>
+						<p>{{post.post_text}}</p>
 						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 							{% csrf_token %}
 							&nbsp;&nbsp;&nbsp;&nbsp;
@@ -157,8 +157,9 @@
 						{% if post.image %}
 							<img src="{{STATIC_URL}}../{{post.image}}" class="thumbnail" style="max-width:30%;max-height:200px;"  /> 
 						{%else%}
-						{% endif %}  
-						<p>{{post.post_text}}</p><hr>
+						{% endif %} 
+						<p>{{post.post_text}}</p>
+						</div>
 						<p><form id="post_edit_form" method="post" action="/postcomment/{{post.post_id}}/{{user}}/" enctype="multipart/form-data">
 							{% csrf_token %}
 							&nbsp;&nbsp;&nbsp;&nbsp;
