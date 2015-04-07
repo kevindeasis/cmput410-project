@@ -21,7 +21,11 @@
 		</div>
 		<div class="panel-body">
 			<div class="list-group">
-				<div class="list-group-item"><img style="max-width:30%;max-height:250px" src="{{STATIC_URL}}../{{picture}}"/></div>
+				{% if picture %}
+					<div class="list-group-item"><img style="max-width:30%;max-height:250px" src="{{STATIC_URL}}../{{picture}}"/></div>
+				{% else %}
+					<div class="list-group-item"><img style="max-width:30%;max-height:250px" src="https://avatars3.githubusercontent.com/u/10636654?v=3&s=200"/></div>
+				{% endif %}
 				<div class="list-group-item"><label for="id_username">Username:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{username}}</div>
 				<div class="list-group-item"><label for="id_email">Email address:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{email}}</div>
 				<div class="list-group-item"><label for="github">github username:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{github_username}}</div>
@@ -112,7 +116,7 @@
 
 <div class="panel panel-default">
 	<div class="panel panel-heading">
-		<h4>RSS</h4>
+		<h4>Github Activity</h4>
 	</div>
 	<div class="panel-body">
 		<span id="rss_block"></span>

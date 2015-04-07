@@ -28,13 +28,19 @@
 	{% for author in authors %}
 	<div class="col-md-4"><div class="panel panel-default">
 		<div class="panel-heading">
-			<p class="pull-right">Group: 7</p>
+			<p class="pull-right">Local Author</p>
 			<a href="/profile_post/{{author.user}}/"> <h4>{{ author.user.username }}</h4> </a>
 		</div>
 		<div class="panel-body">
-			<div class="col-md-6"><div class="thumbnail">
-				<img src="{{STATIC_URL}}../{{ author.picture}}">
-			</div></div>
+			{% if author.picture %}
+				<div class="col-md-6"><div class="thumbnail">
+					<img src="{{STATIC_URL}}../{{ author.picture}}">
+				</div></div>
+			{% else %}
+				<div class="col-md-6"><div class="thumbnail">
+					<img src="https://avatars3.githubusercontent.com/u/10636654?v=3&s=200">
+				</div></div>
+			{% endif %}
 			<div class="col-md-6"><div class="list-group">
 				<a href="/profile_post/{{ author.user.username}}" class="list-group-item">Profile</a>
 				{% if author.user.username not in followed and username != author.user.username %}
@@ -62,7 +68,7 @@
 	{% for author in foreignauthors %}
 	<div class="col-md-4"><div class="panel panel-default">
 		<div class="panel-heading">
-			<p class="pull-right">Group: other group</p>
+			<p class="pull-right">Foreign Author</p>
 			<a href="/profile_post/{{author.id}}/"><h4>{{ author.displayname}}<h4></a>
 		</div>
 		<div class="panel-body">
