@@ -169,11 +169,11 @@
 					&nbsp;&nbsp;&nbsp;&nbsp;
 					<input id="comment" maxlength="150" size="75%" name="comment" placeholder="comment...{{p.guid}}" type="text" value = "{{username}}" />
 					&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="submit" name="submit" class="btn btn-default" value="Submit">
+	            <input type="submit" name="submit" class="btn btn-default" value="Submit">
 				</form></p>
-				
+			
 				<div class="col-md-8"><div class="list-group">
-				
+			
 					{%for comment in comments %}
 					    
 						{% if comment.post_id = p.guid %}
