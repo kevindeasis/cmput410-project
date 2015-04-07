@@ -118,7 +118,12 @@
 
 <script>
 function myFunction() {
-var feed = new google.feeds.Feed('https://github.com/{{github_username}}.atom');
+var feed;
+if ("{{github_username}}") {
+feed = new google.feeds.Feed('https://github.com/{{github_username}}.atom');
+}else{
+feed = new google.feeds.Feed('https://github.com/diego04.atom');
+}
 feed.load(function (data) {
 	//alert(JSON.stringify(data));
     // Parse data depending on the specified response format, default is JSON.
