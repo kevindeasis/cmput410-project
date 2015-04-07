@@ -319,48 +319,53 @@ class FriendRequest(mixins.ListModelMixin,
 
 
     def get(self, request, *args, **kwargs):
-        data = json.loads(request.body)
+        try:
+            data = json.loads(request.body)
 
-        authorid = data['author']['id']
-        authorhost = data['author']['host']
-        authordisplayname = data['author']['displayname']
+            authorid = data['author']['id']
+            authorhost = data['author']['host']
+            authordisplayname = data['author']['displayname']
 
-        friendid = data['friend']['id']
-        friendhost = data['friend']['host']
-        frienddisplayname = data['friend']['displayname']
-        friendurl = data['friend']['url']
+            friendid = data['friend']['id']
+            friendhost = data['friend']['host']
+            frienddisplayname = data['friend']['displayname']
+            friendurl = data['friend']['url']
 
-        logging.info(authorid)
-        logging.info(authorhost)
-        logging.info(friendid)
-        logging.info(friendhost)
+            logging.info(authorid)
+            logging.info(authorhost)
+            logging.info(friendid)
+            logging.info(friendhost)
 
-        Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
+            Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
+        except:
+            pass
 
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
     #http://django-rest-framework.readthedocs.org/en/latest/tutorial/3-class-based-views.html
     @csrf_exempt
     def post(self, request, *args, **kwargs):
+        try:
 
-        data = json.loads(request.body)
+            data = json.loads(request.body)
 
-        authorid = data['author']['id']
-        authorhost = data['author']['host']
-        authordisplayname = data['author']['displayname']
+            authorid = data['author']['id']
+            authorhost = data['author']['host']
+            authordisplayname = data['author']['displayname']
 
-        friendid = data['friend']['id']
-        friendhost = data['friend']['host']
-        frienddisplayname = data['friend']['displayname']
-        friendurl = data['friend']['url']
+            friendid = data['friend']['id']
+            friendhost = data['friend']['host']
+            frienddisplayname = data['friend']['displayname']
+            friendurl = data['friend']['url']
 
-        logging.info(authorid)
-        logging.info(authorhost)
-        logging.info(friendid)
-        logging.info(friendhost)
+            logging.info(authorid)
+            logging.info(authorhost)
+            logging.info(friendid)
+            logging.info(friendhost)
 
-        Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
-
+            Friends.friendmanager.mutualFriends(User.objects.get(pk = authorid),User.objects.get(pk = friendid))
+        except:
+            pass
         return HttpResponse(json.dumps({}), content_type = 'application/json')
 
 class GrabPostID(mixins.ListModelMixin,
