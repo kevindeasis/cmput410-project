@@ -29,6 +29,24 @@
 				<div class="list-group-item"><label for="id_username">Username:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{username}}</div>
 				<div class="list-group-item"><label for="id_email">Email address:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{email}}</div>
 				<div class="list-group-item"><label for="github">github username:</label>&nbsp;&nbsp;&nbsp;&nbsp;{{github_username}}</div>
+
+				{% if username not in followed %}
+					<a href="/follow/{{ id}}"  class="list-group-item">Follow</a>
+					{% if username not in allpending %}
+						<a href="/addfriend/{{ id}}" class="list-group-item">Befriend</a>
+					{% elif username in allfriends %}
+						<a href="/unfriend/{{ username}}" class="list-group-item">Unfriend</a>
+					{% endif %}
+				{% else %}
+					{% if username in followed %}
+						<a href="/unfollow/{{ id}}" class="list-group-item">Unfollow</a>
+						{% if username not in allpending %}
+		    					<a href="/addfriend/{{ id}}" class="list-group-item">Befriend</a>
+						{% elif username in allfriends %}
+		    					<a href="/unfriend/{{ username}}" class="list-group-item">Unfriend</a>
+						{% endif %}
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -114,14 +132,16 @@
 <script type="text/javascript">google.load("feeds", "1");</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-<div class="panel panel-default">
-	<div class="panel panel-heading">
-		<h4>Github Activity</h4>
+{% if github %}
+	<div class="panel panel-default">
+		<div class="panel panel-heading">
+			<h4>Github Activity</h4>
+		</div>
+		<div class="panel-body">
+			<span id="rss_block"></span>
+		</div>
 	</div>
-	<div class="panel-body">
-		<span id="rss_block"></span>
-	</div>
-</div>
+{% endif %}
 
 <script>
 function myFunction() {

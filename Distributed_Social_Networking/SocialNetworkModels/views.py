@@ -694,8 +694,14 @@ def profile_post(request,user_id,edit):
 		email = author.user.email
 		github_username=author.github_username
 		picture = author.picture
+		userid = author.user.id
 		post = Posts.objects.all()
-		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit})
+
+		followed = Follows.followManager.getFollowing(request.user)
+                allfriends = Friends.friendmanager.getFriends(request.user)
+                allpending = Friends.friendmanager.getAll(request.user)
+
+		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit,'id':userid,'followed': followed, 'allfriends': allfriends,'allpending': allpending})
 	    except:
 		node = Nodes.objects.all()
 

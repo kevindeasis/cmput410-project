@@ -75,6 +75,26 @@
 			<div class="col-md-6"><div class="thumbnail">
 				<img src="http://data1.ibtimes.co.in/en/full/439940/earth-wiki-commons.jpg">
 			</div></div>
+			<div class="col-md-6"><div class="list-group">
+			<a href="/profile_post/{{ author.id}}" class="list-group-item">Profile</a>
+			{% if author.user.username not in followed and username != author.user.username %}
+				<a class="list-group-item">Follow</a>
+				{% if author.user.username not in allpending %}
+					<a class="list-group-item">Befriend</a>
+				{% elif author.user.username in allfriends %}
+					<a class="list-group-item">Unfriend</a>
+				{% endif %}
+			{% else %}
+				{% if  username != author.user.username %}
+					<a class="list-group-item">Unfollow</a>
+					{% if author.user.username not in allpending %}
+	    					<a class="list-group-item">Befriend</a>
+					{% elif author.user.username in allfriends %}
+	    					<a class="list-group-item">Unfriend</a>
+					{% endif %}
+				{% endif %}
+			{% endif %}
+		</div></div>
 		</div>
 	</div></div>
 	{% endfor %}
