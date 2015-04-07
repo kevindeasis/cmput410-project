@@ -202,21 +202,28 @@ def search_users(request):
         if request.user.is_authenticated():
 
             receive=[]
+	    receive3=[]
             try:
                 node = Nodes.objects.all()
 
                 if node is not None:
                     for i in node:
                         foreignauthors = {}
-                        if i.status == True:
-
-
+			foreignauthors2 = {}
+                        if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
                             try:
                                 response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
                                 response=response.json()
                                 foreignauthors = json.loads(json.dumps(response))
                                 receive.append(foreignauthors)
-
+                            except:
+                                pass
+			elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
+			    try:
+                                response=requests.get(i.host_url+'/main/author/all/',auth=(i.host_name,i.host_password))
+                                response=response.json()
+                                foreignauthors2 = json.loads(json.dumps(response))
+                                receive3.append(foreignauthors2)
                             except:
                                 pass
             except Exception, e:
@@ -247,6 +254,20 @@ def search_users(request):
         if len(receive)>0:
             recieve2 = []
             for x in json.loads(json.dumps(receive[0]['authors'])):
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info('here')
+
+                #x = json.loads(x)
+                #logging.info(x.id)
+
+                if Author.objects.filter(foreign_id = x["id"]).exists():
+                    pass
+                else:
+                    recieve2.append(x)
+
+	    for x in json.loads(json.dumps(receive3[0]['author'])):
                 logging.info(x["id"])
                 logging.info(x["id"])
                 logging.info(x["id"])
@@ -547,7 +568,7 @@ def display_post(request,post_id):
 		    post.image = None
 		    break
 	    #team 3 connection
-	    elif i.host_url == "http://cmput410project15.herokuapp.com" and hsstatus == True:
+	    elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
 		response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
 		if response.status_code == 200 and len(response.text) > 20:
 		    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
@@ -649,7 +670,7 @@ def profile_post(request,user_id,edit):
 			break
 		#team 3 connection - not currently working - needed to push regardless
 		elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
-		    response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		    response=requests.get(i.host_url+'/main/author/%s'%(user_id),auth=(i.host_name,i.host_password))
 		    if response.status_code == 200 and len(response.text) > 20:
 			response=response.json()
 			p = json.loads(json.dumps(response))
@@ -657,7 +678,7 @@ def profile_post(request,user_id,edit):
 			response=requests.get(i.host_url+'/main/author/%s/posts'%(user_id),auth=(i.host_name,i.host_password)) 
 			response=response.json()
 			a = json.loads(json.dumps(response))		
-			return render(request, 'LandingPage/profile.html',{'username':p['displayname'],'post':a['posts'],'edit':edit})
+			return render(request, 'LandingPage/profile.html',{'username':p['author'][0]['displayname'],'post':a['posts'],'edit':edit})
 			break
     return render(request, 'LandingPage/profile.html')
 
