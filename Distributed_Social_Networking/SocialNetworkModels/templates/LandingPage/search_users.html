@@ -24,30 +24,12 @@
 <div class="container">
 <div class="row">
 
-	{% for authorlist in foreignauthors %}
-	<div class="col-md-4"><div class="panel panel-default">
-		<div class="panel-heading">
-			<p class="pull-right">Group: 6</p>
-			 <a href="/profile_post/{{authorlist.id}}/"> <h4>{{ authorlist.displayname}}</h4> </a>
-		</div>
-		<div class="panel-body">
-			<p style="color:green;">This group needs to implement an api!</p>
-			<div class="col-md-6"><div class="thumbnail">
-				<img src="#group6 needs to implement">
-			</div></div>
-			<div class="col-md-6"><div class="list-group">
-				<a href="/profile_post/{{authorlist.id}}/"  class="list-group-item">Profile</a>
-				<a href="/addforeign/{{authorlist.displayname}}/{{authorlist.id}}"  class="list-group-item">Befriend</a>
-			</div></div>
-		</div>
-	</div></div>
-	{% endfor %}
 
 	{% for author in authors %}
 	<div class="col-md-4"><div class="panel panel-default">
 		<div class="panel-heading">
 			<p class="pull-right">Group: 7</p>
-			<a href="/profile_post/{{author.user.username}}/"> <h4>{{ author.user.username }}</h4> </a>
+			<a href="/profile_post/{{author.user}}/"> <h4>{{ author.user.username }}</h4> </a>
 		</div>
 		<div class="panel-body">
 			<div class="col-md-6"><div class="thumbnail">
@@ -80,8 +62,8 @@
 	{% for author in foreignauthors %}
 	<div class="col-md-4"><div class="panel panel-default">
 		<div class="panel-heading">
-			<p class="pull-right">Group: foreign</p>
-			<a href="/profile_post/{{author.displayname}}/"><h4>{{ author.displayname}}<h4></a>
+			<p class="pull-right">Group: 6</p>
+			<a href="/profile_post/{{author.id}}/"><h4>{{ author.displayname}}<h4></a>
 		</div>
 		<div class="panel-body">
 			<div class="col-md-6"><div class="thumbnail">
