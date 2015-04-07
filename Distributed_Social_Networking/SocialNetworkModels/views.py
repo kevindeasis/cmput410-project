@@ -454,6 +454,8 @@ def author_post(request):
         
     return render(request, 'LandingPage/post.html')
 
+# post and put api calls to /service/posts/{postid} will hook in here
+# responsible for creating a new post
 @login_required
 def api_author_post(request):
     data = json.loads(request.body)
@@ -476,6 +478,8 @@ def api_author_post(request):
         post.image=picture
     post.save()
 
+# put api calls to /service/posts/{postid} will hook in here
+# responisble for editing an already existing post
 @login_required
 def api_author_post_edit(request,post_id):
     post = Posts.objects.get(post_id = post_id)
