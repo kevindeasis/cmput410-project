@@ -701,7 +701,22 @@ def profile_post(request,user_id,edit):
                 allfriends = Friends.friendmanager.getFriends(request.user)
                 allpending = Friends.friendmanager.getAll(request.user)
 
-		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit,'id':userid,'followed': followed, 'allfriends': allfriends,'allpending': allpending})
+		ourfollows = []
+		for afollow in followed:
+		    ausername = afollow.followed.get_username()
+		    ourfollows.append('{s}'.format(s=ausername))
+
+		ourfriends = []
+		for afriend in allfriends:
+		    afriendusername = afriend.reciever.get_username()
+		    ourfriends.append('{s}'.format(s=afriendusername))
+
+		pendingrequests = []
+		for apending in allpending:
+		    afriendusername = apending.reciever.get_username()
+		    pendingrequests.append('{s}'.format(s=afriendusername))
+
+		return render(request, 'LandingPage/profile.html',{'username':username, 'email':email,'github_username' :github_username,'picture':picture,'posts':post,'edit':edit,'id':userid,'followed': ourfollows, 'allfriends': ourfriends,'allpending': pendingrequests})
 	    except:
 		node = Nodes.objects.all()
 
