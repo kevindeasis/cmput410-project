@@ -111,14 +111,17 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <div class="panel panel-default">
+	<div class="panel panel-heading">
+		<h4>RSS</h4>
+	</div>
 	<div class="panel-body">
-		<p>RSS</p>
+		<span id="rss_block"></span>
 	</div>
 </div>
 
 <script>
 function myFunction() {
-var feed;
+var feed = "";
 if ("{{github_username}}") {
 feed = new google.feeds.Feed('https://github.com/{{github_username}}.atom');
 }else{
@@ -128,45 +131,46 @@ feed.load(function (data) {
 	//alert(JSON.stringify(data));
     // Parse data depending on the specified response format, default is JSON.
     if (data['status']['code'] < 300 || data['status']['code'] >= 200){
-                    $( "p" ).append( ("<hr>"));
+var theBlock = $("#rss_block");
+                    theBlock.append( ("<br>"));
 
-    $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['title'])));
-                    $( "p" ).append( ("<hr>"));
+    theBlock.append( document.createTextNode(JSON.stringify(data['feed']['title'])));
+                    theBlock.append( ("<br>"));
 
-    $( "p" ).append( document.createTextNode(JSON.stringify(data['feed']['link'])));
-                    $( "p" ).append( ("<hr>"));
+    theBlock.append( document.createTextNode(JSON.stringify(data['feed']['link'])));
+                    theBlock.append( ("<br>"));
 
     //entries = jQuery.parseJSON(data['feed']['entries'])
         entries = jQuery.parseJSON(JSON.stringify(data['feed']['entries']));
 
-        //$( "p" ).append( document.createTextNode(JSON.stringify(entries)));
+        //theBlock.append( document.createTextNode(JSON.stringify(entries)));
 
     $.each((entries), function(key,value){
-    $( "p" ).append( document.createTextNode(JSON.stringify(value['title'])));
-                $( "p" ).append( ("<hr>"));
+    theBlock.append( document.createTextNode(JSON.stringify(value['title'])));
+                theBlock.append( ("<br>"));
 
-        $( "p" ).append( document.createTextNode(JSON.stringify(value['link'])));
-                $( "p" ).append( ("<hr>"));
+        theBlock.append( document.createTextNode(JSON.stringify(value['link'])));
+                theBlock.append( ("<br>"));
 
-        $( "p" ).append( document.createTextNode(JSON.stringify(value['author'])));
-                $( "p" ).append( ("<hr>"));
+        theBlock.append( document.createTextNode(JSON.stringify(value['author'])));
+                theBlock.append( ("<br>"));
 
-        $( "p" ).append( document.createTextNode(JSON.stringify(value['publishedDate'])));
-                $( "p" ).append( ("<hr>"));
+        theBlock.append( document.createTextNode(JSON.stringify(value['publishedDate'])));
+                theBlock.append( ("<br>"));
 
-        $( "p" ).append((JSON.stringify(value['content'].replace(new RegExp('\r?\n','g'), '<hr>'))));
-                $( "p" ).append( ("<hr>"));
+        theBlock.append((JSON.stringify(value['content'].replace(new RegExp('\r?\n','g'), '<br>'))));
+                theBlock.append( ("<br>"));
 
 
-    //$( "p" ).append( ('ei'));
+    //theBlock.append( ('ei'));
 
     });
     /*for (x=0; x < entries.length; x++){
 
-    $( "p" ).append( document.createTextNode(entries[x]));
-        $( "p" ).append( document.createTextNode(entries[x]));
+    $theBlock.append( document.createTextNode(entries[x]));
+        theBlock.append( document.createTextNode(entries[x]));
 
-    //$( "p" ).append( document.createTextNode((x)));
+    //theBlock.append( document.createTextNode((x)));
 
     	}//for */
     }//if conditional on 'ok' status code
