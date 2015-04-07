@@ -522,18 +522,39 @@ def author_post_delete(request,post_id):
     try:
 	post = Posts.objects.get(post_id = post_id)
     except:
-	response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-	response=response.json()
-	p = json.loads(json.dumps(response))
-	post =Posts()
-	#post.post_author = None
-	post.post_title  = p['title']
-	post.post_text = p['content']
-	post.visibility =p['visibility']
-	post.post_id = post_id
-	post.image = None	
-	context = 'you have no permissions to delete this post'
+	for i in node:
+	    #team 6 connection
+	    if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
+	    	response=requests.get(i.host_url+'/api/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+	    	if response.status_code == 200 and len(response.text) > 20:
+	    	    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+	    	    response=response.json()
+	    	    p = json.loads(json.dumps(response))
+	    	    post =Posts()
+	    	    #post.post_author = None
+	    	    post.post_title = p['title']
+	    	    post.post_text = p['content']
+	    	    post.visibility =p['visibility']
+	    	    post.post_id = post_id
+	    	    post.image = None
+		    context = 'you have no permissions to delete this post'
+	    	    break
+	    #team 3 connection
+	    elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
+	    	response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+	    	if response.status_code == 200 and len(response.text) > 20:
+	    	    #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+	    	    response=response.json()
+	    	    p = json.loads(json.dumps(response))
+	    	    post =Posts()
+	    	    #post.post_author = None
+	    	    post.post_title = p['posts'][0]['title']
+	    	    post.post_text = p['posts'][0]['content']
+	    	    post.visibility = p['posts'][0]['visibility']
+	    	    post.post_id = post_id
+	    	    post.image = None
+		    context = 'you have no permissions to delete this post'
+	    	    break
 	return render(request, 'LandingPage/display.html',{'message':context,'post':post})
     conText = ''
    
@@ -591,18 +612,41 @@ def author_post_edit(request,post_id):
         try:
             post = Posts.objects.get(post_id = post_id)
         except:
-            response=requests.get('http://social-distribution.herokuapp.com/api/posts/%s'%(post_id),auth=('team7','cs410.cs.ualberta.ca:team6')) 
-            #return HttpResponse(json.dumps(response.json()),content_type='text/plain')
-            response=response.json()
-            p = json.loads(json.dumps(response))
-            post =Posts()
-            #post.post_author = None
-            post.post_title  = p['title']
-            post.post_text = p['content']
-            post.visibility =p['visibility']
-            post.post_id = post_id
-            post.image = None           
-            context = 'you have no permissions to edit this post'
+	    node = Nodes.objects.all()
+
+	    for i in node:
+		#team 6 connection
+		if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
+		    response=requests.get(i.host_url+'/api/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		    if response.status_code == 200 and len(response.text) > 20:
+		    	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		    	response=response.json()
+		    	p = json.loads(json.dumps(response))
+		    	post =Posts()
+		    	#post.post_author = None
+		    	post.post_title = p['title']
+		    	post.post_text = p['content']
+		    	post.visibility =p['visibility']
+		    	post.post_id = post_id
+		    	post.image = None
+		    	context = 'you have no permissions to delete this post'
+		    	break
+		#team 3 connection
+		elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
+		    response=requests.get(i.host_url+'/main/posts/%s'%(post_id),auth=(i.host_name,i.host_password))
+		    if response.status_code == 200 and len(response.text) > 20:
+		    	#return HttpResponse(json.dumps(response.json()),content_type='text/plain')
+		    	response=response.json()
+		    	p = json.loads(json.dumps(response))
+		    	post =Posts()
+		    	#post.post_author = None
+		    	post.post_title = p['posts'][0]['title']
+		    	post.post_text = p['posts'][0]['content']
+		    	post.visibility = p['posts'][0]['visibility']
+		    	post.post_id = post_id
+		    	post.image = None
+		    	context = 'you have no permissions to delete this post'
+		    break
             return render(request, 'LandingPage/display.html',{'message':context,'post':post})      
             conText = ''
             if user.post_author !=post.post_author:
