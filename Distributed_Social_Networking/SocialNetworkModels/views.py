@@ -202,21 +202,28 @@ def search_users(request):
         if request.user.is_authenticated():
 
             receive=[]
+	    receive3=[]
             try:
                 node = Nodes.objects.all()
 
                 if node is not None:
                     for i in node:
                         foreignauthors = {}
-                        if i.status == True:
-
-
+			foreignauthors2 = {}
+                        if i.host_url == "http://social-distribution.herokuapp.com" and i.status == True:
                             try:
                                 response=requests.get(i.host_url+'/api/author',auth=(i.host_name,i.host_password))
                                 response=response.json()
                                 foreignauthors = json.loads(json.dumps(response))
                                 receive.append(foreignauthors)
-
+                            except:
+                                pass
+			elif i.host_url == "http://cmput410project15.herokuapp.com" and i.status == True:
+			    try:
+                                response=requests.get(i.host_url+'/main/author/all/',auth=(i.host_name,i.host_password))
+                                response=response.json()
+                                foreignauthors2 = json.loads(json.dumps(response))
+                                receive3.append(foreignauthors2)
                             except:
                                 pass
             except Exception, e:
@@ -247,6 +254,20 @@ def search_users(request):
         if len(receive)>0:
             recieve2 = []
             for x in json.loads(json.dumps(receive[0]['authors'])):
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info(x["id"])
+                logging.info('here')
+
+                #x = json.loads(x)
+                #logging.info(x.id)
+
+                if Author.objects.filter(foreign_id = x["id"]).exists():
+                    pass
+                else:
+                    recieve2.append(x)
+
+	    for x in json.loads(json.dumps(receive3[0]['author'])):
                 logging.info(x["id"])
                 logging.info(x["id"])
                 logging.info(x["id"])
