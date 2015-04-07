@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1b531d24-fb95-4eea-877b-155b53866f3b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/db.sqlite3" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/db.sqlite3" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/search_users.html" afterPath="$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/search_users.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="cmput410-project.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -77,8 +75,8 @@
               <file leaf-file-name="search_users.html" pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/search_users.html">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state vertical-scroll-proportion="0.559633" vertical-offset="865" max-vertical-offset="1560">
-                      <caret line="78" column="16" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
+                    <state vertical-scroll-proportion="0.39449543" vertical-offset="1000" max-vertical-offset="1545">
+                      <caret line="81" column="35" selection-start-line="81" selection-start-column="35" selection-end-line="81" selection-end-column="35" />
                       <folding />
                     </state>
                   </provider>
@@ -952,8 +950,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Distributed_Social_Networking/SocialNetworkModels/templates/LandingPage/search_users.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.559633" vertical-offset="865" max-vertical-offset="1560">
-          <caret line="78" column="16" selection-start-line="78" selection-start-column="16" selection-end-line="78" selection-end-column="16" />
+        <state vertical-scroll-proportion="0.39449543" vertical-offset="1000" max-vertical-offset="1545">
+          <caret line="81" column="35" selection-start-line="81" selection-start-column="35" selection-end-line="81" selection-end-column="35" />
           <folding />
         </state>
       </provider>
