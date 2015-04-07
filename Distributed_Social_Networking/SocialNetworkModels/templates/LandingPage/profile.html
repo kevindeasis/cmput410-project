@@ -112,13 +112,18 @@
 
 <div class="panel panel-default">
 	<div class="panel-body">
-		<p>Click the button to display an alert box:</p>
+		<p>RSS</p>
 	</div>
 </div>
 
 <script>
 function myFunction() {
-var feed = new google.feeds.Feed('https://github.com/diego04.atom');
+var feed;
+if ("{{github_username}}") {
+feed = new google.feeds.Feed('https://github.com/{{github_username}}.atom');
+}else{
+feed = new google.feeds.Feed('https://github.com/diego04.atom');
+}
 feed.load(function (data) {
 	//alert(JSON.stringify(data));
     // Parse data depending on the specified response format, default is JSON.
