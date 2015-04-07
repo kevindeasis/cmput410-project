@@ -500,6 +500,7 @@ def api_author_post_edit(request,post_id):
 @login_required
 def author_post_comment(request, post_id, author):
     if request.method =='POST':
+	
         comment_text = request.POST.get('comment')
         #post =Posts.objects.create(post_author = request.user.username, 
                                   #psot_title = title, post_text= text,visibility= visibility)
@@ -508,7 +509,6 @@ def author_post_comment(request, post_id, author):
         comment.post_id = post_id
         comment.comment_author = author
         comment.comment_text = comment_text
-
         comment.save()
         return redirect('/home')
     else:
